@@ -42,6 +42,8 @@ public class EnemyScript : MonoBehaviour
     public AudioClip damageSFX,deathSFX;
 
     //PRIVATE VARS
+    [NonSerialized]
+    GameObject gm; //gamemanager reference
     AttackPattern selectedAttackPattern;
     Vector3 targetPos;
     int currWaypoint=0;
@@ -54,6 +56,7 @@ public class EnemyScript : MonoBehaviour
         if (queueSpawnOnStart) EnemySpawn(timeUntilSpawn);
         if (attackPatterns.Length==0) selectedAttackPattern = AttackPattern.none;
         else selectedAttackPattern = attackPatterns[0]; //Begin with first attack pattern
+        if (enemyMovementStyle != MovementStyle.none) targetPos = movementWaypoints[currWaypoint].position;
     }
 
     // Update is called once per frame
@@ -83,6 +86,7 @@ public class EnemyScript : MonoBehaviour
             //if more 1 attack pattern: switch on the timer based on max and min times;
             switch (selectedAttackPattern)
             {
+                case (AttackPattern.none): break;
                 case (AttackPattern.line): break;
             }
         }
