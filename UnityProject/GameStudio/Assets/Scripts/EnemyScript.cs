@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -34,6 +35,9 @@ public class EnemyScript : MonoBehaviour
     public float spawnInSpeed;
     public float timeUntilSpawn;
     public bool queueSpawnOnStart;
+    public bool canDespawn;
+    public float spawnOutSpeed;
+    public float timeUntilDespawn;
     [Header("Particles")]
     public GameObject attackParticle;
     public GameObject deathParticle;
@@ -100,6 +104,14 @@ public class EnemyScript : MonoBehaviour
             StartCoroutine(waitForSpawn());
     }
 
+    public void StartDespawn()
+    {
+        if (canDespawn)
+        {
+            StartCoroutine(waitForDespawn());
+        }
+    }
+
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
@@ -120,13 +132,33 @@ public class EnemyScript : MonoBehaviour
             transform.localScale += Vector3.one*spawnInSpeed*Time.deltaTime;
             yield return null;
         }
+        transform.localScale = Vector3.one;
         spawnedIn = true;
+        StartDespawn();
     }
 
     IEnumerator waitForSpawn()
     {
         yield return new WaitForSeconds(timeUntilSpawn);
         EnemySpawn();
+    }
+
+    IEnumerator waitForDespawn()
+    {
+        yield return new WaitForSeconds(timeUntilDespawn);
+        StartCoroutine(enemySpawnOut());
+    }
+
+    IEnumerator enemySpawnOut()
+    {
+        while (transform.localScale.x > 0)
+        {
+            transform.localScale -= Vector3.one * spawnOutSpeed * Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = Vector3.zero;
+        spawnedIn = false;
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

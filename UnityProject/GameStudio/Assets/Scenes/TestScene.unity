@@ -1153,6 +1153,9 @@ MonoBehaviour:
   spawnInSpeed: 1
   timeUntilSpawn: 0
   queueSpawnOnStart: 1
+  canDespawn: 1
+  spawnOutSpeed: 2
+  timeUntilDespawn: 6
   attackParticle: {fileID: 0}
   deathParticle: {fileID: 0}
   attackSFX: {fileID: 0}
