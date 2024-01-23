@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -25,16 +23,20 @@ public class EnemyScript : MonoBehaviour
     public GameObject projectilePrefab;
     public float attackRate;
     public AttackPattern[] attackPatterns;
-    [Tooltip("If the Cycle Mode is weighted, these weights determine the frequency one pattern gets selected over another")]
+    [Tooltip("If the Cycle Mode is weighted, these weights determine the frequency one pattern gets selected over another. (All values should add up to 1)")]
     public float[] attackPatternWeights;
-    [Tooltip("If there are multiple attack patterns, this is the random range of how often they will switch attack patterns")]
-    public float minimumAttackPatternSwitchTime,maximumAttackPatternSwitchTime;
+    [Tooltip("The number of attacks performed before switching attack patterns (if multiple attack patterns)")]
+    public int attacksUntilPatternSwitch;
     [Tooltip("If there are multiple attack patterns, this will determine whether they are selected in a linear order, or selected randomly")]
     public CycleMode attackPatternCycleMode;
     [Header("Spawning")]
     public float spawnInSpeed;
-    public float timeUntilSpawn;
+    public float timeUntilSpawnStart;
     public bool queueSpawnOnStart;
+    [Tooltip("If false, enemy cannot move and attack while spawning")]
+    public bool activeDuringSpawn;
+    [Tooltip("Delay time before enemy can move and attack")]
+    public float activeDelay;
     public bool canDespawn;
     public float spawnOutSpeed;
     public float timeUntilDespawn;
@@ -46,21 +48,31 @@ public class EnemyScript : MonoBehaviour
     public AudioClip damageSFX,deathSFX;
 
     //PRIVATE VARS
-    [NonSerialized]
     GameObject gm; //gamemanager reference
+    GameObject player; //player reference (player, not player controller)
     AttackPattern selectedAttackPattern;
+    int currPatternIndex;
     Vector3 targetPos;
     int currWaypoint=0;
     bool spawnedIn=false;
+    bool isAttacking = false;
+    int atksBeforeSwitchCnt=0;
+    int numAttackPatterns;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
-        if (queueSpawnOnStart) EnemySpawn(timeUntilSpawn);
-        if (attackPatterns.Length==0) selectedAttackPattern = AttackPattern.none;
+        if (queueSpawnOnStart) EnemySpawn(timeUntilSpawnStart);
+        numAttackPatterns = attackPatterns.Length;
+        if (numAttackPatterns==0) selectedAttackPattern = AttackPattern.none;
         else selectedAttackPattern = attackPatterns[0]; //Begin with first attack pattern
+        currPatternIndex = 0;
         if (enemyMovementStyle != MovementStyle.none) targetPos = movementWaypoints[currWaypoint].position;
+        //Sort attackPatternWeights from lowest to highest
+        if (attackPatternCycleMode == CycleMode.weightedRandom) Array.Sort(attackPatternWeights,attackPatterns);
+        //Start attack timer
+        StartCoroutine(enemyAttackTimer());
     }
 
     // Update is called once per frame
@@ -87,11 +99,34 @@ public class EnemyScript : MonoBehaviour
                     break;
             }
             //-----Enemy Attacking-----
-            //if more 1 attack pattern: switch on the timer based on max and min times;
-            switch (selectedAttackPattern)
+            if (isAttacking)
             {
-                case (AttackPattern.none): break;
-                case (AttackPattern.line): break;
+                switch (selectedAttackPattern) //This is where attack is performed (over time possibly)
+                {
+                    case (AttackPattern.none): break;
+                    case (AttackPattern.line):
+                        Debug.Log("enemy did LINE attack");
+                        isAttacking = false;
+                        break;
+                    case (AttackPattern.circle):
+                        Debug.Log("enemy did CIRCLE attack");
+                        isAttacking = false;
+                        break;
+                    case (AttackPattern.burst):
+                        Debug.Log("enemy did BURST attack");
+                        isAttacking = false;
+                        break;
+                }
+                if (numAttackPatterns > 1) //If multiple attack patterns
+                {
+                    if (!isAttacking) atksBeforeSwitchCnt++; //If attack ended, inc counter
+                    if (atksBeforeSwitchCnt >= attacksUntilPatternSwitch)
+                    {
+                        atksBeforeSwitchCnt = 0;
+                        switchAttackPattern();
+                    }
+                }
+                if(!isAttacking) StartCoroutine(enemyAttackTimer()); //If attack finished, start timer for next attack
             }
         }
     }
@@ -102,6 +137,31 @@ public class EnemyScript : MonoBehaviour
             StartCoroutine(enemySpawnIn());
         else
             StartCoroutine(waitForSpawn());
+    }
+
+    void enemyAttack()
+    {
+        switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
+        {
+            case (AttackPattern.none): break;
+            case (AttackPattern.line):
+                Debug.Log("enemy started LINE attack");
+                break;
+            case (AttackPattern.circle):
+                Debug.Log("enemy started CIRCLE attack");
+                break;
+            case (AttackPattern.burst):
+                Debug.Log("enemy started BURST attack");
+                break;
+        }
+        //Do attack SFX and attack particle
+        isAttacking = true;
+    }
+
+    IEnumerator enemyAttackTimer()
+    {
+        yield return new WaitForSeconds(attackRate);
+        enemyAttack();
     }
 
     public void StartDespawn()
@@ -115,31 +175,41 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
-        //Play damageSFX
         if (health <= 0) EnemyDie();
+        //Else
+            //Play damageSFX
+            //play damage animation
     }
 
     public void EnemyDie()
     {
         //Play death SFX
+        //Instantiate death particle
         Destroy(gameObject);
     }
 
     IEnumerator enemySpawnIn()
     {
+        if(activeDuringSpawn) StartCoroutine(enemyActivate());
         while (transform.localScale.x < 1)
         {
             transform.localScale += Vector3.one*spawnInSpeed*Time.deltaTime;
             yield return null;
         }
         transform.localScale = Vector3.one;
-        spawnedIn = true;
+        if(!activeDuringSpawn) StartCoroutine(enemyActivate());
         StartDespawn();
+    }
+
+    IEnumerator enemyActivate()
+    {
+        yield return new WaitForSeconds(activeDelay);
+        spawnedIn = true;
     }
 
     IEnumerator waitForSpawn()
     {
-        yield return new WaitForSeconds(timeUntilSpawn);
+        yield return new WaitForSeconds(timeUntilSpawnStart);
         EnemySpawn();
     }
 
@@ -159,6 +229,34 @@ public class EnemyScript : MonoBehaviour
         transform.localScale = Vector3.zero;
         spawnedIn = false;
         Destroy(gameObject);
+    }
+
+    void switchAttackPattern()
+    {
+        switch (attackPatternCycleMode)
+        {
+            case (CycleMode.none): break;
+            case (CycleMode.linear):
+                currPatternIndex++;
+                if (currPatternIndex >= numAttackPatterns) currPatternIndex = 0;
+                selectedAttackPattern = attackPatterns[currPatternIndex];
+                break;
+            case (CycleMode.random): //Select random with equal likelihoods
+                selectedAttackPattern = attackPatterns[UnityEngine.Random.Range(0, numAttackPatterns)];
+                break;
+            case (CycleMode.weightedRandom):
+                float _rand = UnityEngine.Random.Range(0f, 1f);
+                float _prvPercent = 0;
+                for(int i=0; i<attackPatternWeights.Length; i++)
+                {
+                    if (attackPatternWeights[i] + _prvPercent > _rand) {
+                        selectedAttackPattern = attackPatterns[i];
+                        break;
+                    }
+                    _prvPercent += attackPatternWeights[i];
+                }
+                break;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
