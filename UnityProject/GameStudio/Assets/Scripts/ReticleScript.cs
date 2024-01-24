@@ -59,7 +59,7 @@ public class ReticleScript : MonoBehaviour
         //instantiate bullet
         Instantiate(playerBulletStandard, transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         isShooting = false;
         canShootStandard = true;
     }
@@ -70,7 +70,6 @@ public class ReticleScript : MonoBehaviour
         canShootCharge = false;
         //instantiate charge bullet
         Instantiate(playerBulletCharge, transform.position, Quaternion.identity);
-
 
         yield return new WaitForSeconds(3);
         isShooting = false;
