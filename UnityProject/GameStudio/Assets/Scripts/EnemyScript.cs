@@ -112,15 +112,12 @@ public class EnemyScript : MonoBehaviour
 
                     //OVERTIME ATTACKS----------------
                     case (AttackPattern.burst3): 
-                        Debug.Log("enemy did BURST3 attack");
                         isAttacking = false;
                         break;
                     case (AttackPattern.burst5):
-                        Debug.Log("enemy did BURST5 attack");
                         isAttacking = false;
                         break;
                     case (AttackPattern.burst10):
-                        Debug.Log("enemy did BURST10 attack");
                         isAttacking = false;
                         break;
                 }
@@ -152,11 +149,9 @@ public class EnemyScript : MonoBehaviour
         {
             case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
             case (AttackPattern.single):
-                Debug.Log("enemy started SINGLE attack");
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.circle):
-                Debug.Log("enemy started CIRCLE attack");
                 float circleSize = 3f;
                 List<Vector3> circlePattern = new()
                 {
@@ -169,7 +164,6 @@ public class EnemyScript : MonoBehaviour
                 break;
             case (AttackPattern.line): break;
             case (AttackPattern.X):
-                Debug.Log("enemy started CIRCLE attack");
                 float xSize = 1.5f;
                 List<Vector3> xPattern = new()
                 {
@@ -185,15 +179,12 @@ public class EnemyScript : MonoBehaviour
 
             //OVERTIME ATTACKS----------------
             case (AttackPattern.burst3):
-                Debug.Log("enemy started BURST3 attack");
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.burst5):
-                Debug.Log("enemy started BURST5 attack");
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.burst10):
-                Debug.Log("enemy started BURST10 attack");
                 createProjectile(player.transform.position);
                 break;
         }
@@ -262,6 +253,9 @@ public class EnemyScript : MonoBehaviour
         bullet.transform.position = new Vector3(_sPos.x,_sPos.y,0);
         bullet.GetComponent<SpriteRenderer>().sortingOrder = (int)_sPos.z;
         bulletScript.zpos = _sPos.z;
+
+        //Projectile inherits damage from enemy
+        bulletScript.damage = damageDealt;
     }
 
     IEnumerator enemySpawnIn()

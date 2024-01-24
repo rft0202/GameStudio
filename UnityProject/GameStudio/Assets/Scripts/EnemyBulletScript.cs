@@ -11,6 +11,8 @@ public class EnemyBulletScript : MonoBehaviour
     public Vector3 velocity;
     [NonSerialized]
     public float zpos;
+    [NonSerialized]
+    public float damage;
 
     //PRIVATE VARS
     float depthViewDistRate=1.15f;
@@ -37,6 +39,10 @@ public class EnemyBulletScript : MonoBehaviour
 
         //Despawn
         if (zpos > 1) Destroy(gameObject);
+
+        //Can hit player
+        if(spriteRend.sortingOrder==0) GetComponent<Collider2D>().enabled = true;
+        if(spriteRend.sortingOrder==1) GetComponent<Collider2D>().enabled = false;
 
     }
 }
