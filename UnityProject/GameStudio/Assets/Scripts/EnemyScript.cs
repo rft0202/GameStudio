@@ -8,7 +8,7 @@ public class EnemyScript : MonoBehaviour
 {
     //Enums
     public enum MovementStyle {none,patrol};
-    public enum AttackPattern {none,line,circle,burst};
+    public enum AttackPattern {none,single,circle,burst3,line,X,burst5,burst10};
     public enum CycleMode {none,linear,random,weightedRandom};
 
     //PUBLIC VARS
@@ -104,17 +104,23 @@ public class EnemyScript : MonoBehaviour
             {
                 switch (selectedAttackPattern) //This is where attack is performed (over time possibly)
                 {
-                    case (AttackPattern.none): break;
-                    case (AttackPattern.line):
-                        Debug.Log("enemy did LINE attack");
+                    case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
+                    case (AttackPattern.single):isAttacking = false;break;
+                    case (AttackPattern.circle):isAttacking = false;break;
+                    case (AttackPattern.line):isAttacking = false;break;
+                    case (AttackPattern.X):isAttacking = false;break;
+
+                    //OVERTIME ATTACKS----------------
+                    case (AttackPattern.burst3): 
+                        Debug.Log("enemy did BURST3 attack");
                         isAttacking = false;
                         break;
-                    case (AttackPattern.circle):
-                        Debug.Log("enemy did CIRCLE attack");
+                    case (AttackPattern.burst5):
+                        Debug.Log("enemy did BURST5 attack");
                         isAttacking = false;
                         break;
-                    case (AttackPattern.burst):
-                        Debug.Log("enemy did BURST attack");
+                    case (AttackPattern.burst10):
+                        Debug.Log("enemy did BURST10 attack");
                         isAttacking = false;
                         break;
                 }
@@ -144,9 +150,9 @@ public class EnemyScript : MonoBehaviour
     {
         switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
         {
-            case (AttackPattern.none): break;
-            case (AttackPattern.line):
-                Debug.Log("enemy started LINE attack");
+            case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
+            case (AttackPattern.single):
+                Debug.Log("enemy started SINGLE attack");
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.circle):
@@ -161,8 +167,19 @@ public class EnemyScript : MonoBehaviour
                 createProjectile(player.transform.position + (new Vector3(.707f, -.707f, 0) * circleSize));
                 createProjectile(player.transform.position + (new Vector3(-.707f, -.707f, 0) * circleSize));
                 break;
-            case (AttackPattern.burst):
+
+            //OVERTIME ATTACKS----------------
+            case (AttackPattern.burst3):
                 Debug.Log("enemy started BURST attack");
+                createProjectile(player.transform.position);
+                break;
+            case (AttackPattern.burst5):
+                Debug.Log("enemy started BURST attack");
+                createProjectile(player.transform.position);
+                break;
+            case (AttackPattern.burst10):
+                Debug.Log("enemy started BURST attack");
+                createProjectile(player.transform.position);
                 break;
         }
         //Do attack SFX and attack particle
