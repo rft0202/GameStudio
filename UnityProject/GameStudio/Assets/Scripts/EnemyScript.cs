@@ -14,7 +14,7 @@ public class EnemyScript : MonoBehaviour
     //PUBLIC VARS
     [Header("Basic Enemy Parameters")]
     public float health;
-    public float speed, damageDealt;
+    public float speed, damageDealt, projectileSpeed;
     public int scoreValue;
     [Header("Movement")]
     public MovementStyle enemyMovementStyle;
@@ -49,6 +49,7 @@ public class EnemyScript : MonoBehaviour
 
     //PRIVATE VARS
     GameObject gm; //gamemanager reference
+    [SerializeField]
     GameObject player; //player reference (player, not player controller)
     AttackPattern selectedAttackPattern;
     int currPatternIndex;
@@ -73,6 +74,9 @@ public class EnemyScript : MonoBehaviour
         if (attackPatternCycleMode == CycleMode.weightedRandom) Array.Sort(attackPatternWeights,attackPatterns);
         //Start attack timer
         StartCoroutine(enemyAttackTimer());
+
+        //DEBUG
+        createProjectile(player.transform.position);
     }
 
     // Update is called once per frame
@@ -188,12 +192,40 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void createProjectile(Vector2 _targetPos)
+    {
+        GameObject bullet = Instantiate(projectilePrefab);
+        bullet.AddComponent<EnemyBulletScript>();
+        EnemyBulletScript bulletScript = bullet.GetComponent<EnemyBulletScript>();
+        //Depth pos ~= to order in layer
+        //Calculate velocity using projectileSpeed, and angles using trig and stuff
+
+        //Preparing values for angle calculations
+        Vector3 _sPos = transform.position;
+        _sPos.z = GetComponent<SpriteRenderer>().sortingOrder;
+        int targetDepth = player.GetComponent<SpriteRenderer>().sortingOrder;
+
+        //Re-position startPosition and targetPos so that targetPos=0,0,0 in angle calculations
+        Vector3 _pos = new(_sPos.x + ((_targetPos.x>0)?(-_targetPos.x):(_targetPos.x)), _sPos.y + ((_targetPos.y > 0) ? (-_targetPos.y) : (_targetPos.y)),targetDepth-_sPos.z);
+        Debug.Log(_pos);
+        float xyAngle = Mathf.Atan2(_pos.y,_pos.x) * Mathf.Rad2Deg;
+        float xzAngle = Mathf.Atan2(_pos.z,_pos.x) * Mathf.Rad2Deg;
+        float yzAngle = Mathf.Atan2(_pos.y,_pos.z) * Mathf.Rad2Deg;
+        
+        //Angles from the player to the enemy (front-view,topdown-view,side-view)
+        Vector3 angleVector = new(xyAngle, xzAngle, yzAngle);
+        Debug.Log(angleVector);
+
+        //Set bullet velocity
+        bulletScript.velocity = Vector2.zero;
+    }
+
     IEnumerator enemySpawnIn()
     {
         if(activeDuringSpawn) StartCoroutine(enemyActivate());
         while (transform.localScale.x < 1)
         {
-            transform.localScale += Vector3.one*spawnInSpeed*Time.deltaTime;
+            transform.localScale += spawnInSpeed * Time.deltaTime * Vector3.one;
             yield return null;
         }
         transform.localScale = Vector3.one;
