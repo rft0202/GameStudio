@@ -74,9 +74,6 @@ public class EnemyScript : MonoBehaviour
         if (attackPatternCycleMode == CycleMode.weightedRandom) Array.Sort(attackPatternWeights,attackPatterns);
         //Start attack timer
         StartCoroutine(enemyAttackTimer());
-
-        //DEBUG
-        createProjectile(player.transform.position);
     }
 
     // Update is called once per frame
@@ -150,9 +147,19 @@ public class EnemyScript : MonoBehaviour
             case (AttackPattern.none): break;
             case (AttackPattern.line):
                 Debug.Log("enemy started LINE attack");
+                createProjectile(player.transform.position);
                 break;
             case (AttackPattern.circle):
                 Debug.Log("enemy started CIRCLE attack");
+                float circleSize = 3f;
+                createProjectile(player.transform.position+(Vector3.up*circleSize));
+                createProjectile(player.transform.position+(Vector3.right * circleSize));
+                createProjectile(player.transform.position+(Vector3.left * circleSize));
+                createProjectile(player.transform.position+(Vector3.down * circleSize));
+                createProjectile(player.transform.position+(new Vector3(.707f,.707f,0) * circleSize));
+                createProjectile(player.transform.position + (new Vector3(-.707f, .707f, 0) * circleSize));
+                createProjectile(player.transform.position + (new Vector3(.707f, -.707f, 0) * circleSize));
+                createProjectile(player.transform.position + (new Vector3(-.707f, -.707f, 0) * circleSize));
                 break;
             case (AttackPattern.burst):
                 Debug.Log("enemy started BURST attack");
@@ -198,26 +205,26 @@ public class EnemyScript : MonoBehaviour
         bullet.AddComponent<EnemyBulletScript>();
         EnemyBulletScript bulletScript = bullet.GetComponent<EnemyBulletScript>();
         //Depth pos ~= to order in layer
-        //Calculate velocity using projectileSpeed, and angles using trig and stuff
+        //Calculate velocity using projectileSpeed and trig and stuff
 
-        //Preparing values for angle calculations
+        //Preparing values for calculations
         Vector3 _sPos = transform.position;
         _sPos.z = GetComponent<SpriteRenderer>().sortingOrder;
         int targetDepth = player.GetComponent<SpriteRenderer>().sortingOrder;
 
-        //Re-position startPosition and targetPos so that targetPos=0,0,0 in angle calculations
-        Vector3 _pos = new(_sPos.x + ((_targetPos.x>0)?(-_targetPos.x):(_targetPos.x)), _sPos.y + ((_targetPos.y > 0) ? (-_targetPos.y) : (_targetPos.y)),targetDepth-_sPos.z);
-        Debug.Log(_pos);
-        float xyAngle = Mathf.Atan2(_pos.y,_pos.x) * Mathf.Rad2Deg;
-        float xzAngle = Mathf.Atan2(_pos.z,_pos.x) * Mathf.Rad2Deg;
-        float yzAngle = Mathf.Atan2(_pos.y,_pos.z) * Mathf.Rad2Deg;
-        
-        //Angles from the player to the enemy (front-view,topdown-view,side-view)
-        Vector3 angleVector = new(xyAngle, xzAngle, yzAngle);
-        Debug.Log(angleVector);
+        //Getting distances on x,y,z
+        Vector3 dists = new(_targetPos.x - _sPos.x,_targetPos.y-_sPos.y,targetDepth-_sPos.z);
+        //Getting total distance / magnitude
+        float totalDist = Mathf.Sqrt(Mathf.Pow(dists.x,2)+ Mathf.Pow(dists.y, 2)+ Mathf.Pow(dists.z, 2));
+        //Scaling triangle down so hypotenuse=1, which gives the cos(angle).etc. values
+        Vector3 trigVals = dists / totalDist;
+        //Velocity = proportional trig values * absolute speed
+        bulletScript.velocity = projectileSpeed * trigVals;
 
-        //Set bullet velocity
-        bulletScript.velocity = Vector2.zero;
+        //Making sure projectile is in correct position
+        bullet.transform.position = new Vector3(_sPos.x,_sPos.y,0);
+        bullet.GetComponent<SpriteRenderer>().sortingOrder = (int)_sPos.z;
+        bulletScript.zpos = _sPos.z;
     }
 
     IEnumerator enemySpawnIn()
