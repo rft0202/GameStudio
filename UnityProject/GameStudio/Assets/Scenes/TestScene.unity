@@ -489,8 +489,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameScreenWidth: 17.775
   GameScreenHeight: 10
-  playerBulletStandard: {fileID: 0}
-  playerBulletCharge: {fileID: 0}
+  playerBulletStandard: {fileID: 6688838655221825774, guid: 662a0a65eb7c58c49a07e70568ffa805, type: 3}
+  playerBulletCharge: {fileID: 3775442925962222611, guid: 542a87e654e128e4a9d2bd059636237d, type: 3}
 --- !u!212 &563705868
 SpriteRenderer:
   m_ObjectHideFlags: 0
