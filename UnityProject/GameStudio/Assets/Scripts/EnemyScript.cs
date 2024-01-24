@@ -158,32 +158,52 @@ public class EnemyScript : MonoBehaviour
             case (AttackPattern.circle):
                 Debug.Log("enemy started CIRCLE attack");
                 float circleSize = 3f;
-                createProjectile(player.transform.position+(Vector3.up*circleSize));
-                createProjectile(player.transform.position+(Vector3.right * circleSize));
-                createProjectile(player.transform.position+(Vector3.left * circleSize));
-                createProjectile(player.transform.position+(Vector3.down * circleSize));
-                createProjectile(player.transform.position+(new Vector3(.707f,.707f,0) * circleSize));
-                createProjectile(player.transform.position + (new Vector3(-.707f, .707f, 0) * circleSize));
-                createProjectile(player.transform.position + (new Vector3(.707f, -.707f, 0) * circleSize));
-                createProjectile(player.transform.position + (new Vector3(-.707f, -.707f, 0) * circleSize));
+                List<Vector3> circlePattern = new()
+                {
+                    Vector3.up,Vector3.right,Vector3.left,Vector3.down,
+                    new Vector3(.707f,.707f,0), new Vector3(-.707f,.707f,0),
+                    new Vector3(.707f,-.707f,0),new Vector3(-.707f,-.707f,0)
+                };
+                for (int j = 0; j < circlePattern.Count; j++) circlePattern[j] *= circleSize;
+                shootBulletFormation(circlePattern);
+                break;
+            case (AttackPattern.line): break;
+            case (AttackPattern.X):
+                Debug.Log("enemy started CIRCLE attack");
+                float xSize = 1.5f;
+                List<Vector3> xPattern = new()
+                {
+                    new Vector3(1,1,0), new Vector3(-1,1,0),
+                    new Vector3(1,-1,0),new Vector3(-1,-1,0),
+                    new Vector3(2,2,0), new Vector3(-2,2,0),
+                    new Vector3(2,-2,0),new Vector3(-2,-2,0),
+                    Vector3.zero,
+                };
+                for (int j = 0; j < xPattern.Count; j++) xPattern[j] *= xSize;
+                shootBulletFormation(xPattern);
                 break;
 
             //OVERTIME ATTACKS----------------
             case (AttackPattern.burst3):
-                Debug.Log("enemy started BURST attack");
+                Debug.Log("enemy started BURST3 attack");
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.burst5):
-                Debug.Log("enemy started BURST attack");
+                Debug.Log("enemy started BURST5 attack");
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.burst10):
-                Debug.Log("enemy started BURST attack");
+                Debug.Log("enemy started BURST10 attack");
                 createProjectile(player.transform.position);
                 break;
         }
         //Do attack SFX and attack particle
         isAttacking = true;
+    }
+
+    void shootBulletFormation(List<Vector3> bulletPositions)
+    {
+        for(int k=0; k<bulletPositions.Count; k++) createProjectile(player.transform.position + bulletPositions[k]);
     }
 
     IEnumerator enemyAttackTimer()
