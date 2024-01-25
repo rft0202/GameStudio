@@ -59,11 +59,13 @@ public class EnemyScript : MonoBehaviour
     bool isAttacking = false;
     int atksBeforeSwitchCnt=0;
     int numAttackPatterns;
+    ScaleBasedOnDepth scaleDepth;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
+        scaleDepth = GetComponent<ScaleBasedOnDepth>();
         if (queueSpawnOnStart) EnemySpawn(timeUntilSpawnStart);
         numAttackPatterns = attackPatterns.Length;
         if (numAttackPatterns==0) selectedAttackPattern = AttackPattern.none;
@@ -252,7 +254,7 @@ public class EnemyScript : MonoBehaviour
         //Making sure projectile is in correct position
         bullet.transform.position = new Vector3(_sPos.x,_sPos.y,0);
         bullet.GetComponent<SpriteRenderer>().sortingOrder = (int)_sPos.z;
-        bulletScript.zpos = _sPos.z;
+        bullet.GetComponent<ScaleBasedOnDepth>().zpos = _sPos.z;
 
         //Projectile inherits damage from enemy
         bulletScript.damage = damageDealt;
@@ -261,7 +263,7 @@ public class EnemyScript : MonoBehaviour
     IEnumerator enemySpawnIn()
     {
         if(activeDuringSpawn) StartCoroutine(enemyActivate());
-        while (transform.localScale.x < 1)
+        while (transform.localScale.x < scaleDepth.GetTargetScale().x)
         {
             transform.localScale += spawnInSpeed * Time.deltaTime * Vector3.one;
             yield return null;
