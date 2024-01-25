@@ -8,18 +8,25 @@ public class EnemyScript : MonoBehaviour
 {
     //Enums
     public enum MovementStyle {none,patrol};
-    public enum AttackPattern {none,single,circle,burst3,line,X,burst5,burst10};
+    public enum AttackPattern {none,single,circle,burst,line,X};
     public enum CycleMode {none,linear,random,weightedRandom};
 
     //PUBLIC VARS
-    [Header("Basic Enemy Parameters")]
+    [Header("----------Basic Enemy Parameters----------")]
+    [Space(4)]
     public float health;
     public float speed, damageDealt, projectileSpeed;
     public int scoreValue;
-    [Header("Movement")]
+
+    [Space(8)]
+    [Header("----------Movement----------")]
+    [Space(4)]
     public MovementStyle enemyMovementStyle;
     public Transform[] movementWaypoints;
-    [Header("Attacking")]
+
+    [Space(8)]
+    [Header("----------Attacking----------")]
+    [Space(4)]
     public GameObject projectilePrefab;
     public float attackRate;
     public AttackPattern[] attackPatterns;
@@ -29,7 +36,20 @@ public class EnemyScript : MonoBehaviour
     public int attacksUntilPatternSwitch;
     [Tooltip("If there are multiple attack patterns, this will determine whether they are selected in a linear order, or selected randomly")]
     public CycleMode attackPatternCycleMode;
-    [Header("Spawning")]
+
+    [Space(8)]
+    [Header("----------Attack Pattern Settings----------")]
+    [Space(4)]
+    public float lineSlope;
+    public int lineLength;
+    public float circleSize,xSize;
+    public int burstBulletAmount;
+    public float burstFireRate;
+    public bool burstsLockTarget;
+
+    [Space(8)]
+    [Header("----------Spawning----------")]
+    [Space(4)]
     public float spawnInSpeed;
     public float timeUntilSpawnStart;
     public bool queueSpawnOnStart;
@@ -40,10 +60,16 @@ public class EnemyScript : MonoBehaviour
     public bool canDespawn;
     public float spawnOutSpeed;
     public float timeUntilDespawn;
-    [Header("Particles")]
+
+    [Space(8)]
+    [Header("----------Particles----------")]
+    [Space(4)]
     public GameObject attackParticle;
     public GameObject deathParticle;
-    [Header("SFX")]
+
+    [Space(8)]
+    [Header("----------SFX----------")]
+    [Space(4)]
     public AudioClip attackSFX;
     public AudioClip damageSFX,deathSFX;
 
@@ -56,10 +82,11 @@ public class EnemyScript : MonoBehaviour
     Vector3 targetPos;
     int currWaypoint=0;
     bool spawnedIn=false;
-    bool isAttacking = false;
     int atksBeforeSwitchCnt=0;
     int numAttackPatterns;
     ScaleBasedOnDepth scaleDepth;
+    int burstFireCnt=0;
+    Vector3 burstTarget;
 
     // Start is called before the first frame update
     void Start()
@@ -101,39 +128,6 @@ public class EnemyScript : MonoBehaviour
                     }
                     break;
             }
-            //-----Enemy Attacking-----
-            if (isAttacking)
-            {
-                switch (selectedAttackPattern) //This is where attack is performed (over time possibly)
-                {
-                    case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
-                    case (AttackPattern.single):isAttacking = false;break;
-                    case (AttackPattern.circle):isAttacking = false;break;
-                    case (AttackPattern.line):isAttacking = false;break;
-                    case (AttackPattern.X):isAttacking = false;break;
-
-                    //OVERTIME ATTACKS----------------
-                    case (AttackPattern.burst3): 
-                        isAttacking = false;
-                        break;
-                    case (AttackPattern.burst5):
-                        isAttacking = false;
-                        break;
-                    case (AttackPattern.burst10):
-                        isAttacking = false;
-                        break;
-                }
-                if (numAttackPatterns > 1) //If multiple attack patterns
-                {
-                    if (!isAttacking) atksBeforeSwitchCnt++; //If attack ended, inc counter
-                    if (atksBeforeSwitchCnt >= attacksUntilPatternSwitch)
-                    {
-                        atksBeforeSwitchCnt = 0;
-                        switchAttackPattern();
-                    }
-                }
-                if(!isAttacking) StartCoroutine(enemyAttackTimer()); //If attack finished, start timer for next attack
-            }
         }
     }
 
@@ -154,7 +148,6 @@ public class EnemyScript : MonoBehaviour
                 createProjectile(player.transform.position);
                 break;
             case (AttackPattern.circle):
-                float circleSize = 3f;
                 List<Vector3> circlePattern = new()
                 {
                     Vector3.up,Vector3.right,Vector3.left,Vector3.down,
@@ -164,9 +157,10 @@ public class EnemyScript : MonoBehaviour
                 for (int j = 0; j < circlePattern.Count; j++) circlePattern[j] *= circleSize;
                 shootBulletFormation(circlePattern);
                 break;
-            case (AttackPattern.line): break;
+            case (AttackPattern.line):
+                //LINE
+                break;
             case (AttackPattern.X):
-                float xSize = 1.5f;
                 List<Vector3> xPattern = new()
                 {
                     new Vector3(1,1,0), new Vector3(-1,1,0),
@@ -180,23 +174,49 @@ public class EnemyScript : MonoBehaviour
                 break;
 
             //OVERTIME ATTACKS----------------
-            case (AttackPattern.burst3):
-                createProjectile(player.transform.position);
-                break;
-            case (AttackPattern.burst5):
-                createProjectile(player.transform.position);
-                break;
-            case (AttackPattern.burst10):
-                createProjectile(player.transform.position);
+            case (AttackPattern.burst):
+                burstFireCnt = 0;
+                burstTarget = player.transform.position;
+                StartCoroutine(burstAttack(new List<Vector3>()));
                 break;
         }
         //Do attack SFX and attack particle
-        isAttacking = true;
+        if (numAttackPatterns > 1) //If multiple attack patterns
+        {
+            atksBeforeSwitchCnt++; //Counter for switching attack patterns
+            if (atksBeforeSwitchCnt >= attacksUntilPatternSwitch)
+            {
+                atksBeforeSwitchCnt = 0;
+                switchAttackPattern();
+            }
+        }
+        StartCoroutine(enemyAttackTimer());
+    }
+
+    IEnumerator burstAttack(List<Vector3> _bulletPositions)
+    {
+        //If burstsLockTarget, keep targeting the same pos, else continue updating to player's new pos
+        if (!burstsLockTarget) burstTarget = player.transform.position;
+        //If multiple bullets, shoot formation, otherwise just shoot one bullet
+        if (_bulletPositions.Count > 1) shootBulletFormation(_bulletPositions,burstTarget);
+        else createProjectile(burstTarget);
+
+        burstFireCnt++; //If the burst isn't complete, wait and repeat, else stop
+        if (burstFireCnt < burstBulletAmount)
+        {
+            yield return new WaitForSeconds(burstFireRate);
+            StartCoroutine(burstAttack(_bulletPositions));
+        }
     }
 
     void shootBulletFormation(List<Vector3> bulletPositions)
     {
         for(int k=0; k<bulletPositions.Count; k++) createProjectile(player.transform.position + bulletPositions[k]);
+    }
+
+    void shootBulletFormation(List<Vector3> bulletPositions, Vector3 _target)
+    {
+        for (int k = 0; k < bulletPositions.Count; k++) createProjectile(_target + bulletPositions[k]);
     }
 
     IEnumerator enemyAttackTimer()
@@ -316,7 +336,7 @@ public class EnemyScript : MonoBehaviour
             case (CycleMode.random): //Select random with equal likelihoods
                 selectedAttackPattern = attackPatterns[UnityEngine.Random.Range(0, numAttackPatterns)];
                 break;
-            case (CycleMode.weightedRandom):
+            case (CycleMode.weightedRandom): //Random with some options more likely than others
                 float _rand = UnityEngine.Random.Range(0f, 1f);
                 float _prvPercent = 0;
                 for(int i=0; i<attackPatternWeights.Length; i++)
