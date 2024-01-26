@@ -10,18 +10,19 @@ public class EnemyBulletScript : MonoBehaviour
     [NonSerialized]
     public Vector3 velocity;
     [NonSerialized]
-    public float zpos;
+    public float damage;
 
     //PRIVATE VARS
-    float depthViewDistRate=1.15f;
     SpriteRenderer spriteRend;
+    ScaleBasedOnDepth scaleDepth;
 
 
     // Start is called before the first frame update
     void Start()
     {
         spriteRend = GetComponent<SpriteRenderer>();
-        spriteRend.sortingOrder = (int)zpos;
+        scaleDepth = GetComponent<ScaleBasedOnDepth>();
+        spriteRend.sortingOrder = (int)scaleDepth.zpos;
     }
 
     // Update is called once per frame
@@ -30,13 +31,14 @@ public class EnemyBulletScript : MonoBehaviour
         //Move x-y
         transform.Translate(velocity.x*Time.deltaTime, velocity.y * Time.deltaTime, 0);
         //Move depth
-        zpos += velocity.z * Time.deltaTime;
-        spriteRend.sortingOrder = (int)zpos;
-        //Scale
-        transform.localScale = Mathf.Pow(depthViewDistRate, zpos) * Vector3.one;
+        scaleDepth.zpos += velocity.z * Time.deltaTime;
 
         //Despawn
-        if (zpos > 1) Destroy(gameObject);
+        if (scaleDepth.zpos > 1) Destroy(gameObject);
+
+        //Can hit player
+        if(spriteRend.sortingOrder==0) GetComponent<Collider2D>().enabled = true;
+        if(spriteRend.sortingOrder==1) GetComponent<Collider2D>().enabled = false;
 
     }
 }
