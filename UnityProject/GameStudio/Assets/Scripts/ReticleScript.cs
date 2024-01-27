@@ -15,14 +15,18 @@ public class ReticleScript : MonoBehaviour
     public GameObject playerBulletCharge;
 
     //Shooting bools
-    bool isShooting;
+    //bool isShooting;
     bool canShootStandard = true;
     bool canShootCharge = true;
+
+    //Anim
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
+        anim = GetComponent<Animator>();
     }
 
     public void PlayerLook(InputAction.CallbackContext ctx)
@@ -54,25 +58,27 @@ public class ReticleScript : MonoBehaviour
 
     IEnumerator ShootStandard()
     {
-        isShooting = true;
+        //isShooting = true;
         canShootStandard = false;
         //instantiate bullet
         Instantiate(playerBulletStandard, transform.position, Quaternion.identity);
 
         yield return new WaitForSeconds(0.25f);
-        isShooting = false;
+        //isShooting = false;
         canShootStandard = true;
     }
 
     IEnumerator ShootCharge()
     {
-        isShooting = true;
+        //isShooting = true;
         canShootCharge = false;
+        anim.SetBool("canShootCharge", canShootCharge);
         //instantiate charge bullet
         Instantiate(playerBulletCharge, transform.position, Quaternion.identity);
 
         yield return new WaitForSeconds(3);
-        isShooting = false;
+        //isShooting = false;
         canShootCharge = true;
+        anim.SetBool("canShootCharge", canShootCharge);
     }
 }
