@@ -8,7 +8,7 @@ public class EnemyScript : MonoBehaviour
 {
     //Enums
     public enum MovementStyle {none,patrol};
-    public enum AttackPattern {none,single,circle,burst,line,X};
+    public enum AttackPattern {none,single,circle,line,X,burst,burstCircle,burstLine,burstX};
     public enum CycleMode {none,linear,random,weightedRandom};
 
     //PUBLIC VARS
@@ -40,8 +40,9 @@ public class EnemyScript : MonoBehaviour
     [Space(8)]
     [Header("----------Attack Pattern Settings----------")]
     [Space(4)]
-    public float lineSlope;
-    public int lineLength;
+    public float lineAngle;
+    public float lineLength;
+    public int lineBulletAmount;
     public float circleSize,xSize;
     public int burstBulletAmount;
     public float burstFireRate;
@@ -87,6 +88,7 @@ public class EnemyScript : MonoBehaviour
     ScaleBasedOnDepth scaleDepth;
     int burstFireCnt=0;
     Vector3 burstTarget;
+
 
     // Start is called before the first frame update
     void Start()
@@ -158,7 +160,7 @@ public class EnemyScript : MonoBehaviour
                 shootBulletFormation(circlePattern);
                 break;
             case (AttackPattern.line):
-                //LINE
+                shootBulletFormation(getLinePattern());
                 break;
             case (AttackPattern.X):
                 List<Vector3> xPattern = new()
@@ -173,11 +175,42 @@ public class EnemyScript : MonoBehaviour
                 shootBulletFormation(xPattern);
                 break;
 
-            //OVERTIME ATTACKS----------------
+            //BURST ATTACKS----------------
             case (AttackPattern.burst):
                 burstFireCnt = 0;
                 burstTarget = player.transform.position;
                 StartCoroutine(burstAttack(new List<Vector3>()));
+                break;
+            case (AttackPattern.burstCircle):
+                List<Vector3> circlePattern1 = new()
+                {
+                    Vector3.up,Vector3.right,Vector3.left,Vector3.down,
+                    new Vector3(.707f,.707f,0), new Vector3(-.707f,.707f,0),
+                    new Vector3(.707f,-.707f,0),new Vector3(-.707f,-.707f,0)
+                };
+                for (int j = 0; j < circlePattern1.Count; j++) circlePattern1[j] *= circleSize;
+                burstFireCnt = 0;
+                burstTarget = player.transform.position;
+                StartCoroutine(burstAttack(circlePattern1));
+                break;
+            case (AttackPattern.burstLine):
+                burstFireCnt = 0;
+                burstTarget = player.transform.position;
+                StartCoroutine(burstAttack(getLinePattern()));
+                break;
+            case (AttackPattern.burstX):
+                List<Vector3> xPattern1 = new()
+                {
+                    new Vector3(1,1,0), new Vector3(-1,1,0),
+                    new Vector3(1,-1,0),new Vector3(-1,-1,0),
+                    new Vector3(2,2,0), new Vector3(-2,2,0),
+                    new Vector3(2,-2,0),new Vector3(-2,-2,0),
+                    Vector3.zero,
+                };
+                for (int j = 0; j < xPattern1.Count; j++) xPattern1[j] *= xSize;
+                burstFireCnt = 0;
+                burstTarget = player.transform.position;
+                StartCoroutine(burstAttack(xPattern1));
                 break;
         }
         //Do attack SFX and attack particle
@@ -191,6 +224,33 @@ public class EnemyScript : MonoBehaviour
             }
         }
         StartCoroutine(enemyAttackTimer());
+    }
+
+    float getLineX()
+    {
+        float _cos2a = Mathf.Pow(Mathf.Cos(lineAngle), 2), _sin2a = Mathf.Pow(Mathf.Sin(lineAngle), 2);
+        return Mathf.Sqrt(Mathf.Pow(lineLength, 2) * _cos2a / (_cos2a + _sin2a));
+    }
+    float getLineY(float _x)
+    {
+        return (Mathf.Sin(lineAngle) * _x / Mathf.Cos(lineAngle));
+    }
+    List<Vector3> getLinePattern()
+    {
+        List<Vector3> _linePattern = new();
+        float lineMax = getLineX(), lineMin=-lineMax;
+        _linePattern.Add(new Vector3(lineMin, getLineY(lineMin), 0));
+        _linePattern.Add(new Vector3(lineMax, getLineY(lineMax), 0));
+        int lnCnt=lineBulletAmount-2;
+        float bulletIncX = lineMax-(lineMin / ((((float)lnCnt - 1) / 2) + 1) +lineMax);
+        float _lx=lineMin+bulletIncX;
+        for(int m=0; m<lnCnt; m++)
+        {
+            _linePattern.Add(new Vector3(_lx, getLineY(_lx), 0));
+            _lx += bulletIncX;
+        }
+
+        return _linePattern;
     }
 
     IEnumerator burstAttack(List<Vector3> _bulletPositions)
