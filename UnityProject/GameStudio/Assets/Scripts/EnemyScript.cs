@@ -97,10 +97,13 @@ public class EnemyScript : MonoBehaviour
     int burstFireCnt=0;
     Vector3 burstTarget;
 
+    //Animator
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
         if (queueSpawnOnStart) EnemySpawn(timeUntilSpawnStart);
@@ -306,6 +309,7 @@ public class EnemyScript : MonoBehaviour
         health -= damageAmount;
         if (health <= 0) EnemyDie();
         //Else
+        anim.SetTrigger("damaged");
             //Play damageSFX
             //play damage animation
     }
@@ -440,10 +444,17 @@ public class EnemyScript : MonoBehaviour
                 break;
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other) //I made this 2D because it would collide with the bullets otherwise
     {
         //collision with player projectiles (account for 3d) -> take damage
+        if(other.CompareTag("PlayerBullet"))
+        {
+            TakeDamage(1);
+        }
+        else if(other.CompareTag("PlayerBulletCharge"))
+        {
+            TakeDamage(5);
+        }
     }
 
 }

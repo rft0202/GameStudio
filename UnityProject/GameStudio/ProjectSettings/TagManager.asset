@@ -7,11 +7,12 @@ TagManager:
   - PlayerBullet
   - EnemyBullet
   - HealthPickup
+  - PlayerBulletCharge
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 
