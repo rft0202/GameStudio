@@ -10,6 +10,7 @@ public class EnemyScript : MonoBehaviour
     public enum MovementStyle {none,patrol};
     public enum AttackPattern {none,single,circle,line,X,burst,burstCircle,burstLine,burstX};
     public enum CycleMode {none,linear,random,weightedRandom};
+    public enum AttackTarget {player,center,topleft,top,topright,centerleft,centerright,bottomleft,bottom,bottomright};
 
     //PUBLIC VARS
     [Header("----------Basic Enemy Parameters----------")]
@@ -30,6 +31,8 @@ public class EnemyScript : MonoBehaviour
     public GameObject projectilePrefab;
     public float attackRate;
     public AttackPattern[] attackPatterns;
+    [Tooltip("This array should line up with the attack patterns array.")]
+    public AttackTarget[] attackTargets;
     [Tooltip("If the Cycle Mode is weighted, these weights determine the frequency one pattern gets selected over another. (All values should add up to 1)")]
     public float[] attackPatternWeights;
     [Tooltip("The number of attacks performed before switching attack patterns (if multiple attack patterns)")]
@@ -40,13 +43,17 @@ public class EnemyScript : MonoBehaviour
     [Space(8)]
     [Header("----------Attack Pattern Settings----------")]
     [Space(4)]
+    [Tooltip("Line angle in radians (pi=180)")]
+    [Range(0f, Mathf.PI)]
     public float lineAngle;
     public float lineLength;
+    [Range(3, 15)]
     public int lineBulletAmount;
     public float circleSize,xSize;
+    [Range(2, 15)]
     public int burstBulletAmount;
     public float burstFireRate;
-    public bool burstsLockTarget;
+    //public bool burstsLockTarget;
 
     [Space(8)]
     [Header("----------Spawning----------")]
@@ -79,6 +86,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField]
     GameObject player; //player reference (player, not player controller)
     AttackPattern selectedAttackPattern;
+    AttackTarget selectedAttackTarget;
     int currPatternIndex;
     Vector3 targetPos;
     int currWaypoint=0;
@@ -97,8 +105,8 @@ public class EnemyScript : MonoBehaviour
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
         if (queueSpawnOnStart) EnemySpawn(timeUntilSpawnStart);
         numAttackPatterns = attackPatterns.Length;
-        if (numAttackPatterns==0) selectedAttackPattern = AttackPattern.none;
-        else selectedAttackPattern = attackPatterns[0]; //Begin with first attack pattern
+        if (numAttackPatterns == 0) selectedAttackPattern = AttackPattern.none;
+        else { selectedAttackPattern = attackPatterns[0]; selectedAttackTarget = attackTargets[0]; } //Begin with first attack pattern
         currPatternIndex = 0;
         if (enemyMovementStyle != MovementStyle.none) targetPos = movementWaypoints[currWaypoint].position;
         //Sort attackPatternWeights from lowest to highest
@@ -147,7 +155,7 @@ public class EnemyScript : MonoBehaviour
         {
             case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
             case (AttackPattern.single):
-                createProjectile(player.transform.position);
+                createProjectile(getTargetPos());
                 break;
             case (AttackPattern.circle):
                 List<Vector3> circlePattern = new()
@@ -178,7 +186,7 @@ public class EnemyScript : MonoBehaviour
             //BURST ATTACKS----------------
             case (AttackPattern.burst):
                 burstFireCnt = 0;
-                burstTarget = player.transform.position;
+                burstTarget = getTargetPos();
                 StartCoroutine(burstAttack(new List<Vector3>()));
                 break;
             case (AttackPattern.burstCircle):
@@ -190,12 +198,12 @@ public class EnemyScript : MonoBehaviour
                 };
                 for (int j = 0; j < circlePattern1.Count; j++) circlePattern1[j] *= circleSize;
                 burstFireCnt = 0;
-                burstTarget = player.transform.position;
+                burstTarget = getTargetPos();
                 StartCoroutine(burstAttack(circlePattern1));
                 break;
             case (AttackPattern.burstLine):
                 burstFireCnt = 0;
-                burstTarget = player.transform.position;
+                burstTarget = getTargetPos();
                 StartCoroutine(burstAttack(getLinePattern()));
                 break;
             case (AttackPattern.burstX):
@@ -209,7 +217,7 @@ public class EnemyScript : MonoBehaviour
                 };
                 for (int j = 0; j < xPattern1.Count; j++) xPattern1[j] *= xSize;
                 burstFireCnt = 0;
-                burstTarget = player.transform.position;
+                burstTarget = getTargetPos();
                 StartCoroutine(burstAttack(xPattern1));
                 break;
         }
@@ -256,7 +264,7 @@ public class EnemyScript : MonoBehaviour
     IEnumerator burstAttack(List<Vector3> _bulletPositions)
     {
         //If burstsLockTarget, keep targeting the same pos, else continue updating to player's new pos
-        if (!burstsLockTarget) burstTarget = player.transform.position;
+        //if (!burstsLockTarget) burstTarget = getTargetPos();
         //If multiple bullets, shoot formation, otherwise just shoot one bullet
         if (_bulletPositions.Count > 1) shootBulletFormation(_bulletPositions,burstTarget);
         else createProjectile(burstTarget);
@@ -271,7 +279,7 @@ public class EnemyScript : MonoBehaviour
 
     void shootBulletFormation(List<Vector3> bulletPositions)
     {
-        for(int k=0; k<bulletPositions.Count; k++) createProjectile(player.transform.position + bulletPositions[k]);
+        for(int k=0; k<bulletPositions.Count; k++) createProjectile(getTargetPos() + bulletPositions[k]);
     }
 
     void shootBulletFormation(List<Vector3> bulletPositions, Vector3 _target)
@@ -383,6 +391,24 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject);
     }
 
+    Vector3 getTargetPos()
+    {
+        switch (selectedAttackTarget)
+        {
+            case (AttackTarget.player): return player.transform.position;
+            case (AttackTarget.topleft): return new Vector3(-4.44375f, 2.5f,0);
+            case (AttackTarget.top): return new Vector3(0, 2.5f, 0);
+            case (AttackTarget.topright): return new Vector3(4.44375f, 2.5f, 0);
+            case (AttackTarget.centerleft): return new Vector3(-4.44375f, 0, 0);
+            case (AttackTarget.center): return new Vector3(0, 0, 0);
+            case (AttackTarget.centerright): return new Vector3(4.44375f, 0, 0);
+            case (AttackTarget.bottomleft): return new Vector3(-4.44375f, -2.5f, 0);
+            case (AttackTarget.bottom): return new Vector3(0, -2.5f, 0);
+            case (AttackTarget.bottomright): return new Vector3(4.44375f, -2.5f, 0);
+            default: return player.transform.position;
+        }
+    }
+
     void switchAttackPattern()
     {
         switch (attackPatternCycleMode)
@@ -392,9 +418,12 @@ public class EnemyScript : MonoBehaviour
                 currPatternIndex++;
                 if (currPatternIndex >= numAttackPatterns) currPatternIndex = 0;
                 selectedAttackPattern = attackPatterns[currPatternIndex];
+                selectedAttackTarget = attackTargets[currPatternIndex];
                 break;
             case (CycleMode.random): //Select random with equal likelihoods
-                selectedAttackPattern = attackPatterns[UnityEngine.Random.Range(0, numAttackPatterns)];
+                int _num = UnityEngine.Random.Range(0, numAttackPatterns);
+                selectedAttackPattern = attackPatterns[_num];
+                selectedAttackTarget = attackTargets[_num];
                 break;
             case (CycleMode.weightedRandom): //Random with some options more likely than others
                 float _rand = UnityEngine.Random.Range(0f, 1f);
@@ -403,6 +432,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     if (attackPatternWeights[i] + _prvPercent > _rand) {
                         selectedAttackPattern = attackPatterns[i];
+                        selectedAttackTarget = attackTargets[i];
                         break;
                     }
                     _prvPercent += attackPatternWeights[i];
