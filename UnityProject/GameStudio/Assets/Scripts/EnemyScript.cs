@@ -319,6 +319,7 @@ public class EnemyScript : MonoBehaviour
     {
         //Play death SFX
         //Instantiate death particle
+        Cursor.visible = true;
         SceneManager.LoadScene("LevelComplete");
         Destroy(gameObject);
     }

@@ -95,6 +95,7 @@ public class PlayerScript : MonoBehaviour
     IEnumerator changeSceneDelay(string sceneName, float delay)
     {
         yield return new WaitForSeconds(delay);
+        Cursor.visible = true;
         SceneManager.LoadScene(sceneName);
     }
 

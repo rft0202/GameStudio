@@ -12,11 +12,13 @@ public class MenuScript : MonoBehaviour
 
     public void MainMenu()
     {
+        Cursor.visible = true;
         SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
     {
+        Cursor.visible = true;
         Application.Quit();
     }
 }
