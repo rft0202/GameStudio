@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,12 +13,12 @@ public class PlayerScript : MonoBehaviour
     public float maxSpd, dodgeSpdMult, friction;
     [Header("Timing / Cooldowns")]
     public float dodgeLength;
-    public float dodgeCooldownTime;
+    public float dodgeCooldownTime, invincibilityTime;
     [Header("Other")]
     public float maxHealth;
 
     //Private Attributes
-    bool isDodging = false, canDodge=true;
+    bool isDodging = false, canDodge = true, canTakeDamage = true;
     float maxDodgeSpd, health;
     Vector2 spd, inp;
 
@@ -67,17 +69,33 @@ public class PlayerScript : MonoBehaviour
         canDodge = true;
     }
 
+    IEnumerator DmgCooldown()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(invincibilityTime);
+        canTakeDamage = true;
+    }
+
     void TakeDamage(float dmg)
     {
         health -= dmg;
         if(health<=0) PlayerDie();
-        Debug.Log("Player took " + dmg + " damage. Health left: "+health+"/"+maxHealth);
+        //temp method of showing health
+        GameObject.Find("placeholdHealthText").GetComponent<TMP_Text>().text = "HP: "+health.ToString();
     }
 
     void PlayerDie()
     {
         health = 0;
-        Debug.Log("PLAYER DIE");
+        //temp way of killing player
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        StartCoroutine(changeSceneDelay("GameOver", 1f));
+    }
+
+    IEnumerator changeSceneDelay(string sceneName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(sceneName);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,7 +104,10 @@ public class PlayerScript : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("EnemyBullet"))
             {
-                TakeDamage(collision.gameObject.GetComponent<EnemyBulletScript>().damage);
+                if (canTakeDamage) { 
+                    TakeDamage(collision.gameObject.GetComponent<EnemyBulletScript>().damage);
+                    StartCoroutine(DmgCooldown());
+                }
                 Destroy(collision.gameObject);
             }else if (collision.gameObject.CompareTag("HealthPickup"))
             {
