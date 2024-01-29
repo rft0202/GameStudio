@@ -11,6 +11,9 @@ public class EnemyBulletScript : MonoBehaviour
     public Vector3 velocity;
     [NonSerialized]
     public float damage;
+    [NonSerialized]
+    public bool homingBullet;
+
 
     //PRIVATE VARS
     SpriteRenderer spriteRend;
