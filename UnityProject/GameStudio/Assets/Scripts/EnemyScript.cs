@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -318,6 +319,7 @@ public class EnemyScript : MonoBehaviour
     {
         //Play death SFX
         //Instantiate death particle
+        SceneManager.LoadScene("LevelComplete");
         Destroy(gameObject);
     }
 
