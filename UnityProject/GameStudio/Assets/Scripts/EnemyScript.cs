@@ -32,6 +32,7 @@ public class EnemyScript : MonoBehaviour
     [Header("----------Attacking----------")]
     [Space(4)]
     public GameObject projectilePrefab;
+    public bool homingBullets;
     public float attackRate;
     public AttackPattern[] attackPatterns;
     [Tooltip("This array should line up with the attack patterns array.")]
@@ -365,6 +366,13 @@ public class EnemyScript : MonoBehaviour
 
         //Projectile inherits damage from enemy
         bulletScript.damage = damageDealt;
+
+        //If homing bullet
+        if (homingBullets)
+        {
+            bulletScript.homingBullet = true;
+            bulletScript.speed = projectileSpeed;
+        }
     }
 
     IEnumerator enemySpawnIn()
