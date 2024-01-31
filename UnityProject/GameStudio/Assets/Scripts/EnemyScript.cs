@@ -19,6 +19,8 @@ public class EnemyScript : MonoBehaviour
     public float health;
     public float speed, damageDealt, projectileSpeed;
     public int scoreValue;
+    [Tooltip("If true, killing this enemy ends level.")]
+    public bool isBoss;
 
     [Space(8)]
     [Header("----------Movement----------")]
@@ -30,6 +32,7 @@ public class EnemyScript : MonoBehaviour
     [Header("----------Attacking----------")]
     [Space(4)]
     public GameObject projectilePrefab;
+    public bool homingBullets;
     public float attackRate;
     public AttackPattern[] attackPatterns;
     [Tooltip("This array should line up with the attack patterns array.")]
@@ -235,7 +238,7 @@ public class EnemyScript : MonoBehaviour
                 switchAttackPattern();
             }
         }
-        StartCoroutine(enemyAttackTimer());
+        if(spawnedIn) StartCoroutine(enemyAttackTimer());
     }
 
     float getLineX()
@@ -320,8 +323,18 @@ public class EnemyScript : MonoBehaviour
         //Play death SFX
         //Instantiate death particle
         Cursor.visible = true;
+        if (isBoss)
+        {
+            StartCoroutine(enemySpawnOut());
+            StartCoroutine(levelEnd(1f));
+        }
+        else Destroy(gameObject);
+    }
+
+    IEnumerator levelEnd(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("LevelComplete");
-        Destroy(gameObject);
     }
 
     void createProjectile(Vector2 _targetPos)
@@ -353,6 +366,13 @@ public class EnemyScript : MonoBehaviour
 
         //Projectile inherits damage from enemy
         bulletScript.damage = damageDealt;
+
+        //If homing bullet
+        if (homingBullets)
+        {
+            bulletScript.homingBullet = true;
+            bulletScript.speed = projectileSpeed;
+        }
     }
 
     IEnumerator enemySpawnIn()
