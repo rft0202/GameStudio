@@ -15,18 +15,27 @@ public class PlayerScript : MonoBehaviour
     public float dodgeLength;
     public float dodgeCooldownTime, invincibilityTime;
     [Header("Other")]
-    public float maxHealth;
+    public int maxHealth;
+
+    //Health Vars
+    public GameObject[] hearts;
+    public GameObject heartExplode;
 
     //Private Attributes
     bool isDodging = false, canDodge = true, canTakeDamage = true;
-    float maxDodgeSpd, health;
+    float maxDodgeSpd;
+    int health;
     Vector2 spd, inp;
+
+    //Anim
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         maxDodgeSpd = maxSpd * dodgeSpdMult; //Getting maxDodgeSpd based on the Dodge speed multiplier
         health = maxHealth;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -44,6 +53,11 @@ public class PlayerScript : MonoBehaviour
     public void PlayerMove(InputAction.CallbackContext ctx)
     {
         inp = ctx.ReadValue<Vector2>();
+    }
+
+    public void PlayerTrick(InputAction.CallbackContext ctx)
+    {
+        //anim
     }
 
     public void PlayerDodge(InputAction.CallbackContext ctx)
@@ -76,12 +90,12 @@ public class PlayerScript : MonoBehaviour
         canTakeDamage = true;
     }
 
-    void TakeDamage(float dmg)
+    void TakeDamage(int dmg)
     {
+        Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
+        hearts[health-1].SetActive(false);
         health -= dmg;
         if(health<=0) PlayerDie();
-        //temp method of showing health
-        GameObject.Find("placeholdHealthText").GetComponent<TMP_Text>().text = "HP: "+health.ToString();
     }
 
     void PlayerDie()
