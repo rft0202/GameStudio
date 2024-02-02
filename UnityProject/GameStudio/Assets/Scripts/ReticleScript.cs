@@ -22,11 +22,15 @@ public class ReticleScript : MonoBehaviour
     //Anim
     Animator anim;
 
+    //SoundManager
+    SoundManager sm;
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
         anim = GetComponent<Animator>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     public void PlayerLook(InputAction.CallbackContext ctx)
@@ -44,6 +48,7 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootStandard)
         {
+            sm.PlaySFX(sm.sfxs[0],UnityEngine.Random.Range(0.9f,1.15f));
             StartCoroutine(ShootStandard());
         }
     }
@@ -52,6 +57,7 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootCharge)
         {
+            sm.PlaySFX(sm.sfxs[2], UnityEngine.Random.Range(0.95f, 1.05f));
             StartCoroutine(ShootCharge());
         }
     }

@@ -104,9 +104,13 @@ public class EnemyScript : MonoBehaviour
     //Animator
     Animator anim;
 
+    //SoundManager
+    SoundManager sm;
+
     // Start is called before the first frame update
     void Start()
     {
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         anim = GetComponent<Animator>();
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
@@ -158,6 +162,7 @@ public class EnemyScript : MonoBehaviour
 
     void enemyAttack()
     {
+        sm.PlaySFX(sm.sfxs[1], UnityEngine.Random.Range(0.9f, 1.15f));
         switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
         {
             case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------

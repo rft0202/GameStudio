@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static GameObject instance;
 
     [SerializeField]
     AudioSource[] srcs;
+    public AudioClip[] sfxs;
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = gameObject;
+            DontDestroyOnLoad(instance);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
