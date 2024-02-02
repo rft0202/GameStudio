@@ -8,7 +8,12 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField]
     AudioSource[] srcs;
-    public AudioClip[] sfxs;
+    [SerializeField]
+    AudioClip[] sfxs;
+
+    float[] sfxsStartTimes = {
+    0,0,0.2f,0.2f,0
+    };
     void Awake()
     {
         if (instance != null)
@@ -34,11 +39,14 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    public void PlaySFX(AudioClip clip, float pitch=1)
+    public void PlaySFX(int clipNum ,float pitch=1)
     {
         int srcNum = FirstOpenSrc();
-        srcs[srcNum].pitch = pitch;
-        srcs[srcNum].PlayOneShot(clip);
+        AudioSource src = srcs[srcNum];
+        src.pitch = pitch;
+        src.clip = sfxs[clipNum];
+        if(!src.isPlaying)src.Play();
+        src.time = sfxsStartTimes[clipNum];
     }
 
     public void EndAllSFX()

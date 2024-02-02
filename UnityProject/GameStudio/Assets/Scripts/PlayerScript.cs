@@ -30,12 +30,16 @@ public class PlayerScript : MonoBehaviour
     //Anim
     Animator anim;
 
+    //SoundManager
+    SoundManager sm;
+
     // Start is called before the first frame update
     void Start()
     {
         maxDodgeSpd = maxSpd * dodgeSpdMult; //Getting maxDodgeSpd based on the Dodge speed multiplier
         health = maxHealth;
         anim = GetComponent<Animator>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -92,6 +96,7 @@ public class PlayerScript : MonoBehaviour
 
     void TakeDamage(int dmg)
     {
+        sm.PlaySFX(3, UnityEngine.Random.Range(0.9f, 1.15f));
         Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
         hearts[health-1].SetActive(false);
         health -= dmg;

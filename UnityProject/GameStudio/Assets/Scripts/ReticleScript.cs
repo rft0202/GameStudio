@@ -48,7 +48,7 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootStandard)
         {
-            sm.PlaySFX(sm.sfxs[0],UnityEngine.Random.Range(0.9f,1.15f));
+            sm.PlaySFX(0,UnityEngine.Random.Range(0.9f,1.15f));
             StartCoroutine(ShootStandard());
         }
     }
@@ -57,7 +57,7 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootCharge)
         {
-            sm.PlaySFX(sm.sfxs[2], UnityEngine.Random.Range(0.95f, 1.05f));
+            sm.PlaySFX(2,UnityEngine.Random.Range(0.95f, 1.05f));
             StartCoroutine(ShootCharge());
         }
     }

@@ -163,7 +163,7 @@ public class EnemyScript : MonoBehaviour
 
     void enemyAttack()
     {
-        sm.PlaySFX(sm.sfxs[1], UnityEngine.Random.Range(0.9f, 1.15f));
+        sm.PlaySFX(1, UnityEngine.Random.Range(0.9f, 1.15f));
         switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
         {
             case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
