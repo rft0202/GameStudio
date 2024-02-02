@@ -105,7 +105,8 @@ MonoBehaviour:
   friction: 0.92
   dodgeLength: 0.25
   dodgeCooldownTime: 0.2
-  maxHealth: 100
+  invincibilityTime: 1
+  maxHealth: 3
 --- !u!61 &2949066308783325603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -557,6 +558,7 @@ GameObject:
   - component: {fileID: 3724291623416197455}
   - component: {fileID: 7140218905190322872}
   - component: {fileID: 111909511465087629}
+  - component: {fileID: 8227184680913739405}
   m_Layer: 0
   m_Name: Reticle
   m_TagString: Untagged
@@ -626,7 +628,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: f99fbceede03b414387cebabc2c56d9e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8666667, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -652,3 +654,24 @@ MonoBehaviour:
   GameScreenHeight: 10
   playerBulletStandard: {fileID: 6688838655221825774, guid: 662a0a65eb7c58c49a07e70568ffa805, type: 3}
   playerBulletCharge: {fileID: 3775442925962222611, guid: 542a87e654e128e4a9d2bd059636237d, type: 3}
+--- !u!95 &8227184680913739405
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133801055322161087}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 19a583aa69705804bba89f35e9e20055, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

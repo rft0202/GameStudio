@@ -17,7 +17,8 @@ public class EnemyScript : MonoBehaviour
     [Header("----------Basic Enemy Parameters----------")]
     [Space(4)]
     public float health;
-    public float speed, damageDealt, projectileSpeed;
+    public float speed, projectileSpeed;
+    public int damageDealt;
     public int scoreValue;
     [Tooltip("If true, killing this enemy ends level.")]
     public bool isBoss;

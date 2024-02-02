@@ -10,7 +10,7 @@ public class EnemyBulletScript : MonoBehaviour
     [NonSerialized]
     public Vector3 velocity;
     [NonSerialized]
-    public float damage;
+    public int damage;
     [NonSerialized]
     public bool homingBullet=false;
     [NonSerialized]
