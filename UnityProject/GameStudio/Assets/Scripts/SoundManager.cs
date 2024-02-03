@@ -1,3 +1,4 @@
+using DanmakU.Fireables;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,10 @@ public class SoundManager : MonoBehaviour
     AudioClip[] sfxs;
 
     float[] sfxsStartTimes = {
-    0,0,0.2f,0.2f,0
+    0,0,0.2f,0.2f,0,0.19f
+    };
+    float[] sfxsVolumes = {
+    1,1,1,0.8f,1,.6f
     };
     void Awake()
     {
@@ -45,6 +49,7 @@ public class SoundManager : MonoBehaviour
         AudioSource src = srcs[srcNum];
         src.pitch = pitch;
         src.clip = sfxs[clipNum];
+        src.volume = sfxsVolumes[clipNum];
         if(!src.isPlaying)src.Play();
         src.time = sfxsStartTimes[clipNum];
     }

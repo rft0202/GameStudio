@@ -70,6 +70,7 @@ public class PlayerScript : MonoBehaviour
         {
             isDodging = true; //Player now dodging, and cannot dodge while already dodging
             canDodge = false;
+            sm.PlaySFX(5, UnityEngine.Random.Range(0.9f, 1.15f));
             StartCoroutine(EndDodge());
         }
     }
