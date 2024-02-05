@@ -30,16 +30,12 @@ public class PlayerScript : MonoBehaviour
     //Anim
     Animator anim;
 
-    //SoundManager
-    SoundManager sm;
-
     // Start is called before the first frame update
     void Start()
     {
         maxDodgeSpd = maxSpd * dodgeSpdMult; //Getting maxDodgeSpd based on the Dodge speed multiplier
         health = maxHealth;
         anim = GetComponent<Animator>();
-        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -61,8 +57,10 @@ public class PlayerScript : MonoBehaviour
 
     public void PlayerTrick(InputAction.CallbackContext ctx)
     {
-        //anim
-        anim.SetTrigger("performTrick");
+        if(ctx.performed)
+        {
+            anim.SetTrigger("performTrick");
+        }    
     }
 
     public void PlayerDodge(InputAction.CallbackContext ctx)
@@ -71,7 +69,6 @@ public class PlayerScript : MonoBehaviour
         {
             isDodging = true; //Player now dodging, and cannot dodge while already dodging
             canDodge = false;
-            sm.PlaySFX(5, UnityEngine.Random.Range(0.9f, 1.15f));
             StartCoroutine(EndDodge());
         }
     }
@@ -98,7 +95,6 @@ public class PlayerScript : MonoBehaviour
 
     void TakeDamage(int dmg)
     {
-        sm.PlaySFX(3, UnityEngine.Random.Range(0.9f, 1.15f));
         Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
         hearts[health-1].SetActive(false);
         health -= dmg;
