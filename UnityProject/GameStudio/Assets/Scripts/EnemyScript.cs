@@ -17,7 +17,8 @@ public class EnemyScript : MonoBehaviour
     [Header("----------Basic Enemy Parameters----------")]
     [Space(4)]
     public float health;
-    public float speed, damageDealt, projectileSpeed;
+    public float speed, projectileSpeed;
+    public int damageDealt;
     public int scoreValue;
     [Tooltip("If true, killing this enemy ends level.")]
     public bool isBoss;
@@ -82,8 +83,10 @@ public class EnemyScript : MonoBehaviour
     [Space(8)]
     [Header("----------SFX----------")]
     [Space(4)]
-    public AudioClip attackSFX;
-    public AudioClip damageSFX,deathSFX;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int attackSFX;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int damageSFX,deathSFX;
 
     //PRIVATE VARS
     GameObject gm; //gamemanager reference
@@ -104,9 +107,13 @@ public class EnemyScript : MonoBehaviour
     //Animator
     Animator anim;
 
+    //SoundManager
+    SoundManager sm;
+
     // Start is called before the first frame update
     void Start()
     {
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         anim = GetComponent<Animator>();
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
@@ -158,6 +165,7 @@ public class EnemyScript : MonoBehaviour
 
     void enemyAttack()
     {
+        sm.PlaySFX(attackSFX, UnityEngine.Random.Range(0.9f, 1.15f));
         switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
         {
             case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------

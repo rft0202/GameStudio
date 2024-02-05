@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7331523362729126499}
   - component: {fileID: 2949066308783325603}
   - component: {fileID: 652891729552224564}
+  - component: {fileID: 191645870598338850}
   m_Layer: 0
   m_Name: playerPlacehold
   m_TagString: Untagged
@@ -105,7 +106,13 @@ MonoBehaviour:
   friction: 0.92
   dodgeLength: 0.25
   dodgeCooldownTime: 0.2
-  maxHealth: 100
+  invincibilityTime: 1
+  maxHealth: 3
+  hearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  heartExplode: {fileID: 3841539461118486445, guid: fe35d50f3c1518d41a524ae3d4218e68, type: 3}
 --- !u!61 &2949066308783325603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -178,6 +185,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &191645870598338850
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988378138624097122}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4d88872503486c64281518e2994ec89b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4711454857741073460
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +389,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3191866e-5a2f-4078-a027-2682b9ea8c55
     m_ActionName: Player/ChargeAttack[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7331523362729126499}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: PlayerTrick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e7653db7-985f-4c10-b376-65950d91eebd
+    m_ActionName: Player/Trick[/Keyboard/shift,/Keyboard/ctrl]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -557,6 +601,7 @@ GameObject:
   - component: {fileID: 3724291623416197455}
   - component: {fileID: 7140218905190322872}
   - component: {fileID: 111909511465087629}
+  - component: {fileID: 8227184680913739405}
   m_Layer: 0
   m_Name: Reticle
   m_TagString: Untagged
@@ -626,7 +671,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: f99fbceede03b414387cebabc2c56d9e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8666667, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -650,5 +695,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameScreenWidth: 17.775
   GameScreenHeight: 10
+  attackSfx: 0
+  chargeAttackSfx: 2
   playerBulletStandard: {fileID: 6688838655221825774, guid: 662a0a65eb7c58c49a07e70568ffa805, type: 3}
   playerBulletCharge: {fileID: 3775442925962222611, guid: 542a87e654e128e4a9d2bd059636237d, type: 3}
+--- !u!95 &8227184680913739405
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133801055322161087}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 19a583aa69705804bba89f35e9e20055, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
