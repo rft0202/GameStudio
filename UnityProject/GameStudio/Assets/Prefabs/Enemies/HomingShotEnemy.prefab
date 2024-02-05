@@ -102,8 +102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   speed: 3
-  damageDealt: 1
   projectileSpeed: 4
+  damageDealt: 1
   scoreValue: 0
   isBoss: 0
   enemyMovementStyle: 0
@@ -133,9 +133,9 @@ MonoBehaviour:
   timeUntilDespawn: 6
   attackParticle: {fileID: 0}
   deathParticle: {fileID: 0}
-  attackSFX: {fileID: 0}
-  damageSFX: {fileID: 0}
-  deathSFX: {fileID: 0}
+  attackSFX: 1
+  damageSFX: -1
+  deathSFX: -1
   player: {fileID: 0}
 --- !u!114 &922763436317211043
 MonoBehaviour:
