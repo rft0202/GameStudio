@@ -113,6 +113,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   heartExplode: {fileID: 3841539461118486445, guid: fe35d50f3c1518d41a524ae3d4218e68, type: 3}
+  dodgeSfx: 5
+  hurtSfx: 3
 --- !u!61 &2949066308783325603
 BoxCollider2D:
   m_ObjectHideFlags: 0
