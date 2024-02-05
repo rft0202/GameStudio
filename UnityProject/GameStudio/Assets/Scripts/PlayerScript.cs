@@ -21,6 +21,9 @@ public class PlayerScript : MonoBehaviour
     public GameObject[] hearts;
     public GameObject heartExplode;
 
+    [Header("Misc")]
+    public int trickScoreAmt;
+
     [Header("Sfx")]
     [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
     public int dodgeSfx;
@@ -37,6 +40,7 @@ public class PlayerScript : MonoBehaviour
     Animator anim;
 
     SoundManager sm;
+    GameManager gm;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +49,7 @@ public class PlayerScript : MonoBehaviour
         health = maxHealth;
         anim = GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -68,6 +73,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(ctx.performed)
         {
+            gm.AddToActiveScore(trickScoreAmt);
             anim.SetTrigger("performTrick");
         }    
     }
