@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         //Move score popups
         for(int i=0; i<scorePopups.Count; i++)
         {
-            while (scorePopups[i] == null) i++; //just in case
+            while (scorePopups[i] == null) { if (i >= scorePopups.Count) break; i++; } //just in case
             scorePopups[i].transform.Translate(Vector3.up * Time.deltaTime); //move score popups up!
         }
     }
@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
         prevSceneS = SceneManager.GetActiveScene();
         prevSceneN = prevSceneS.name;
         Debug.Log("Scene changed");
+        if (GameObject.Find("scoreLbl") != null)
+            scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
         switch (prevSceneN)
         {
             case ("TestScene"): BeganLevel(0); break;
@@ -70,8 +72,6 @@ public class GameManager : MonoBehaviour
             case ("GameOver"): LevelLost(); break;
             default: break;
         }
-        if(GameObject.Find("scoreLbl")!=null)
-            scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
     }
 
     public void AddToActiveScore(int scoreAmt, Vector2 popupLocation)
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
             Instantiate(newHighscoreTxt); //if new highscore in level, add little popup text
         }
         //Show score after finishing level
-        //setScoreText();
+        setScoreText();
     }
 
     void LevelLost()

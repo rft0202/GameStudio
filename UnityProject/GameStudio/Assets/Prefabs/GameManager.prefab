@@ -45,8 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scorePopup: {fileID: 2163135282039422031, guid: 5276e563e44fa934bb3d88d1312a9302, type: 3}
-  inLevelScoreTxts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  newHighscoreTxt: {fileID: 7064391750626742944, guid: fe7dfc929069d814ea8783bfa6e63478, type: 3}
