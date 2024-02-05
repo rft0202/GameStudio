@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 3197411242442220118}
   - component: {fileID: 5783191898971605933}
   - component: {fileID: 1214415895675479757}
+  - component: {fileID: 3674102416448088374}
+  - component: {fileID: 329183279683766981}
+  - component: {fileID: 4138340089036184352}
   m_Layer: 0
   m_Name: PlaceholdEnemy
   m_TagString: Untagged
@@ -31,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5783191898971605933
 SpriteRenderer:
@@ -73,9 +76,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.8962264, g: 0.5368903, b: 0.5368903, a: 1}
+  m_SortingOrder: -10
+  m_Sprite: {fileID: 21300000, guid: 76307b7c655dbaf46881da638e70ebea, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,26 +101,125 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  speed: 1
-  damageDealt: 0
+  speed: 3
+  projectileSpeed: 4
+  damageDealt: 1
   scoreValue: 0
-  enemyMovementStyle: 0
-  movementWaypoints: []
-  projectilePrefab: {fileID: 0}
-  attackRate: 0
-  attackPatterns: 
+  isBoss: 1
+  enemyMovementStyle: 1
+  movementWaypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  projectilePrefab: {fileID: 815129080146690886, guid: 7fc0ead215c569744adcdcacbd5f619d, type: 3}
+  homingBullets: 1
+  attackRate: 2
+  attackPatterns: 01000000
+  attackTargets: 00000000
   attackPatternWeights: []
-  minimumAttackPatternSwitchTime: 0
-  maximumAttackPatternSwitchTime: 0
-  attackPatternCycleMode: 0
+  attacksUntilPatternSwitch: 1
+  attackPatternCycleMode: 1
+  lineAngle: 0
+  lineLength: 2
+  lineBulletAmount: 4
+  circleSize: 3
+  xSize: 0
+  burstBulletAmount: 5
+  burstFireRate: 0.25
   spawnInSpeed: 1
-  timeUntilSpawn: 1
+  timeUntilSpawnStart: 0
   queueSpawnOnStart: 1
-  canDespawn: 1
+  activeDuringSpawn: 0
+  activeDelay: 0
+  canDespawn: 0
   spawnOutSpeed: 2
   timeUntilDespawn: 6
   attackParticle: {fileID: 0}
   deathParticle: {fileID: 0}
-  attackSFX: {fileID: 0}
-  damageSFX: {fileID: 0}
-  deathSFX: {fileID: 0}
+  attackSFX: 0
+  damageSFX: 0
+  deathSFX: 0
+  player: {fileID: 0}
+--- !u!114 &3674102416448088374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731575250154105103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f88553b19e08446803d832eeb4f8b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  depthViewDistRate: 1.15
+  useSpriteOrderInLayer: 1
+  zpos: 0
+  baseScale: 1.25
+--- !u!61 &329183279683766981
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731575250154105103}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.016237319, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.4, y: 2.4}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.302575, y: 2.4}
+  m_EdgeRadius: 0
+--- !u!95 &4138340089036184352
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731575250154105103}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fc7f3571d8f254340b6f0b21ca082909, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
