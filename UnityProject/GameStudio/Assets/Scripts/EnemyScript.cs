@@ -83,8 +83,10 @@ public class EnemyScript : MonoBehaviour
     [Space(8)]
     [Header("----------SFX----------")]
     [Space(4)]
-    public AudioClip attackSFX;
-    public AudioClip damageSFX,deathSFX;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int attackSFX;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int damageSFX,deathSFX;
 
     //PRIVATE VARS
     GameObject gm; //gamemanager reference
@@ -163,7 +165,7 @@ public class EnemyScript : MonoBehaviour
 
     void enemyAttack()
     {
-        sm.PlaySFX(1, UnityEngine.Random.Range(0.9f, 1.15f));
+        sm.PlaySFX(attackSFX, UnityEngine.Random.Range(0.9f, 1.15f));
         switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
         {
             case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------

@@ -14,12 +14,18 @@ public class PlayerScript : MonoBehaviour
     [Header("Timing / Cooldowns")]
     public float dodgeLength;
     public float dodgeCooldownTime, invincibilityTime;
-    [Header("Other")]
+    [Header("Health")]
     public int maxHealth;
 
     //Health Vars
     public GameObject[] hearts;
     public GameObject heartExplode;
+
+    [Header("Sfx")]
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int hurtSfx;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int dodgeSfx;
 
     //Private Attributes
     bool isDodging = false, canDodge = true, canTakeDamage = true;
@@ -70,7 +76,7 @@ public class PlayerScript : MonoBehaviour
         {
             isDodging = true; //Player now dodging, and cannot dodge while already dodging
             canDodge = false;
-            sm.PlaySFX(5, UnityEngine.Random.Range(0.9f, 1.15f));
+            sm.PlaySFX(dodgeSfx, UnityEngine.Random.Range(0.9f, 1.15f));
             StartCoroutine(EndDodge());
         }
     }
@@ -97,7 +103,7 @@ public class PlayerScript : MonoBehaviour
 
     void TakeDamage(int dmg)
     {
-        sm.PlaySFX(3, UnityEngine.Random.Range(0.9f, 1.15f));
+        sm.PlaySFX(hurtSfx, UnityEngine.Random.Range(0.9f, 1.15f));
         Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
         hearts[health-1].SetActive(false);
         health -= dmg;

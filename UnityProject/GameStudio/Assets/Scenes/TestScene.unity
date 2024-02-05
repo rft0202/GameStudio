@@ -2934,9 +2934,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 111909511465087629, guid: 831a816d71a5a594f8aa9c2b9143d9a6, type: 3}
+      propertyPath: chargeAttackSfx
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4711454857741073460, guid: 831a816d71a5a594f8aa9c2b9143d9a6, type: 3}
       propertyPath: m_Name
       value: PlayerController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7331523362729126499, guid: 831a816d71a5a594f8aa9c2b9143d9a6, type: 3}
+      propertyPath: hurtSfx
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7331523362729126499, guid: 831a816d71a5a594f8aa9c2b9143d9a6, type: 3}
+      propertyPath: dodgeSfx
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7331523362729126499, guid: 831a816d71a5a594f8aa9c2b9143d9a6, type: 3}
       propertyPath: heartExplode

@@ -10,6 +10,9 @@ public class ReticleScript : MonoBehaviour
     [Tooltip("Equal to the X and Y Scale of a rectangle sprite that covers the whole screen")]
     private float GameScreenWidth=17.775f,GameScreenHeight=10;
 
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int attackSfx,chargeAttackSfx;
+
     //Bullet Particle Systems
     public GameObject playerBulletStandard;
     public GameObject playerBulletCharge;
@@ -48,7 +51,7 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootStandard)
         {
-            sm.PlaySFX(0,UnityEngine.Random.Range(0.9f,1.15f));
+            sm.PlaySFX(attackSfx,UnityEngine.Random.Range(0.9f,1.15f));
             StartCoroutine(ShootStandard());
         }
     }
@@ -57,7 +60,7 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootCharge)
         {
-            sm.PlaySFX(2,UnityEngine.Random.Range(0.95f, 1.05f));
+            sm.PlaySFX(chargeAttackSfx,UnityEngine.Random.Range(0.95f, 1.05f));
             StartCoroutine(ShootCharge());
         }
     }
