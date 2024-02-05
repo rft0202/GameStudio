@@ -332,7 +332,7 @@ public class EnemyScript : MonoBehaviour
         //Play death SFX
         //Instantiate death particle
 
-        gm.AddToActiveScore(scoreValue);
+        gm.AddToActiveScore(scoreValue,new Vector2(transform.position.x+1,transform.position.y+1));
         if (isBoss)
         {
             dying = true;

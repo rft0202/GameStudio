@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(ctx.performed)
         {
-            gm.AddToActiveScore(trickScoreAmt);
+            gm.AddToActiveScore(trickScoreAmt,new Vector2(transform.position.x+1.25f,transform.position.y+0.8f));
             anim.SetTrigger("performTrick");
         }    
     }
