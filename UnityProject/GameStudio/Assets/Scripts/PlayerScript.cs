@@ -57,7 +57,10 @@ public class PlayerScript : MonoBehaviour
 
     public void PlayerTrick(InputAction.CallbackContext ctx)
     {
-        //anim
+        if(ctx.performed)
+        {
+            anim.SetTrigger("performTrick");
+        }    
     }
 
     public void PlayerDodge(InputAction.CallbackContext ctx)
