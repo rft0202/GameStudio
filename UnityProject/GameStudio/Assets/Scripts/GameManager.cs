@@ -23,12 +23,13 @@ public class GameManager : MonoBehaviour
 
     //PUBLIC VARS
     public GameObject scorePopup;
-
+    [Tooltip("The score labels in the level scenes. 0-TestScene, 1-Level1... so on")]
 
     //Score variables
     int[] highscores = {0,0,0,0}; //highscores for the 3 levels
     int currLevel = -1; //0-TestScene, 1-Level1, 2-level2, 3-level3
     int activeScore=0; //Current score while playing level
+    TMP_Text scoreLbl;
 
     //Prev scene vars
     string prevSceneN = "";
@@ -73,13 +74,21 @@ public class GameManager : MonoBehaviour
 
     public void AddToActiveScore(int scoreAmt, Vector2 popupLocation)
     {
+        //Increase score and update level score label
         activeScore += scoreAmt;
-        Debug.Log("score += "+scoreAmt+", Total: "+activeScore);
+        if(activeScore>999) //Score always has 4 digits, 10 - bad, 0010 - good
+            scoreLbl.text = ""+activeScore; //scorelbl should be called "scoreLbl" in scenes
+        else if(activeScore>99)
+            scoreLbl.text = "0" + activeScore;
+        else if (activeScore > 9)
+            scoreLbl.text = "00" + activeScore;
+        else
+            scoreLbl.text = "000" + activeScore;
 
         //make score popup
         GameObject _popup = Instantiate(scorePopup);
         TMP_Text popTxt = _popup.GetComponent<TMP_Text>();
-        popTxt.text = "+" + scoreAmt;
+        popTxt.text = ((scoreAmt>=0)?("+"):("-")) + scoreAmt;
         _popup.transform.position = new Vector3(popupLocation.x, popupLocation.y);
         scorePopups.Add(_popup);
         StartCoroutine(DestroyPopup(_popup));
@@ -97,6 +106,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Began level " + lvlNum);
         activeScore = 0;
         currLevel = lvlNum;
+        scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
     }
 
     void LevelCompleted()
