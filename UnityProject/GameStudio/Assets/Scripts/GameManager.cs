@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+
 public class GameManager : MonoBehaviour
 {
     //Persist through scenes
@@ -22,8 +23,7 @@ public class GameManager : MonoBehaviour
     }
 
     //PUBLIC VARS
-    public GameObject scorePopup;
-    [Tooltip("The score labels in the level scenes. 0-TestScene, 1-Level1... so on")]
+    public GameObject scorePopup, newHighscoreTxt;
 
     //Score variables
     int[] highscores = {0,0,0,0}; //highscores for the 3 levels
@@ -70,20 +70,15 @@ public class GameManager : MonoBehaviour
             case ("GameOver"): LevelLost(); break;
             default: break;
         }
+        if(GameObject.Find("scoreLbl")!=null)
+            scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
     }
 
     public void AddToActiveScore(int scoreAmt, Vector2 popupLocation)
     {
         //Increase score and update level score label
         activeScore += scoreAmt;
-        if(activeScore>999) //Score always has 4 digits, 10 - bad, 0010 - good
-            scoreLbl.text = ""+activeScore; //scorelbl should be called "scoreLbl" in scenes
-        else if(activeScore>99)
-            scoreLbl.text = "0" + activeScore;
-        else if (activeScore > 9)
-            scoreLbl.text = "00" + activeScore;
-        else
-            scoreLbl.text = "000" + activeScore;
+        setScoreText();
 
         //make score popup
         GameObject _popup = Instantiate(scorePopup);
@@ -106,7 +101,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Began level " + lvlNum);
         activeScore = 0;
         currLevel = lvlNum;
-        scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
     }
 
     void LevelCompleted()
@@ -114,13 +108,27 @@ public class GameManager : MonoBehaviour
         if (activeScore >= highscores[currLevel])
         {
             highscores[currLevel] = activeScore;
-            Debug.Log("new highscore for level " + currLevel + ": " + activeScore);
+            Instantiate(newHighscoreTxt); //if new highscore in level, add little popup text
         }
+        //Show score after finishing level
+        //setScoreText();
     }
 
     void LevelLost()
     {
         activeScore = 0;
+    }
+
+    void setScoreText()
+    {
+        if (activeScore > 999) //Score always has 4 digits, 10 - bad, 0010 - good
+            scoreLbl.text = "" + activeScore; //scorelbl should be called "scoreLbl" in scenes
+        else if (activeScore > 99)
+            scoreLbl.text = "0" + activeScore;
+        else if (activeScore > 9)
+            scoreLbl.text = "00" + activeScore;
+        else
+            scoreLbl.text = "000" + activeScore;
     }
     
 }
