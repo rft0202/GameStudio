@@ -62,6 +62,7 @@ public class PlayerScript : MonoBehaviour
     public void PlayerTrick(InputAction.CallbackContext ctx)
     {
         //anim
+        anim.SetTrigger("performTrick");
     }
 
     public void PlayerDodge(InputAction.CallbackContext ctx)
