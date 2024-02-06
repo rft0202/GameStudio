@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     public GameObject scorePopup, newHighscoreTxt;
 
     //Score variables
-    int[] highscores = {0,0,0,0}; //highscores for the 3 levels
+    [NonSerialized]
+    public int[] highscores = {0,0,0,0}; //highscores for the 3 levels
     int currLevel = -1; //0-TestScene, 1-Level1, 2-level2, 3-level3
     int activeScore=0; //Current score while playing level
     TMP_Text scoreLbl;
@@ -37,6 +38,18 @@ public class GameManager : MonoBehaviour
 
     //Score popups
     List<GameObject> scorePopups = new();
+
+    //Leaderboard stuff
+    [NonSerialized]
+    public bool connectedToLeaderboard = false;
+    [NonSerialized]
+    public string playerName="AAA";
+    [NonSerialized]
+    public bool nameSet = false;
+    [NonSerialized]
+    public int playerID; //Setup if connected, stays same for session, eventually add to player prefs
+    [NonSerialized]
+    public List<List<List<string>>> localLeaderboardStorage = new(); //level - record - name/score
 
     // Start is called before the first frame update
     void Start()
