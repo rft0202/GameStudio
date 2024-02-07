@@ -16,6 +16,7 @@ public class LeaderboardScript : MonoBehaviour
     public GameObject connectError;
     public GameObject dataMemberTxtPrefab;
     public TMP_Text selectedLvlTxt;
+    public TMP_InputField nameInp;
 
     //PRIVATE VARS
     //GameObject leaderboard; THIS gameobject
@@ -59,9 +60,26 @@ public class LeaderboardScript : MonoBehaviour
         gm.connectedToLeaderboard = connectedToLeaderboard;
         if (connectedToLeaderboard && !gm.nameSet) //Player needs to set their name to add to leaderboard
         {
-            //Give name enter popup
+            //Set player name
+            gm.playerName = nameInp.text;
+            gm.nameSet = true;
+
+            //Assign new playerID
+            int largestID = 1;
+            SqlDataReader dr = SearchRecords_DR(1);
+            if (dr != null)
+            {
+                while (dr.Read())
+                {
+                    if (int.Parse(dr["Player_ID"].ToString()) >= largestID) largestID = int.Parse(dr["Player_ID"].ToString()) + 1;
+                }
+                gm.playerID = largestID;
+            }
 
             //Add records for lvls 1-3
+            AddRecord(1);
+            AddRecord(2);
+            AddRecord(3);
         }
     }
 
@@ -87,7 +105,7 @@ public class LeaderboardScript : MonoBehaviour
         comm.Parameters.AddWithValue("@pID", gm.playerID);
         comm.Parameters.AddWithValue("@name", gm.playerName);
         comm.Parameters.AddWithValue("@lvl", lvl);
-        comm.Parameters.AddWithValue("@score", gm.highscores[lvl]);
+        comm.Parameters.AddWithValue("@score", gm.convertScoreToString(gm.highscores[lvl]));
 
         try
         {
@@ -209,39 +227,5 @@ public class LeaderboardScript : MonoBehaviour
 
         conn.Open();
         return comm.ExecuteReader();
-    }
-
-    //Update record script (Important: always use update after nameSetup for a session, eventually add playerprefs to update between sessions and option to reset player data)
-    public string UpdateRecord(int pID, int lvl, string highscore)
-    {
-        string strResult = "";
-
-        SqlConnection Conn = new SqlConnection();
-
-        Conn.ConnectionString = @GetConnected();
-
-        string strSQL = "UPDATE GameStudio_Highscores SET Score=@score WHERE Player_ID=@pID AND Lvl=@lvl";
-
-        SqlCommand comm = new SqlCommand();
-        comm.CommandText = strSQL;
-        comm.Connection = Conn;
-
-        comm.Parameters.AddWithValue("@score", highscore);
-        comm.Parameters.AddWithValue("@pID", pID);
-        comm.Parameters.AddWithValue("@lvl", lvl);
-
-        try
-        {
-            Conn.Open();
-            int intRecs = comm.ExecuteNonQuery();
-            Conn.Close();
-            strResult = $"SUCCESS: Inserted {intRecs} records.";
-        }
-        catch (Exception e)
-        {
-            strResult = "ERROR: " + e.Message;
-        }
-
-        return strResult;
     }
 }
