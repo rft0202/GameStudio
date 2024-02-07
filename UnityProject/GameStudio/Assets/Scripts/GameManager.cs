@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
     List<GameObject> scorePopups = new();
 
     //Leaderboard stuff
-    LeaderboardScript lb;
     [NonSerialized]
     public bool connectedToLeaderboard = false;
     [NonSerialized]
@@ -85,6 +84,7 @@ public class GameManager : MonoBehaviour
         switch (prevSceneN)
         {
             case ("TestScene"): BeganLevel(0); break;
+            case ("Tutorial"): BeganLevel(0); break;
             case ("Level1"): BeganLevel(1); break;
             case ("Level2"): BeganLevel(2); break;
             case ("Level3"): BeganLevel(3); break;

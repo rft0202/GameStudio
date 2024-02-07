@@ -133,7 +133,7 @@ public class LeaderboardScript : MonoBehaviour
 
         SqlConnection conn = new SqlConnection();
 
-        conn.ConnectionString = @GetConnected();
+        conn.ConnectionString = GetConnected();
 
         comm.Connection = conn;
         comm.CommandText = strSql;
