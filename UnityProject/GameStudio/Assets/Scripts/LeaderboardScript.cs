@@ -20,7 +20,7 @@ public class LeaderboardScript : MonoBehaviour
     //PRIVATE VARS
     //GameObject leaderboard; THIS gameobject
     GameManager gm;
-    bool connectedToLeaderboard = false;
+    bool connectedToLeaderboard = false, connectionError=false;
     int selectedLevel = 1;
 
     // Start is called before the first frame update
@@ -28,14 +28,14 @@ public class LeaderboardScript : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         RefreshLeaderboards();
-        ReadLeaderboard(1);
+        if(!connectionError)ReadLeaderboard(1);
     }
 
     public void RefreshLeaderboards()
     {
         gm.localLeaderboardStorage.Clear();
         LoadLeaderboards();
-        SortLeaderboards();
+        if(!connectionError)SortLeaderboards();
     }
 
     public void LevelChange(bool right)
@@ -115,10 +115,19 @@ public class LeaderboardScript : MonoBehaviour
 
         comm.Connection = conn;
         comm.CommandText = strSql;
-
-        conn.Open();
-        dr = comm.ExecuteReader();
-        return dr;
+        try
+        {
+            conn.Open();
+            dr = comm.ExecuteReader();
+            return dr;
+        }catch(Exception e)
+        {
+            Debug.Log("Sql error: "+e);
+            connectionError = true;
+            connectError.SetActive(true);
+            gameObject.SetActive(false);
+        }
+        return null;
 
     }
 
@@ -129,6 +138,7 @@ public class LeaderboardScript : MonoBehaviour
             gm.localLeaderboardStorage.Add(new()); //add new level section
             int cnt = 0;
             SqlDataReader dr = SearchRecords_DR(i+1);
+            if (dr == null) break;
             while (dr.Read())
             {
                 gm.localLeaderboardStorage[i].Add(new()); //add new record
