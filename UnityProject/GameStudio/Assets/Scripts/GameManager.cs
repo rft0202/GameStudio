@@ -57,7 +57,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (PlayerPrefs.HasKey("pName")) {
+            playerName = PlayerPrefs.GetString("pName", playerName);
+            connectedToLeaderboard = PlayerPrefs.GetString("addToLeaderboard")=="TRUE";
+            playerID = PlayerPrefs.GetInt("pID");
+            nameSet = true;
+        }
     }
 
     // Update is called once per frame

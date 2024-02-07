@@ -30,6 +30,8 @@ public class LeaderboardScript : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        connectedToLeaderboard = gm.connectedToLeaderboard;
+        connectedToggle.isOn = connectedToLeaderboard;
         RefreshLeaderboards();
         if(!connectionError)ReadLeaderboard(1);
     }
@@ -53,6 +55,18 @@ public class LeaderboardScript : MonoBehaviour
         selectedLvlTxt.text = "Level "+selectedLevel.ToString();
     }
 
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        connectedToLeaderboard = false;
+        gm.nameSet = false;
+        gm.connectedToLeaderboard = false;
+        connectedToggle.isOn = false;
+        nameInp.text = "";
+        gm.playerID = -1;
+        gm.playerName = "";
+    }
+
     public void ConnectToggle()
     {
         sm.PlaySFX(6, UnityEngine.Random.Range(0.95f, 1.05f));
@@ -63,6 +77,7 @@ public class LeaderboardScript : MonoBehaviour
             //Set player name
             gm.playerName = nameInp.text;
             gm.nameSet = true;
+            PlayerPrefs.SetString("pName", gm.playerName);
 
             //Assign new playerID
             int largestID = 1;
@@ -74,6 +89,7 @@ public class LeaderboardScript : MonoBehaviour
                     if (int.Parse(dr["Player_ID"].ToString()) >= largestID) largestID = int.Parse(dr["Player_ID"].ToString()) + 1;
                 }
                 gm.playerID = largestID;
+                PlayerPrefs.SetInt("pID", gm.playerID);
             }
 
             //Add records for lvls 1-3
@@ -81,6 +97,7 @@ public class LeaderboardScript : MonoBehaviour
             AddRecord(2);
             AddRecord(3);
         }
+        PlayerPrefs.SetString("addToLeaderboard", (connectedToLeaderboard) ? ("TRUE") : ("FALSE"));
     }
 
     private string GetConnected()
