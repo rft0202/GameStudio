@@ -15,11 +15,13 @@ public class LeaderboardScript : MonoBehaviour
     public GameObject nameGroup, scoreGroup;
     public GameObject connectError;
     public GameObject dataMemberTxtPrefab;
+    public TMP_Text selectedLvlTxt;
 
     //PRIVATE VARS
     //GameObject leaderboard; THIS gameobject
     GameManager gm;
     bool connectedToLeaderboard = false;
+    int selectedLevel = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,17 @@ public class LeaderboardScript : MonoBehaviour
         gm.localLeaderboardStorage.Clear();
         LoadLeaderboards();
         SortLeaderboards();
+    }
+
+    public void LevelChange(bool right)
+    {
+        //Change selected level
+        selectedLevel += (right) ? (1) : (-1);
+        if (selectedLevel > 3) selectedLevel = 1;
+        else if (selectedLevel<1) selectedLevel = 3;
+        //Update text and leaderboard
+        ReadLeaderboard(selectedLevel);
+        selectedLvlTxt.text = "Level "+selectedLevel.ToString();
     }
 
     public void ConnectToggle()
