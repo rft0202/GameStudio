@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class MenuScript : MonoBehaviour
 {
     SoundManager sm;
+
     private void Start()
     {
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        
     }
     public void PlayGame()
     {
@@ -27,6 +29,13 @@ public class MenuScript : MonoBehaviour
     {
         Cursor.visible = true;
         Application.Quit();
+        sm.PlaySFX(4);
+    }
+
+    public void LevelSelect()
+    {
+        Cursor.visible = true;
+        SceneManager.LoadScene(4);
         sm.PlaySFX(4);
     }
 }
