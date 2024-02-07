@@ -20,6 +20,7 @@ public class LeaderboardScript : MonoBehaviour
     //PRIVATE VARS
     //GameObject leaderboard; THIS gameobject
     GameManager gm;
+    SoundManager sm;
     bool connectedToLeaderboard = false, connectionError=false;
     int selectedLevel = 1;
 
@@ -27,6 +28,7 @@ public class LeaderboardScript : MonoBehaviour
     void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         RefreshLeaderboards();
         if(!connectionError)ReadLeaderboard(1);
     }
@@ -40,6 +42,7 @@ public class LeaderboardScript : MonoBehaviour
 
     public void LevelChange(bool right)
     {
+        sm.PlaySFX(6,UnityEngine.Random.Range(0.95f,1.05f));
         //Change selected level
         selectedLevel += (right) ? (1) : (-1);
         if (selectedLevel > 3) selectedLevel = 1;
@@ -51,6 +54,7 @@ public class LeaderboardScript : MonoBehaviour
 
     public void ConnectToggle()
     {
+        sm.PlaySFX(6, UnityEngine.Random.Range(0.95f, 1.05f));
         connectedToLeaderboard = connectedToggle.isOn;
         gm.connectedToLeaderboard = connectedToLeaderboard;
         if (connectedToLeaderboard && !gm.nameSet) //Player needs to set their name to add to leaderboard
