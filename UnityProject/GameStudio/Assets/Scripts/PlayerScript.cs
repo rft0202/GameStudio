@@ -14,21 +14,12 @@ public class PlayerScript : MonoBehaviour
     [Header("Timing / Cooldowns")]
     public float dodgeLength;
     public float dodgeCooldownTime, invincibilityTime;
-    [Header("Health")]
+    [Header("Other")]
     public int maxHealth;
 
     //Health Vars
     public GameObject[] hearts;
     public GameObject heartExplode;
-
-    [Header("Misc")]
-    public int trickScoreAmt;
-
-    [Header("Sfx")]
-    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
-    public int dodgeSfx;
-    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
-    public int hurtSfx;
 
     //Private Attributes
     bool isDodging = false, canDodge = true, canTakeDamage = true;
@@ -39,17 +30,12 @@ public class PlayerScript : MonoBehaviour
     //Anim
     Animator anim;
 
-    SoundManager sm;
-    GameManager gm;
-
     // Start is called before the first frame update
     void Start()
     {
         maxDodgeSpd = maxSpd * dodgeSpdMult; //Getting maxDodgeSpd based on the Dodge speed multiplier
         health = maxHealth;
         anim = GetComponent<Animator>();
-        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -73,7 +59,6 @@ public class PlayerScript : MonoBehaviour
     {
         if(ctx.performed)
         {
-            gm.AddToActiveScore(trickScoreAmt,new Vector2(transform.position.x+1.25f,transform.position.y+0.8f));
             anim.SetTrigger("performTrick");
         }    
     }
@@ -82,8 +67,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (ctx.performed && canDodge)
         {
-
-            sm.PlaySFX(dodgeSfx, UnityEngine.Random.Range(0.9f, 1.15f));
             isDodging = true; //Player now dodging, and cannot dodge while already dodging
             canDodge = false;
             StartCoroutine(EndDodge());
@@ -112,7 +95,6 @@ public class PlayerScript : MonoBehaviour
 
     void TakeDamage(int dmg)
     {
-        sm.PlaySFX(hurtSfx, UnityEngine.Random.Range(0.9f, 1.15f));
         Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
         hearts[health-1].SetActive(false);
         health -= dmg;

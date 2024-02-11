@@ -89,7 +89,7 @@ public class EnemyScript : MonoBehaviour
     public int damageSFX,deathSFX;
 
     //PRIVATE VARS
-    GameManager gm; //gamemanager reference
+    GameObject gm; //gamemanager reference
     [SerializeField]
     GameObject player; //player reference (player, not player controller)
     AttackPattern selectedAttackPattern;
@@ -97,7 +97,7 @@ public class EnemyScript : MonoBehaviour
     int currPatternIndex;
     Vector3 targetPos;
     int currWaypoint=0;
-    bool spawnedIn=false,dying=false;
+    bool spawnedIn=false;
     int atksBeforeSwitchCnt=0;
     int numAttackPatterns;
     ScaleBasedOnDepth scaleDepth;
@@ -114,7 +114,6 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         anim = GetComponent<Animator>();
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
@@ -320,7 +319,7 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
-        if (health <= 0 && !dying) EnemyDie();
+        if (health <= 0) EnemyDie();
         //Else
         anim.SetTrigger("damaged");
             //Play damageSFX
@@ -331,11 +330,9 @@ public class EnemyScript : MonoBehaviour
     {
         //Play death SFX
         //Instantiate death particle
-
-        gm.AddToActiveScore(scoreValue,new Vector2(transform.position.x+1,transform.position.y+1));
+        Cursor.visible = true;
         if (isBoss)
         {
-            dying = true;
             StartCoroutine(enemySpawnOut());
             StartCoroutine(levelEnd(1f));
         }
@@ -345,7 +342,6 @@ public class EnemyScript : MonoBehaviour
     IEnumerator levelEnd(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Cursor.visible = true;
         SceneManager.LoadScene("LevelComplete");
     }
 

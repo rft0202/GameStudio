@@ -56,13 +56,12 @@ MonoBehaviour:
   - {fileID: 4946115176934811281}
   - {fileID: 5848319432161602902}
   sfxs:
-  - {fileID: 8300000, guid: 4f50b54df0ef7364f8dcaa4c58350670, type: 3}
-  - {fileID: 8300000, guid: bcc1eb65ec8c9ef4483d787be0950222, type: 3}
-  - {fileID: 8300000, guid: 5bb4177fbfaf04b4ca1853131fce0904, type: 3}
-  - {fileID: 8300000, guid: ab3e7112b3de34344922821033abd893, type: 3}
-  - {fileID: 8300000, guid: 75ce854477e67a84c814516c3759e839, type: 3}
-  - {fileID: 8300000, guid: 159e01da7ed8b6c4d8cae5715c63c40e, type: 3}
-  - {fileID: 8300000, guid: 75ce854477e67a84c814516c3759e839, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!82 &5360859633035185673
 AudioSource:
   m_ObjectHideFlags: 0

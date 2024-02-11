@@ -13,10 +13,10 @@ public class SoundManager : MonoBehaviour
     AudioClip[] sfxs;
 
     float[] sfxsStartTimes = {
-    0,0,0.2f,0.2f,0,0.19f,0.2f
+    0,0,0.2f,0.2f,0,0.19f
     };
     float[] sfxsVolumes = {
-    1,1,1,0.8f,1,.6f,1
+    1,1,1,0.8f,1,.6f
     };
     void Awake()
     {
