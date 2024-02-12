@@ -568,6 +568,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6775282177899349414, guid: 07480abb4c6c78d4a8d7197143595304, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 8389733673073109396, guid: 07480abb4c6c78d4a8d7197143595304, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1337,6 +1341,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6775282177899349414, guid: 07480abb4c6c78d4a8d7197143595304, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -167217565, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 8389733673073109396, guid: 07480abb4c6c78d4a8d7197143595304, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -2340,6 +2348,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8877879099674076575, guid: fdf4b52711d602b4e919a116f061baae, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

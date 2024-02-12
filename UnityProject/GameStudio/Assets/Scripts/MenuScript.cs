@@ -21,7 +21,7 @@ public class MenuScript : MonoBehaviour
     public void MainMenu()
     {
         Cursor.visible = true;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("MainMenu");
         sm.PlaySFX(4);
     }
 
@@ -35,7 +35,13 @@ public class MenuScript : MonoBehaviour
     public void LevelSelect()
     {
         Cursor.visible = true;
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene("LevelSelect");
+        sm.PlaySFX(4);
+    }
+
+    public void PlayTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
         sm.PlaySFX(4);
     }
 }
