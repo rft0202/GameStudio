@@ -8,6 +8,7 @@ public class TutorialScript : MonoBehaviour
 {
     public Image w, a, s, d, ctrl, space;
     public Color pressedCol, unpressedCol;
+    public GameObject shootInstructionLbl, chargeHelpLbl;
     public GameObject[] enemies;
     List<GameObject> activeEnemies = new();
 
@@ -46,6 +47,7 @@ public class TutorialScript : MonoBehaviour
             spawnEnemy(1);
             spawnEnemy(2);
             tutorialStage++;
+            chargeHelpLbl.SetActive(true);
         }else if(defeatedEnemies==3 && tutorialStage == 2)
         {
             //Boss enemy
@@ -109,6 +111,18 @@ public class TutorialScript : MonoBehaviour
             {
                 spawnEnemy(0);
                 tutorialStage++;
+                shootInstructionLbl.SetActive(false);
+            }
+        }
+    }
+
+    public void PlayerChargeShot(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if (tutorialStage == 2)
+            {
+                chargeHelpLbl.SetActive(false);
             }
         }
     }
