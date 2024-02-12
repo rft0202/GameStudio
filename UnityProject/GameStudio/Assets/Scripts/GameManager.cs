@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            Conn.Close();
             strResult = "ERROR: " + e.Message;
         }
 
@@ -226,6 +227,11 @@ public class GameManager : MonoBehaviour
             StopCoroutine(crt);
         }
         scorePopupCoroutines.Clear();
+    }
+
+    public string stringHighscores(int index)
+    {
+        return convertScoreToString(highscores[index]);
     }
 
 }
