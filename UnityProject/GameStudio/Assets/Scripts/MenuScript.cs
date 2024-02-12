@@ -70,4 +70,10 @@ public class MenuScript : MonoBehaviour
         SceneManager.LoadScene("Tutorial");
         sm.PlaySFX(4);
     }
+
+    public void Leaderboards()
+    {
+        SceneManager.LoadScene("Leaderboards");
+        sm.PlaySFX(4);
+    }
 }
