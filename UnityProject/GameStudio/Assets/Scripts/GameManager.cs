@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     //PUBLIC VARS
     public GameObject scorePopup, newHighscoreTxt;
 
+    //Enemies to kill until boss appears
+    public int enemiesToKill = 0;
+
     //Score variables
     [NonSerialized]
     public int[] highscores = {0,0,0,0}; //highscores for the 3 levels
@@ -132,6 +135,20 @@ public class GameManager : MonoBehaviour
         Debug.Log("Began level " + lvlNum);
         activeScore = 0;
         currLevel = lvlNum;
+
+        //Set Amount of Enemies to Kill based on level
+        if (currLevel == 1)
+        {
+            enemiesToKill = 1;
+        }
+        else if (currLevel == 2)
+        {
+            //enemiesToKill = 2;
+        }
+        else if (currLevel == 3)
+        {
+            //enemiesToKill = 3;
+        }
     }
 
     void LevelCompleted()
