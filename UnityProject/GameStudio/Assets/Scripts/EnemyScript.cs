@@ -135,19 +135,6 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool bossSpawnedIn = false;
-
-        if(isBoss && gm.enemiesToKill > 0 && !bossSpawnedIn)
-        {
-            spawnedIn = false;
-        }
-        else if (isBoss && gm.enemiesToKill <= 0 && !bossSpawnedIn)
-        {
-            //this is terrible
-            EnemySpawn(1.0f);
-            spawnedIn = true;
-            bossSpawnedIn = true;
-        }
 
         if (spawnedIn)
         {

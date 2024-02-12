@@ -40,7 +40,7 @@ public class MenuScript : MonoBehaviour
 
     public void ReplayLevel()
     {
-        SceneManager.LoadScene(gm.currLevel);
+        SceneManager.LoadScene(gm.actualPrevScene);
         sm.PlaySFX(4);
     }
 
