@@ -21,6 +21,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject[] hearts;
     public GameObject heartExplode;
 
+    public GameObject[] heartPos;
+
     [Header("Misc")]
     public int trickScoreAmt;
 
@@ -113,7 +115,9 @@ public class PlayerScript : MonoBehaviour
     void TakeDamage(int dmg)
     {
         sm.PlaySFX(hurtSfx, UnityEngine.Random.Range(0.9f, 1.15f));
-        Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
+        Instantiate(heartExplode, heartPos[health - 1].transform.position, Quaternion.identity);
+        //Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
+        //Instantiate(heartExplode, hearts[health - 1].transform.position, Quaternion.identity);
         hearts[health-1].SetActive(false);
         health -= dmg;
         if(health<=0) PlayerDie();
