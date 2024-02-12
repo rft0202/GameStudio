@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -83,11 +84,13 @@ public class EnemyScript : MonoBehaviour
     [Space(8)]
     [Header("----------SFX----------")]
     [Space(4)]
-    public AudioClip attackSFX;
-    public AudioClip damageSFX,deathSFX;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int attackSFX;
+    [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
+    public int damageSFX,deathSFX;
 
     //PRIVATE VARS
-    GameObject gm; //gamemanager reference
+    GameManager gm; //gamemanager reference
     [SerializeField]
     GameObject player; //player reference (player, not player controller)
     AttackPattern selectedAttackPattern;
@@ -95,7 +98,7 @@ public class EnemyScript : MonoBehaviour
     int currPatternIndex;
     Vector3 targetPos;
     int currWaypoint=0;
-    bool spawnedIn=false;
+    bool spawnedIn=false,dying=false;
     int atksBeforeSwitchCnt=0;
     int numAttackPatterns;
     ScaleBasedOnDepth scaleDepth;
@@ -105,12 +108,20 @@ public class EnemyScript : MonoBehaviour
     //Animator
     Animator anim;
 
+    //SoundManager
+    SoundManager sm;
+
+    MenuScript menuScript;
+
     // Start is called before the first frame update
     void Start()
     {
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         anim = GetComponent<Animator>();
         transform.localScale = Vector3.zero; //Scale is 0,0,0 when not spawned in yet
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
+        scaleDepth.enabled = false;
         if (queueSpawnOnStart) EnemySpawn(timeUntilSpawnStart);
         numAttackPatterns = attackPatterns.Length;
         if (numAttackPatterns == 0) selectedAttackPattern = AttackPattern.none;
@@ -119,13 +130,12 @@ public class EnemyScript : MonoBehaviour
         if (enemyMovementStyle != MovementStyle.none) targetPos = movementWaypoints[currWaypoint].position;
         //Sort attackPatternWeights from lowest to highest
         if (attackPatternCycleMode == CycleMode.weightedRandom) Array.Sort(attackPatternWeights,attackPatterns);
-        //Start attack timer
-        StartCoroutine(enemyAttackTimer());
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (spawnedIn)
         {
             //-----Enemy Movement-----
@@ -159,63 +169,32 @@ public class EnemyScript : MonoBehaviour
 
     void enemyAttack()
     {
-        switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
+        if (spawnedIn)
         {
-            case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
-            case (AttackPattern.single):
-                createProjectile(getTargetPos());
-                break;
-            case (AttackPattern.circle):
-                List<Vector3> circlePattern = new()
-                {
-                    Vector3.up,Vector3.right,Vector3.left,Vector3.down,
-                    new Vector3(.707f,.707f,0), new Vector3(-.707f,.707f,0),
-                    new Vector3(.707f,-.707f,0),new Vector3(-.707f,-.707f,0)
-                };
-                for (int j = 0; j < circlePattern.Count; j++) circlePattern[j] *= circleSize;
-                shootBulletFormation(circlePattern);
-                break;
-            case (AttackPattern.line):
-                shootBulletFormation(getLinePattern());
-                break;
-            case (AttackPattern.X):
-                List<Vector3> xPattern = new()
-                {
-                    new Vector3(1,1,0), new Vector3(-1,1,0),
-                    new Vector3(1,-1,0),new Vector3(-1,-1,0),
-                    new Vector3(2,2,0), new Vector3(-2,2,0),
-                    new Vector3(2,-2,0),new Vector3(-2,-2,0),
-                    Vector3.zero,
-                };
-                for (int j = 0; j < xPattern.Count; j++) xPattern[j] *= xSize;
-                shootBulletFormation(xPattern);
-                break;
+            if (selectedAttackPattern != AttackPattern.none)
+                sm.PlaySFX(attackSFX, UnityEngine.Random.Range(0.9f, 1.15f));
 
-            //BURST ATTACKS----------------
-            case (AttackPattern.burst):
-                burstFireCnt = 0;
-                burstTarget = getTargetPos();
-                StartCoroutine(burstAttack(new List<Vector3>()));
-                break;
-            case (AttackPattern.burstCircle):
-                List<Vector3> circlePattern1 = new()
+            switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
+            {
+                case (AttackPattern.none): break; //SINGLE TIME ATTACKS--------------
+                case (AttackPattern.single):
+                    createProjectile(getTargetPos());
+                    break;
+                case (AttackPattern.circle):
+                    List<Vector3> circlePattern = new()
                 {
                     Vector3.up,Vector3.right,Vector3.left,Vector3.down,
                     new Vector3(.707f,.707f,0), new Vector3(-.707f,.707f,0),
                     new Vector3(.707f,-.707f,0),new Vector3(-.707f,-.707f,0)
                 };
-                for (int j = 0; j < circlePattern1.Count; j++) circlePattern1[j] *= circleSize;
-                burstFireCnt = 0;
-                burstTarget = getTargetPos();
-                StartCoroutine(burstAttack(circlePattern1));
-                break;
-            case (AttackPattern.burstLine):
-                burstFireCnt = 0;
-                burstTarget = getTargetPos();
-                StartCoroutine(burstAttack(getLinePattern()));
-                break;
-            case (AttackPattern.burstX):
-                List<Vector3> xPattern1 = new()
+                    for (int j = 0; j < circlePattern.Count; j++) circlePattern[j] *= circleSize;
+                    shootBulletFormation(circlePattern);
+                    break;
+                case (AttackPattern.line):
+                    shootBulletFormation(getLinePattern());
+                    break;
+                case (AttackPattern.X):
+                    List<Vector3> xPattern = new()
                 {
                     new Vector3(1,1,0), new Vector3(-1,1,0),
                     new Vector3(1,-1,0),new Vector3(-1,-1,0),
@@ -223,23 +202,60 @@ public class EnemyScript : MonoBehaviour
                     new Vector3(2,-2,0),new Vector3(-2,-2,0),
                     Vector3.zero,
                 };
-                for (int j = 0; j < xPattern1.Count; j++) xPattern1[j] *= xSize;
-                burstFireCnt = 0;
-                burstTarget = getTargetPos();
-                StartCoroutine(burstAttack(xPattern1));
-                break;
-        }
-        //Do attack SFX and attack particle
-        if (numAttackPatterns > 1) //If multiple attack patterns
-        {
-            atksBeforeSwitchCnt++; //Counter for switching attack patterns
-            if (atksBeforeSwitchCnt >= attacksUntilPatternSwitch)
-            {
-                atksBeforeSwitchCnt = 0;
-                switchAttackPattern();
+                    for (int j = 0; j < xPattern.Count; j++) xPattern[j] *= xSize;
+                    shootBulletFormation(xPattern);
+                    break;
+
+                //BURST ATTACKS----------------
+                case (AttackPattern.burst):
+                    burstFireCnt = 0;
+                    burstTarget = getTargetPos();
+                    StartCoroutine(burstAttack(new List<Vector3>()));
+                    break;
+                case (AttackPattern.burstCircle):
+                    List<Vector3> circlePattern1 = new()
+                {
+                    Vector3.up,Vector3.right,Vector3.left,Vector3.down,
+                    new Vector3(.707f,.707f,0), new Vector3(-.707f,.707f,0),
+                    new Vector3(.707f,-.707f,0),new Vector3(-.707f,-.707f,0)
+                };
+                    for (int j = 0; j < circlePattern1.Count; j++) circlePattern1[j] *= circleSize;
+                    burstFireCnt = 0;
+                    burstTarget = getTargetPos();
+                    StartCoroutine(burstAttack(circlePattern1));
+                    break;
+                case (AttackPattern.burstLine):
+                    burstFireCnt = 0;
+                    burstTarget = getTargetPos();
+                    StartCoroutine(burstAttack(getLinePattern()));
+                    break;
+                case (AttackPattern.burstX):
+                    List<Vector3> xPattern1 = new()
+                {
+                    new Vector3(1,1,0), new Vector3(-1,1,0),
+                    new Vector3(1,-1,0),new Vector3(-1,-1,0),
+                    new Vector3(2,2,0), new Vector3(-2,2,0),
+                    new Vector3(2,-2,0),new Vector3(-2,-2,0),
+                    Vector3.zero,
+                };
+                    for (int j = 0; j < xPattern1.Count; j++) xPattern1[j] *= xSize;
+                    burstFireCnt = 0;
+                    burstTarget = getTargetPos();
+                    StartCoroutine(burstAttack(xPattern1));
+                    break;
             }
+            //Do attack SFX and attack particle
+            if (numAttackPatterns > 1) //If multiple attack patterns
+            {
+                atksBeforeSwitchCnt++; //Counter for switching attack patterns
+                if (atksBeforeSwitchCnt >= attacksUntilPatternSwitch)
+                {
+                    atksBeforeSwitchCnt = 0;
+                    switchAttackPattern();
+                }
+            }
+            StartCoroutine(enemyAttackTimer());
         }
-        if(spawnedIn) StartCoroutine(enemyAttackTimer());
     }
 
     float getLineX()
@@ -312,7 +328,7 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
-        if (health <= 0) EnemyDie();
+        if (health <= 0 && !dying) EnemyDie();
         //Else
         anim.SetTrigger("damaged");
             //Play damageSFX
@@ -323,10 +339,14 @@ public class EnemyScript : MonoBehaviour
     {
         //Play death SFX
         //Instantiate death particle
-        Cursor.visible = true;
+
+        gm.AddToActiveScore(scoreValue,new Vector2(transform.position.x+1,transform.position.y+1));
+        gm.enemiesToKill--;
         if (isBoss)
         {
-            StartCoroutine(enemySpawnOut());
+            dying = true;
+            spawnedIn = false;
+            GetComponent<Renderer>().enabled = false;
             StartCoroutine(levelEnd(1f));
         }
         else Destroy(gameObject);
@@ -335,6 +355,7 @@ public class EnemyScript : MonoBehaviour
     IEnumerator levelEnd(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Cursor.visible = true;
         SceneManager.LoadScene("LevelComplete");
     }
 
@@ -385,7 +406,8 @@ public class EnemyScript : MonoBehaviour
             yield return null;
         }
         transform.localScale = Vector3.one;
-        if(!activeDuringSpawn) StartCoroutine(enemyActivate());
+        scaleDepth.enabled = true;
+        if (!activeDuringSpawn) StartCoroutine(enemyActivate());
         StartDespawn();
     }
 
@@ -393,6 +415,7 @@ public class EnemyScript : MonoBehaviour
     {
         yield return new WaitForSeconds(activeDelay);
         spawnedIn = true;
+        StartCoroutine(enemyAttackTimer());
     }
 
     IEnumerator waitForSpawn()

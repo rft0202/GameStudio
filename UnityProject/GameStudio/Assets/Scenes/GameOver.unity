@@ -450,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ff96596b2d5bb4a844a1566e33dc89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 
 --- !u!114 &224398538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ff96596b2d5bb4a844a1566e33dc89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 
 --- !u!114 &482864667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,7 +1018,7 @@ GameObject:
   - component: {fileID: 1272455793}
   - component: {fileID: 1272455796}
   m_Layer: 5
-  m_Name: StartButton
+  m_Name: RetryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1089,7 +1091,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1272455796}
         m_TargetAssemblyTypeName: MenuScript, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_MethodName: ReplayLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1149,6 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ff96596b2d5bb4a844a1566e33dc89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 
 --- !u!1 &1435273999
 GameObject:
   m_ObjectHideFlags: 0
