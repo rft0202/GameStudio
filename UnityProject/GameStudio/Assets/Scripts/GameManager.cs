@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     TMP_Text scoreLbl;
 
     //Prev scene vars
+    [NonSerialized]
+    public string actualPrevScene = "";
     string prevSceneN = "";
     Scene prevSceneS;
 
@@ -88,6 +90,7 @@ public class GameManager : MonoBehaviour
         //prevents errors with popups that were destroyed on prev screen
         clearPopUps();
 
+        actualPrevScene = prevSceneN;
         prevSceneS = SceneManager.GetActiveScene();
         prevSceneN = prevSceneS.name;
         Debug.Log("Scene changed");
@@ -135,20 +138,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Began level " + lvlNum);
         activeScore = 0;
         currLevel = lvlNum;
-
-        //Set Amount of Enemies to Kill based on level
-        if (currLevel == 1)
-        {
-            enemiesToKill = 1;
-        }
-        else if (currLevel == 2)
-        {
-            //enemiesToKill = 2;
-        }
-        else if (currLevel == 3)
-        {
-            //enemiesToKill = 3;
-        }
     }
 
     void LevelCompleted()
@@ -223,6 +212,7 @@ public class GameManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            Conn.Close();
             strResult = "ERROR: " + e.Message;
         }
 
@@ -237,6 +227,11 @@ public class GameManager : MonoBehaviour
             StopCoroutine(crt);
         }
         scorePopupCoroutines.Clear();
+    }
+
+    public string stringHighscores(int index)
+    {
+        return convertScoreToString(highscores[index]);
     }
 
 }

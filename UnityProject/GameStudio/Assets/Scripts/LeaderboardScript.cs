@@ -122,7 +122,7 @@ public class LeaderboardScript : MonoBehaviour
         comm.Parameters.AddWithValue("@pID", gm.playerID);
         comm.Parameters.AddWithValue("@name", gm.playerName);
         comm.Parameters.AddWithValue("@lvl", lvl);
-        comm.Parameters.AddWithValue("@score", gm.convertScoreToString(gm.highscores[lvl]));
+        comm.Parameters.AddWithValue("@score", gm.stringHighscores(lvl));
 
         try
         {
@@ -134,6 +134,7 @@ public class LeaderboardScript : MonoBehaviour
         catch (Exception e)
         {
             strResult = "ERROR: " + e.Message;
+            Conn.Close();
         }
 
         return strResult;
@@ -161,6 +162,7 @@ public class LeaderboardScript : MonoBehaviour
             return dr;
         }catch(Exception e)
         {
+            conn.Close();
             Debug.Log("Sql error: "+e);
             connectionError = true;
             connectError.SetActive(true);
