@@ -30,6 +30,7 @@ public class LeaderboardScript : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        nameInp.text = gm.playerName;
         connectedToLeaderboard = gm.connectedToLeaderboard;
         connectedToggle.isOn = connectedToLeaderboard;
         RefreshLeaderboards();
@@ -72,30 +73,46 @@ public class LeaderboardScript : MonoBehaviour
         sm.PlaySFX(6, UnityEngine.Random.Range(0.95f, 1.05f));
         connectedToLeaderboard = connectedToggle.isOn;
         gm.connectedToLeaderboard = connectedToLeaderboard;
-        if (connectedToLeaderboard && !gm.nameSet) //Player needs to set their name to add to leaderboard
+        if (connectedToLeaderboard && gm.playerID==-1) //Player needs to set their name to add to leaderboard
         {
             //Set player name
+            if (nameInp.text == "") nameInp.text = "AAA";
             gm.playerName = nameInp.text;
             gm.nameSet = true;
             PlayerPrefs.SetString("pName", gm.playerName);
 
             //Assign new playerID
-            int largestID = 1;
             SqlDataReader dr = SearchRecords_DR(1);
             if (dr != null)
             {
-                while (dr.Read())
+                dr.Close();
+                SqlConnection Conn = new SqlConnection();
+                Conn.ConnectionString = @GetConnected();
+                string strSQL = "SELECT COUNT(*) FROM GameStudio_Highscores";
+                SqlCommand comm = new SqlCommand();
+                comm.CommandText = strSQL;
+                comm.Connection = Conn;
+                int cnt;
+                try
                 {
-                    if (int.Parse(dr["Player_ID"].ToString()) >= largestID) largestID = int.Parse(dr["Player_ID"].ToString()) + 1;
+                    Conn.Open();
+                    cnt = (int)comm.ExecuteScalar();
+                    Conn.Close();
+                    gm.playerID = cnt;
+                }catch(Exception e)
+                {
+                    Conn.Close();
+                    Debug.Log(e);
+                    gm.playerID = 1;
                 }
-                gm.playerID = largestID;
+
                 PlayerPrefs.SetInt("pID", gm.playerID);
             }
-
             //Add records for lvls 1-3
             AddRecord(1);
             AddRecord(2);
             AddRecord(3);
+            RefreshLeaderboards();
         }
         PlayerPrefs.SetString("addToLeaderboard", (connectedToLeaderboard) ? ("TRUE") : ("FALSE"));
     }
@@ -119,9 +136,9 @@ public class LeaderboardScript : MonoBehaviour
         comm.CommandText = strSQL;
         comm.Connection = Conn;
 
-        comm.Parameters.AddWithValue("@pID", gm.playerID);
+        comm.Parameters.AddWithValue("@pID", gm.playerID.ToString());
         comm.Parameters.AddWithValue("@name", gm.playerName);
-        comm.Parameters.AddWithValue("@lvl", lvl);
+        comm.Parameters.AddWithValue("@lvl", lvl.ToString());
         comm.Parameters.AddWithValue("@score", gm.stringHighscores(lvl));
 
         try
@@ -136,6 +153,7 @@ public class LeaderboardScript : MonoBehaviour
             strResult = "ERROR: " + e.Message;
             Conn.Close();
         }
+        Debug.Log(strResult);
 
         return strResult;
     }
@@ -147,7 +165,7 @@ public class LeaderboardScript : MonoBehaviour
 
         string strSql = "SELECT Name, Score FROM GameStudio_Highscores WHERE Lvl=@lvl";
 
-        comm.Parameters.AddWithValue("@lvl", lvl);
+        comm.Parameters.AddWithValue("@lvl", lvl.ToString());
 
         SqlConnection conn = new SqlConnection();
 
@@ -232,19 +250,5 @@ public class LeaderboardScript : MonoBehaviour
             });
 
         }
-    }
-
-    public SqlDataReader FindOnePlayer(int pID)
-    {
-        SqlConnection conn = new SqlConnection();
-        SqlCommand comm = new SqlCommand();
-
-        conn.ConnectionString = @GetConnected();
-        comm.Connection = conn;
-        comm.CommandText = "SELECT * FROM GameStudio_Highscores WHERE Player_ID = @pID;";
-        comm.Parameters.AddWithValue("@pID", pID);
-
-        conn.Open();
-        return comm.ExecuteReader();
     }
 }

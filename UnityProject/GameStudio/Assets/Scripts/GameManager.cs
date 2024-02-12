@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized]
     public bool nameSet = false;
     [NonSerialized]
-    public int playerID; //Setup if connected, stays same for session, eventually add to player prefs
+    public int playerID=-1; //Setup if connected, stays same for session, eventually add to player prefs
     [NonSerialized]
     public List<List<List<string>>> localLeaderboardStorage = new(); //level - record - name/score
 
@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
             connectedToLeaderboard = PlayerPrefs.GetString("addToLeaderboard")=="TRUE";
             playerID = PlayerPrefs.GetInt("pID");
             nameSet = true;
+            setHighscores(playerID);
         }
     }
 
@@ -200,8 +201,8 @@ public class GameManager : MonoBehaviour
         comm.Connection = Conn;
 
         comm.Parameters.AddWithValue("@score", highscore);
-        comm.Parameters.AddWithValue("@pID", pID);
-        comm.Parameters.AddWithValue("@lvl", lvl);
+        comm.Parameters.AddWithValue("@pID", pID.ToString());
+        comm.Parameters.AddWithValue("@lvl", lvl.ToString());
 
         try
         {
@@ -232,6 +233,36 @@ public class GameManager : MonoBehaviour
     public string stringHighscores(int index)
     {
         return convertScoreToString(highscores[index]);
+    }
+
+    public SqlDataReader FindOnePlayer(int pID, int lvl)
+    {
+        SqlConnection conn = new SqlConnection();
+        SqlCommand comm = new SqlCommand();
+
+        conn.ConnectionString = @GetConnected();
+        comm.Connection = conn;
+        comm.CommandText = "SELECT * FROM GameStudio_Highscores WHERE Player_ID = @pID AND Lvl=@lvl;";
+        comm.Parameters.AddWithValue("@pID", pID.ToString());
+        comm.Parameters.AddWithValue("@lvl", lvl.ToString());
+
+        conn.Open();
+        return comm.ExecuteReader();
+    }
+
+    void setHighscores(int pID)
+    {
+        for (int i=1; i < 4; i++){
+            SqlDataReader dr = FindOnePlayer(pID, i);
+            if (dr != null)
+            {
+                while (dr.Read())
+                {
+                    highscores[i] = int.Parse(dr["Score"].ToString());
+                }
+                dr.Close();
+            }
+        }
     }
 
 }
