@@ -8,6 +8,11 @@ public class TutorialScript : MonoBehaviour
 {
     public Image w, a, s, d, ctrl, space;
     public Color pressedCol, unpressedCol;
+    public GameObject[] enemies;
+    List<GameObject> activeEnemies = new();
+
+    int defeatedEnemies=0;
+    int tutorialStage = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +23,35 @@ public class TutorialScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        //Check if enemies alive
+        List<int> enemyRemoveList = new();
+        for(int i=0; i<activeEnemies.Count; i++)
+        {
+            if (activeEnemies[i] == null)
+            {
+                defeatedEnemies++;
+                enemyRemoveList.Add(i);
+            }
+        }
+        //Remove null enemies
+        for(int i=0; i < enemyRemoveList.Count; i++)
+        {
+            activeEnemies.RemoveAt(enemyRemoveList[i]);
+        }
+
+        //
+        if (defeatedEnemies == 1 && tutorialStage == 1)
+        {
+            spawnEnemy(1);
+            spawnEnemy(2);
+            tutorialStage++;
+        }else if(defeatedEnemies==3 && tutorialStage == 2)
+        {
+            //Boss enemy
+            spawnEnemy(3);
+            tutorialStage++;
+        }
     }
 
     public void PlayerMove(InputAction.CallbackContext ctx)
@@ -66,5 +99,23 @@ public class TutorialScript : MonoBehaviour
         {
             space.color = unpressedCol;
         }
+    }
+
+    public void PlayerShoot(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if (tutorialStage == 0)
+            {
+                spawnEnemy(0);
+                tutorialStage++;
+            }
+        }
+    }
+
+    void spawnEnemy(int eNum)
+    {
+        enemies[eNum].GetComponent<EnemyScript>().EnemySpawn(1);
+        activeEnemies.Add(enemies[eNum]);
     }
 }
