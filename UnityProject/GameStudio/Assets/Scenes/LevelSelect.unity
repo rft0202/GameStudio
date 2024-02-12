@@ -690,6 +690,7 @@ MonoBehaviour:
   level1Anim: {fileID: 975543860}
   level2Anim: {fileID: 1930531603}
   level3Anim: {fileID: 1838636035}
+  currLevel: 1
   level2Unlocked: 1
   level3Unlocked: 1
 --- !u!1 &630997508
@@ -1764,6 +1765,7 @@ MonoBehaviour:
   level1Anim: {fileID: 975543860}
   level2Anim: {fileID: 1930531603}
   level3Anim: {fileID: 1838636035}
+  currLevel: 1
   level2Unlocked: 1
   level3Unlocked: 1
 --- !u!1001 &1055049554
