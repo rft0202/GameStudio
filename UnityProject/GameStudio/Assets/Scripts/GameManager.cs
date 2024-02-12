@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     //Score variables
     [NonSerialized]
     public int[] highscores = {0,0,0,0}; //highscores for the 3 levels
-    int currLevel = -1; //0-TestScene, 1-Level1, 2-level2, 3-level3
+    public int currLevel = -1; //0-TestScene, 1-Level1, 2-level2, 3-level3
     int activeScore=0; //Current score while playing level
     TMP_Text scoreLbl;
 
