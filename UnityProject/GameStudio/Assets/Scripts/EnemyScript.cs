@@ -135,6 +135,20 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool bossSpawnedIn = false;
+
+        if(isBoss && gm.enemiesToKill > 0 && !bossSpawnedIn)
+        {
+            spawnedIn = false;
+        }
+        else if (isBoss && gm.enemiesToKill <= 0 && !bossSpawnedIn)
+        {
+            //this is terrible
+            EnemySpawn(1.0f);
+            spawnedIn = true;
+            bossSpawnedIn = true;
+        }
+
         if (spawnedIn)
         {
             //-----Enemy Movement-----
@@ -340,6 +354,7 @@ public class EnemyScript : MonoBehaviour
         //Instantiate death particle
 
         gm.AddToActiveScore(scoreValue,new Vector2(transform.position.x+1,transform.position.y+1));
+        gm.enemiesToKill--;
         if (isBoss)
         {
             dying = true;
