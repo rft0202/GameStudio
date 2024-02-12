@@ -181,9 +181,10 @@ public class LeaderboardScript : MonoBehaviour
         }catch(Exception e)
         {
             conn.Close();
-            Debug.Log("Sql error: "+e);
+            Debug.Log("Sql error: "+e.Message);
             connectionError = true;
             connectError.SetActive(true);
+            connectError.transform.GetChild(0).GetComponent<TMP_Text>().text = "connection error: " + e.Message;
             gameObject.SetActive(false);
         }
         return null;
