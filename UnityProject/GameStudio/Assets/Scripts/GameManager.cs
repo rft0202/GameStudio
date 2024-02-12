@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     //Score popups
     List<GameObject> scorePopups = new();
+    List<Coroutine> scorePopupCoroutines = new();
 
     //Leaderboard stuff
     [NonSerialized]
@@ -81,11 +82,16 @@ public class GameManager : MonoBehaviour
 
     void SceneChanged()
     {
+        //prevents errors with popups that were destroyed on prev screen
+        clearPopUps();
+
         prevSceneS = SceneManager.GetActiveScene();
         prevSceneN = prevSceneS.name;
         Debug.Log("Scene changed");
+        //If theres score label, put score
         if (GameObject.Find("scoreLbl") != null)
             scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
+        //Do something depending on which scene we changed to
         switch (prevSceneN)
         {
             case ("TestScene"): BeganLevel(0); break;
@@ -111,7 +117,7 @@ public class GameManager : MonoBehaviour
         popTxt.text = ((scoreAmt>=0)?("+"):("-")) + scoreAmt;
         _popup.transform.position = new Vector3(popupLocation.x, popupLocation.y);
         scorePopups.Add(_popup);
-        StartCoroutine(DestroyPopup(_popup));
+        scorePopupCoroutines.Add(StartCoroutine(DestroyPopup(_popup)));
     }
 
     IEnumerator DestroyPopup(GameObject p)
@@ -204,6 +210,16 @@ public class GameManager : MonoBehaviour
         }
 
         return strResult;
+    }
+
+    void clearPopUps()
+    {
+        //This prevents errors w/ popups (literally its only purpose)
+        foreach (Coroutine crt in scorePopupCoroutines)
+        {
+            StopCoroutine(crt);
+        }
+        scorePopupCoroutines.Clear();
     }
 
 }
