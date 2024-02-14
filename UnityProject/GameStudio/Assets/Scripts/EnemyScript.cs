@@ -79,7 +79,7 @@ public class EnemyScript : MonoBehaviour
     [Header("----------Particles----------")]
     [Space(4)]
     public GameObject attackParticle;
-    public GameObject deathParticle;
+    public GameObject deathParticle,hitParticle;
 
     [Space(8)]
     [Header("----------SFX----------")]
@@ -331,6 +331,7 @@ public class EnemyScript : MonoBehaviour
         if (health <= 0 && !dying) EnemyDie();
         //Else
         anim.SetTrigger("damaged");
+        Instantiate(hitParticle,transform,false);
             //Play damageSFX
             //play damage animation
     }
