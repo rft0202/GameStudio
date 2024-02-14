@@ -13,7 +13,8 @@ public class TutorialScript : MonoBehaviour
     List<GameObject> activeEnemies = new();
 
     int defeatedEnemies=0;
-    int tutorialStage = 0;
+    int tutorialStage = -1;
+    bool[] keysPressed = { false, false, false, false, false, false };
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +42,13 @@ public class TutorialScript : MonoBehaviour
             activeEnemies.RemoveAt(enemyRemoveList[i]);
         }
 
-        //
+        //Tutorial stages
+        if(tutorialStage==-1 && checkKeysPressed())
+        {
+            tutorialStage++;
+            shootInstructionLbl.SetActive(true);
+            //Play need press click to shoot now
+        }
         if (defeatedEnemies == 1 && tutorialStage == 1)
         {
             spawnEnemy(1);
@@ -59,23 +66,41 @@ public class TutorialScript : MonoBehaviour
     public void PlayerMove(InputAction.CallbackContext ctx)
     {
         Vector2 inp = ctx.ReadValue<Vector2>();
-        w.color = unpressedCol;
-        a.color = unpressedCol;
-        s.color = unpressedCol;
-        d.color = unpressedCol;
         if (inp.x > 0)
         {
-            d.color = pressedCol;
-        }else if (inp.x < 0)
+            if (!keysPressed[0])
+            {
+                d.color = pressedCol;
+                StartCoroutine(fadeBtn(d));
+                keysPressed[0] = true;
+            }
+        }
+        else if (inp.x < 0)
         {
-            a.color = pressedCol;
+            if (!keysPressed[1])
+            {
+                a.color = pressedCol;
+                StartCoroutine(fadeBtn(a));
+                keysPressed[1] = true;
+            }
         }
         if (inp.y > 0)
         {
-            w.color = pressedCol;
-        }else if (inp.y < 0)
+            if (!keysPressed[2])
+            {
+                w.color = pressedCol;
+                StartCoroutine(fadeBtn(w));
+                keysPressed[2] = true;
+            }
+        }
+        else if (inp.y < 0)
         {
-            s.color = pressedCol;
+            if (!keysPressed[3])
+            {
+                s.color = pressedCol;
+                StartCoroutine(fadeBtn(s));
+                keysPressed[3] = true;
+            }
         }
     }
 
@@ -83,11 +108,12 @@ public class TutorialScript : MonoBehaviour
     {
         if (ctx.performed)
         {
-            ctrl.color = pressedCol;
-        }
-        else
-        {
-            ctrl.color = unpressedCol;
+            if (!keysPressed[5])
+            {
+                ctrl.color = pressedCol;
+                StartCoroutine(fadeBtn(ctrl));
+                keysPressed[5] = true;
+            }
         }
     }
 
@@ -95,11 +121,12 @@ public class TutorialScript : MonoBehaviour
     {
         if (ctx.performed)
         {
-            space.color = pressedCol;
-        }
-        else
-        {
-            space.color = unpressedCol;
+            if (!keysPressed[4])
+            {
+                space.color = pressedCol;
+                StartCoroutine(fadeBtn(space));
+                keysPressed[4] = true;
+            }
         }
     }
 
@@ -131,5 +158,25 @@ public class TutorialScript : MonoBehaviour
     {
         enemies[eNum].GetComponent<EnemyScript>().EnemySpawn(1);
         activeEnemies.Add(enemies[eNum]);
+    }
+
+    bool checkKeysPressed()
+    {
+        for(int i=0; i<6; i++)
+        {
+            if (!keysPressed[i]) return false;
+        }
+        return true;
+    }
+
+    IEnumerator fadeBtn(Image img)
+    {
+        while (img.color.a > 0)
+        {
+            Color col = new Color();
+            col.a = img.color.a-0.01f;
+            img.color = col;
+            yield return null;
+        }
     }
 }
