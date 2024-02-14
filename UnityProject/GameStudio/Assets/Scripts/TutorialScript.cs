@@ -25,7 +25,7 @@ public class TutorialScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (tutorialStage < 1) chargeHelpLbl.SetActive(false);
         //Check if enemies alive
         List<int> enemyRemoveList = new();
         for(int i=0; i<activeEnemies.Count; i++)
@@ -66,6 +66,7 @@ public class TutorialScript : MonoBehaviour
     public void PlayerMove(InputAction.CallbackContext ctx)
     {
         Vector2 inp = ctx.ReadValue<Vector2>();
+        //Make keys still get darker when pressed even after faded
         if (inp.x > 0)
         {
             if (!keysPressed[0])
@@ -171,9 +172,9 @@ public class TutorialScript : MonoBehaviour
 
     IEnumerator fadeBtn(Image img)
     {
-        while (img.color.a > 0)
+        while (img.color.a > 0.25f)
         {
-            Color col = new Color();
+            Color col = Color.white;
             col.a = img.color.a-0.01f;
             img.color = col;
             yield return null;
