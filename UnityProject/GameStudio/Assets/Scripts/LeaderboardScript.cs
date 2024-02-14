@@ -66,6 +66,9 @@ public class LeaderboardScript : MonoBehaviour
         nameInp.text = "";
         gm.playerID = -1;
         gm.playerName = "";
+        gm.highscores[1] = 0;
+        gm.highscores[2] = 0;
+        gm.highscores[3] = 0;
     }
 
     public void ConnectToggle()
@@ -181,9 +184,10 @@ public class LeaderboardScript : MonoBehaviour
         }catch(Exception e)
         {
             conn.Close();
-            Debug.Log("Sql error: "+e);
+            Debug.Log("Sql error: "+e.Message);
             connectionError = true;
             connectError.SetActive(true);
+            connectError.transform.GetChild(0).GetComponent<TMP_Text>().text = "connection error: " + e.Message;
             gameObject.SetActive(false);
         }
         return null;

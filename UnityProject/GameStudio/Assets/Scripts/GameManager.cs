@@ -67,8 +67,10 @@ public class GameManager : MonoBehaviour
             playerName = PlayerPrefs.GetString("pName", playerName);
             connectedToLeaderboard = PlayerPrefs.GetString("addToLeaderboard")=="TRUE";
             playerID = PlayerPrefs.GetInt("pID");
+            highscores[1] = PlayerPrefs.GetInt("h1");
+            highscores[2] = PlayerPrefs.GetInt("h2");
+            highscores[3] = PlayerPrefs.GetInt("h3");
             nameSet = true;
-            setHighscores(playerID);
         }
     }
 
@@ -146,6 +148,8 @@ public class GameManager : MonoBehaviour
         if (activeScore > highscores[currLevel])
         {
             highscores[currLevel] = activeScore;
+            string _l = "h" + currLevel;
+            PlayerPrefs.SetInt(_l, activeScore);
             Instantiate(newHighscoreTxt); //if new highscore in level, add little popup text
 
             //If allowing share to leaderboard, update record on leaderboard
@@ -248,21 +252,6 @@ public class GameManager : MonoBehaviour
 
         conn.Open();
         return comm.ExecuteReader();
-    }
-
-    void setHighscores(int pID)
-    {
-        for (int i=1; i < 4; i++){
-            SqlDataReader dr = FindOnePlayer(pID, i);
-            if (dr != null)
-            {
-                while (dr.Read())
-                {
-                    highscores[i] = int.Parse(dr["Score"].ToString());
-                }
-                dr.Close();
-            }
-        }
     }
 
 }
