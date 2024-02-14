@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
     //Score popups
     List<GameObject> scorePopups = new();
     List<Coroutine> scorePopupCoroutines = new();
+    [NonSerialized]
+    public bool chargeHelp =true;
 
     //Leaderboard stuff
     [NonSerialized]
