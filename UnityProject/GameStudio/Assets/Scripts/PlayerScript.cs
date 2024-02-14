@@ -37,6 +37,7 @@ public class PlayerScript : MonoBehaviour
     float maxDodgeSpd;
     int health;
     Vector2 spd, inp;
+    bool performingTrick = false;
 
     //Anim
     Animator anim;
@@ -75,9 +76,22 @@ public class PlayerScript : MonoBehaviour
     {
         if(ctx.performed)
         {
-            gm.AddToActiveScore(trickScoreAmt,new Vector2(transform.position.x+1.25f,transform.position.y+0.8f));
-            anim.SetTrigger("performTrick");
+            if(!performingTrick)
+                StartCoroutine(PerformTrick(maxSpd));
         }    
+    }
+
+    IEnumerator PerformTrick(float tMaxSpd)
+    {
+        performingTrick = true;
+        canDodge = false;
+        gm.AddToActiveScore(trickScoreAmt, new Vector2(transform.position.x + 1.25f, transform.position.y + 0.8f));
+        anim.SetTrigger("performTrick");
+        maxSpd = 0;
+        yield return new WaitForSeconds(1.0f);
+        maxSpd = tMaxSpd;
+        performingTrick = false;
+        canDodge = true;
     }
 
     public void PlayerDodge(InputAction.CallbackContext ctx)
