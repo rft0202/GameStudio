@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
             highscores[2] = PlayerPrefs.GetInt("h2");
             highscores[3] = PlayerPrefs.GetInt("h3");
             nameSet = true;
-            setHighscores(playerID);
         }
     }
 
@@ -253,21 +252,6 @@ public class GameManager : MonoBehaviour
 
         conn.Open();
         return comm.ExecuteReader();
-    }
-
-    void setHighscores(int pID)
-    {
-        for (int i=1; i < 4; i++){
-            SqlDataReader dr = FindOnePlayer(pID, i);
-            if (dr != null)
-            {
-                while (dr.Read())
-                {
-                    highscores[i] = int.Parse(dr["Score"].ToString());
-                }
-                dr.Close();
-            }
-        }
     }
 
 }
