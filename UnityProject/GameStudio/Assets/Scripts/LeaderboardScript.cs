@@ -66,6 +66,9 @@ public class LeaderboardScript : MonoBehaviour
         nameInp.text = "";
         gm.playerID = -1;
         gm.playerName = "";
+        gm.highscores[1] = 0;
+        gm.highscores[2] = 0;
+        gm.highscores[3] = 0;
     }
 
     public void ConnectToggle()
