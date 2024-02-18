@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Misc")]
     public int trickScoreAmt;
+    public GameObject mainCam;
 
     [Header("Sfx")]
     [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
@@ -41,6 +43,7 @@ public class PlayerScript : MonoBehaviour
 
     //Anim
     Animator anim;
+    Animator camAnim;
 
     SoundManager sm;
     GameManager gm;
@@ -53,6 +56,9 @@ public class PlayerScript : MonoBehaviour
         anim = GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (mainCam == null) mainCam = GameObject.Find("Main Camera");
+        camAnim = mainCam.GetComponent<Animator>();
+        camAnim.updateMode = AnimatorUpdateMode.UnscaledTime; //cam not effected by time stop
     }
 
     // Update is called once per frame
@@ -132,6 +138,13 @@ public class PlayerScript : MonoBehaviour
         Instantiate(heartExplode, heartPos[health - 1].transform.position, Quaternion.identity);
         //Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
         //Instantiate(heartExplode, hearts[health - 1].transform.position, Quaternion.identity);
+        //Also spawn particles on player
+        Instantiate(heartExplode, transform.position, Quaternion.identity);
+        //Camera shake
+        camAnim.SetTrigger("ScreenShake");
+        //Time stop
+        StartCoroutine(timeStop());
+
         hearts[health-1].SetActive(false);
         health -= dmg;
         if(health<=0) PlayerDie();
@@ -150,6 +163,13 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Cursor.visible = true;
         SceneManager.LoadScene(sceneName);
+    }
+
+    IEnumerator timeStop()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(.25f);
+        Time.timeScale = 1;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -17,6 +17,8 @@ public class ReticleScript : MonoBehaviour
     public GameObject playerBulletStandard;
     public GameObject playerBulletCharge;
 
+    public GameObject chargeHelpLbl;
+
     //Shooting bools
     //bool isShooting;
     bool canShootStandard = true;
@@ -27,6 +29,7 @@ public class ReticleScript : MonoBehaviour
 
     //SoundManager
     SoundManager sm;
+    GameManager gm;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,9 @@ public class ReticleScript : MonoBehaviour
         Cursor.visible = false;
         anim = GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (gm.chargeHelp) chargeHelpLbl.SetActive(true);
+        else chargeHelpLbl.SetActive(false);
     }
 
     public void PlayerLook(InputAction.CallbackContext ctx)
@@ -60,6 +66,8 @@ public class ReticleScript : MonoBehaviour
     {
         if (canShootCharge)
         {
+            if (gm.chargeHelp)
+                chargeHelpLbl.SetActive(false);
             sm.PlaySFX(chargeAttackSfx,UnityEngine.Random.Range(0.95f, 1.05f));
             StartCoroutine(ShootCharge());
         }
@@ -87,6 +95,8 @@ public class ReticleScript : MonoBehaviour
 
         yield return new WaitForSeconds(3);
         //isShooting = false;
+        if(gm.chargeHelp)
+            chargeHelpLbl.SetActive(true);
         canShootCharge = true;
         anim.SetBool("canShootCharge", canShootCharge);
     }

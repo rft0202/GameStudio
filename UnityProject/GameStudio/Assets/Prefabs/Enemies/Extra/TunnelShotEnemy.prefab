@@ -133,6 +133,7 @@ MonoBehaviour:
   timeUntilDespawn: 6
   attackParticle: {fileID: 0}
   deathParticle: {fileID: 0}
+  hitParticle: {fileID: 7822799277080976718, guid: d92d84d1a4156884fbc9522bfa73e9fe, type: 3}
   attackSFX: 1
   damageSFX: -1
   deathSFX: -1
