@@ -18,6 +18,7 @@ public class SoundManager : MonoBehaviour
     float[] sfxsVolumes = {
     1,1,1,0.8f,1,.6f,1
     };
+    int openSrcCnt = 0;
     void Awake()
     {
         if (instance != null)
@@ -45,13 +46,15 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySFX(int clipNum ,float pitch=1)
     {
-        int srcNum = FirstOpenSrc();
+        int srcNum = openSrcCnt;
         AudioSource src = srcs[srcNum];
         src.pitch = pitch;
         src.clip = sfxs[clipNum];
         src.volume = sfxsVolumes[clipNum];
         if(!src.isPlaying)src.Play();
         src.time = sfxsStartTimes[clipNum];
+        openSrcCnt++;
+        if (openSrcCnt >= srcs.Length) openSrcCnt = 0;
     }
 
     public void EndAllSFX()
@@ -68,16 +71,5 @@ public class SoundManager : MonoBehaviour
         {
             if (pause) srcs[i].Pause(); else srcs[i].UnPause();
         }
-    }
-
-    int FirstOpenSrc()
-    {
-        int ind = 0;
-        foreach (AudioSource _src in srcs)
-        {
-            if (!_src.isPlaying) return ind;
-            ind++;
-        }
-        return ind;
     }
 }

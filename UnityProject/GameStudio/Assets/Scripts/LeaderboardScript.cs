@@ -46,7 +46,7 @@ public class LeaderboardScript : MonoBehaviour
 
     public void LevelChange(bool right)
     {
-        sm.PlaySFX(6,UnityEngine.Random.Range(0.95f,1.05f));
+        sm.PlaySFX(4,(right)?1.05f:0.95f);
         //Change selected level
         selectedLevel += (right) ? (1) : (-1);
         if (selectedLevel > 3) selectedLevel = 1;
