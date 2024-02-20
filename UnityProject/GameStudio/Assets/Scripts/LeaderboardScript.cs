@@ -255,4 +255,54 @@ public class LeaderboardScript : MonoBehaviour
 
         }
     }
+
+    public void NameChanged()
+    {
+        if (connectedToLeaderboard)
+        {
+            gm.playerName = nameInp.text;
+            PlayerPrefs.SetString("pName", nameInp.text);
+            UpdateRecordName(gm.playerID,nameInp.text);
+        }
+    }
+
+    public void RefreshScreenBoard()
+    {
+        sm.PlaySFX(4, 1.25f);
+        RefreshLeaderboards();
+        if (!connectionError) ReadLeaderboard(selectedLevel);
+    }
+
+    public string UpdateRecordName(int pID, string _name)
+    {
+        string strResult = "";
+
+        SqlConnection Conn = new SqlConnection();
+
+        Conn.ConnectionString = @GetConnected();
+
+        string strSQL = "UPDATE GameStudio_Highscores SET Name=@name WHERE Player_ID=@pID";
+
+        SqlCommand comm = new SqlCommand();
+        comm.CommandText = strSQL;
+        comm.Connection = Conn;
+
+        comm.Parameters.AddWithValue("@name", _name);
+        comm.Parameters.AddWithValue("@pID", pID.ToString());
+
+        try
+        {
+            Conn.Open();
+            int intRecs = comm.ExecuteNonQuery();
+            Conn.Close();
+            strResult = $"SUCCESS: Updated {intRecs} records.";
+        }
+        catch (Exception e)
+        {
+            Conn.Close();
+            strResult = "ERROR: " + e.Message;
+        }
+
+        return strResult;
+    }
 }

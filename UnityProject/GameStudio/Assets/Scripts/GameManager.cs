@@ -66,7 +66,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (PlayerPrefs.HasKey("pName")) {
-            playerName = PlayerPrefs.GetString("pName", playerName);
+            playerName = PlayerPrefs.GetString("pName");
+            Debug.Log(playerName);
             connectedToLeaderboard = PlayerPrefs.GetString("addToLeaderboard")=="TRUE";
             playerID = PlayerPrefs.GetInt("pID");
             highscores[1] = PlayerPrefs.GetInt("h1");
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour
         actualPrevScene = prevSceneN;
         prevSceneS = SceneManager.GetActiveScene();
         prevSceneN = prevSceneS.name;
-        Debug.Log("Scene changed");
+        //Debug.Log("Scene changed");
         //If theres score label, put score
         if (GameObject.Find("scoreLbl") != null)
             scoreLbl = GameObject.Find("scoreLbl").GetComponent<TMP_Text>();
@@ -140,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     void BeganLevel(int lvlNum)
     {
-        Debug.Log("Began level " + lvlNum);
+        //Debug.Log("Began level " + lvlNum);
         activeScore = 0;
         currLevel = lvlNum;
     }
@@ -176,6 +177,7 @@ public class GameManager : MonoBehaviour
 
     public string convertScoreToString(int _scr)
     {
+        if (_scr >= 9999) return "9999";
         if (_scr > 999) //Score always has 4 digits, 10 - bad, 0010 - good
             return "" + _scr; //scorelbl should be called "scoreLbl" in scenes
         else if (_scr > 99)
