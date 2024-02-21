@@ -529,10 +529,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LineShotEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 6775282177899349414, guid: b408409c198349f458b20056b47d2a6f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 8389733673073109396, guid: b408409c198349f458b20056b47d2a6f, type: 3}
       propertyPath: m_RootOrder
       value: 4
