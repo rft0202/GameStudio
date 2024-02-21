@@ -347,6 +347,7 @@ public class EnemyScript : MonoBehaviour
         {
             dying = true;
             spawnedIn = false;
+            gm.livesLeft = player.GetComponent<PlayerScript>().health;
             GetComponent<Renderer>().enabled = false;
             StartCoroutine(levelEnd(1f));
         }

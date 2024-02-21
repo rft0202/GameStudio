@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -37,7 +38,8 @@ public class PlayerScript : MonoBehaviour
     //Private Attributes
     bool isDodging = false, canDodge = true, canTakeDamage = true;
     float maxDodgeSpd;
-    int health;
+    [NonSerialized]
+    public int health;
     Vector2 spd, inp;
     bool performingTrick = false;
 
