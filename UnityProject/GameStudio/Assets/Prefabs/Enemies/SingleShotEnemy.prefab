@@ -108,7 +108,7 @@ MonoBehaviour:
   isBoss: 0
   enemyMovementStyle: 0
   movementWaypoints: []
-  projectilePrefab: {fileID: 815129080146690886, guid: 7fc0ead215c569744adcdcacbd5f619d, type: 3}
+  projectilePrefab: {fileID: 4062692526262210438, guid: 62aa8199a6e296045a24bcdda3fa1efd, type: 3}
   homingBullets: 0
   attackRate: 2
   attackPatterns: 01000000
@@ -190,7 +190,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.8, y: 4.65}
+    oldSize: {x: 2.4, y: 2.325}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

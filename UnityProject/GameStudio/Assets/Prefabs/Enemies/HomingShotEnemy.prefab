@@ -108,7 +108,7 @@ MonoBehaviour:
   isBoss: 0
   enemyMovementStyle: 0
   movementWaypoints: []
-  projectilePrefab: {fileID: 815129080146690886, guid: 7fc0ead215c569744adcdcacbd5f619d, type: 3}
+  projectilePrefab: {fileID: 4062692526262210438, guid: abb9725598dca9943b05afe364068286, type: 3}
   homingBullets: 1
   attackRate: 2
   attackPatterns: 01000000
