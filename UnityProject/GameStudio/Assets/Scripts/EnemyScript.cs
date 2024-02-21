@@ -172,7 +172,10 @@ public class EnemyScript : MonoBehaviour
         if (spawnedIn)
         {
             if (selectedAttackPattern != AttackPattern.none)
+            {
                 sm.PlaySFX(attackSFX, UnityEngine.Random.Range(0.9f, 1.15f));
+                anim.SetTrigger("attacking");
+            }
 
             switch (selectedAttackPattern) //This is where enemy choses and STARTS an attack
             {

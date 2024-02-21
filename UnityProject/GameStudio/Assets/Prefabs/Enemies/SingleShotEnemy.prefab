@@ -108,7 +108,7 @@ MonoBehaviour:
   isBoss: 0
   enemyMovementStyle: 0
   movementWaypoints: []
-  projectilePrefab: {fileID: 4062692526262210438, guid: 62aa8199a6e296045a24bcdda3fa1efd, type: 3}
+  projectilePrefab: {fileID: 815129080146690886, guid: dbaa16237c041034cb22a49a9961c8be, type: 3}
   homingBullets: 0
   attackRate: 2
   attackPatterns: 01000000
@@ -209,7 +209,7 @@ Animator:
   m_GameObject: {fileID: 6746134387399458179}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fc7f3571d8f254340b6f0b21ca082909, type: 2}
+  m_Controller: {fileID: 9100000, guid: 94571a7af9e38d449acc0173cfd30500, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
