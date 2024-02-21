@@ -539,10 +539,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstantFireEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2736287787803650462, guid: 2e619b2d779bf2a4f8d35bb8a641c90e, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 4793619077243991921, guid: 2e619b2d779bf2a4f8d35bb8a641c90e, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -1271,10 +1267,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6601080772203765212, guid: 8942033d7bdeba944a44b34a86e334f3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 6872513624383367564, guid: 8942033d7bdeba944a44b34a86e334f3, type: 3}
       propertyPath: player
       value: 
@@ -3377,10 +3369,6 @@ PrefabInstance:
       propertyPath: queueSpawnOnStart
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1065507158052449296, guid: 812b33e4014c80546897bf6382f0f3e7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 1400452123828253796, guid: 812b33e4014c80546897bf6382f0f3e7, type: 3}
       propertyPath: m_Name
       value: BeamOfDEATHEnemy
@@ -4114,10 +4102,6 @@ PrefabInstance:
       propertyPath: movementWaypoints.Array.data[1]
       value: 
       objectReference: {fileID: 2063146987}
-    - target: {fileID: 626886934043336277, guid: d2017521be46b1c4497db37008297c65, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     - target: {fileID: 1779006449237682268, guid: d2017521be46b1c4497db37008297c65, type: 3}
       propertyPath: m_RootOrder
       value: 14
