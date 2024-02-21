@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
     public int currLevel = -1; //0-TestScene, 1-Level1, 2-level2, 3-level3
     int activeScore=0; //Current score while playing level
     TMP_Text scoreLbl;
+    float lvlStartTime, lvlEndTime;
+    float[] targetLvlCompleteTime = { -1, 60, 60, 60 }; //Target complete time for players (in seconds)
+    [NonSerialized]
+    public int livesLeft = 0;
+    int healthBonusAmt = 50;
 
     //Prev scene vars
     [NonSerialized]
@@ -144,10 +149,23 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Began level " + lvlNum);
         activeScore = 0;
         currLevel = lvlNum;
+        lvlStartTime = Time.time;
     }
 
     void LevelCompleted()
     {
+        //Apply time bonus
+        lvlEndTime = Time.time; //Get lvl end time
+        float timeBonus = calculateScoreTimeBonus(currLevel); //Calc timeBonus
+
+        Debug.Log(timeBonus); //for testing
+
+        if (timeBonus < 0) { timeBonus = 0; } //Lets not take away points from player
+        activeScore += (int)(activeScore * timeBonus); //Add bonus
+
+        //Add on lives bonus (more health left = higher score)
+        activeScore += calculateLivesBonus();
+
         if (activeScore > highscores[currLevel])
         {
             highscores[currLevel] = activeScore;
@@ -165,6 +183,11 @@ public class GameManager : MonoBehaviour
         setScoreText();
     }
 
+    int calculateLivesBonus()
+    {
+        return healthBonusAmt*livesLeft;
+    }
+
     void LevelLost()
     {
         activeScore = 0;
@@ -173,6 +196,14 @@ public class GameManager : MonoBehaviour
     void setScoreText()
     {
         scoreLbl.text = convertScoreToString(activeScore);
+    }
+
+    float calculateScoreTimeBonus(int _lvl) //Returns percent (0-1) to add to score, based on complete time
+    {
+        float pTime = lvlEndTime - lvlStartTime;
+        float lvlTargetTime = targetLvlCompleteTime[_lvl];
+        //(s-x)/s
+        return (lvlTargetTime - pTime) / lvlTargetTime; //Will return negative if player took longer than target time
     }
 
     public string convertScoreToString(int _scr)
