@@ -335,7 +335,7 @@ public class EnemyScript : MonoBehaviour
         //Else
         anim.SetTrigger("damaged");
         Instantiate(hitParticle,transform,false);
-            //Play damageSFX
+        sm.PlaySFX(8, UnityEngine.Random.Range(0.95f, 1.1f));
             //play damage animation
     }
 
@@ -346,6 +346,7 @@ public class EnemyScript : MonoBehaviour
 
         gm.AddToActiveScore(scoreValue,new Vector2(transform.position.x+1,transform.position.y+1));
         gm.enemiesToKill--;
+        sm.PlaySFX(7);
         if (isBoss)
         {
             dying = true;

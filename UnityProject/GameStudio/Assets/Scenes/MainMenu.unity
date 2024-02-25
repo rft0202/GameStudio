@@ -1981,30 +1981,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
-      propertyPath: sfxs.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 4f50b54df0ef7364f8dcaa4c58350670, type: 3}
-    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
-      propertyPath: sfxs.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: bcc1eb65ec8c9ef4483d787be0950222, type: 3}
-    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
-      propertyPath: sfxs.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 5bb4177fbfaf04b4ca1853131fce0904, type: 3}
-    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
-      propertyPath: sfxs.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: ab3e7112b3de34344922821033abd893, type: 3}
-    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
-      propertyPath: sfxs.Array.data[4]
-      value: 
-      objectReference: {fileID: 8300000, guid: 75ce854477e67a84c814516c3759e839, type: 3}
-    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
-      propertyPath: sfxs.Array.data[5]
-      value: 
-      objectReference: {fileID: 8300000, guid: 159e01da7ed8b6c4d8cae5715c63c40e, type: 3}
     - target: {fileID: 1739531848085032407, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
       propertyPath: m_Name
       value: SoundManager

@@ -155,6 +155,7 @@ public class PlayerScript : MonoBehaviour
     void PlayerDie()
     {
         health = 0;
+        sm.PlaySFX(7);
         //temp way of killing player
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         StartCoroutine(changeSceneDelay("GameOver", 1f));
