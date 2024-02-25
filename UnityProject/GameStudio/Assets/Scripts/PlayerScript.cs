@@ -137,6 +137,7 @@ public class PlayerScript : MonoBehaviour
     void TakeDamage(int dmg)
     {
         sm.PlaySFX(hurtSfx, UnityEngine.Random.Range(0.9f, 1.15f));
+        anim.SetTrigger("damaged");
         Instantiate(heartExplode, heartPos[health - 1].transform.position, Quaternion.identity);
         //Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
         //Instantiate(heartExplode, hearts[health - 1].transform.position, Quaternion.identity);
@@ -155,15 +156,21 @@ public class PlayerScript : MonoBehaviour
     void PlayerDie()
     {
         health = 0;
-        sm.PlaySFX(7);
+        anim.SetTrigger("dying");
+        gameObject.GetComponent<Rigidbody2D>().gravityScale = 2;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
         //temp way of killing player
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        //gameObject.GetComponent<SpriteRenderer>().enabled = false;
         StartCoroutine(changeSceneDelay("GameOver", 1f));
     }
 
     IEnumerator changeSceneDelay(string sceneName, float delay)
     {
         yield return new WaitForSeconds(delay);
+        if (sceneName == "GameOver")
+        {
+            sm.PlaySFX(7);
+        }
         Cursor.visible = true;
         SceneManager.LoadScene(sceneName);
     }
