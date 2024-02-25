@@ -89,6 +89,10 @@ public class EnemyScript : MonoBehaviour
     [Tooltip("ID for sfx, or index of sfx in the SoundManager sfxs array")]
     public int damageSFX,deathSFX;
 
+    [Space(8)]
+    [Header("----------Other----------")]
+    [Space(4)]
+
     //PRIVATE VARS
     GameManager gm; //gamemanager reference
     [SerializeField]
@@ -342,7 +346,9 @@ public class EnemyScript : MonoBehaviour
     public void EnemyDie()
     {
         //Play death SFX
+        sm.PlaySFX(7);
         //Instantiate death particle
+        Instantiate(deathParticle, transform.position, Quaternion.identity);
 
         gm.AddToActiveScore(scoreValue,new Vector2(transform.position.x+1,transform.position.y+1));
         gm.enemiesToKill--;

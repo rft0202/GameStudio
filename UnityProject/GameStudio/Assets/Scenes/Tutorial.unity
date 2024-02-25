@@ -2363,6 +2363,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7822799277080976718, guid: d92d84d1a4156884fbc9522bfa73e9fe, type: 3}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: deathParticle
+      value: 
+      objectReference: {fileID: 3841539461118486445, guid: df5a1b627886d8f41b20d0ef4b04b428, type: 3}
+    - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: homingBullets
       value: 0
       objectReference: {fileID: 0}

@@ -140,7 +140,6 @@ public class PlayerScript : MonoBehaviour
         anim.SetTrigger("damaged");
         Instantiate(heartExplode, heartPos[health - 1].transform.position, Quaternion.identity);
         //Instantiate(heartExplode, hearts[health - 1].transform.GetChild(0).position, Quaternion.identity);
-        //Instantiate(heartExplode, hearts[health - 1].transform.position, Quaternion.identity);
         //Also spawn particles on player
         Instantiate(heartExplode, transform.position, Quaternion.identity);
         //Camera shake

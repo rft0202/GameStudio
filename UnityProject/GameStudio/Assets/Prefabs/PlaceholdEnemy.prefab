@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5783191898971605933
 SpriteRenderer:
@@ -136,7 +136,8 @@ MonoBehaviour:
   spawnOutSpeed: 2
   timeUntilDespawn: 6
   attackParticle: {fileID: 0}
-  deathParticle: {fileID: 0}
+  deathParticle: {fileID: 3841539461118486445, guid: df5a1b627886d8f41b20d0ef4b04b428, type: 3}
+  hitParticle: {fileID: 0}
   attackSFX: 0
   damageSFX: 0
   deathSFX: 0
