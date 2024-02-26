@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -368,7 +367,7 @@ public class EnemyScript : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         Cursor.visible = true;
-        SceneManager.LoadScene("LevelComplete");
+        gm.ChangeScene("LevelComplete");
     }
 
     void createProjectile(Vector2 _targetPos)
