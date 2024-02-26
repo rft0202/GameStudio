@@ -22,55 +22,62 @@ public class MenuScript : MonoBehaviour
 
     public void Level1()
     {
-        SceneManager.LoadScene("Level1");
+        gm.ChangeScene("Level1");
         sm.PlaySFX(4); 
     }
 
     public void Level2()
     {
-        SceneManager.LoadScene("Level2");
+        gm.ChangeScene("Level2");
         sm.PlaySFX(4);
     }
 
     public void Level3()
     {
-        SceneManager.LoadScene("Level3");
+        gm.ChangeScene("Level3");
         sm.PlaySFX(4);
     }
 
     public void ReplayLevel()
     {
-        SceneManager.LoadScene(gm.actualPrevScene);
+        //SceneManager.LoadScene(gm.actualPrevScene);
+        gm.ChangeScene(gm.actualPrevScene);
         sm.PlaySFX(4);
     }
 
     public void NextLevel()
     {
-        int nextLevel = 0;
+        //int nextLevel = 0;
+        string nextLvl = "";
         if(gm.actualPrevScene == "Tutorial")
         {
-            nextLevel = 5;
+            //nextLevel = 5;
+            nextLvl = "Level1";
         }
         else if(gm.actualPrevScene == "Level1")
         {
-            nextLevel = 6;
+            //nextLevel = 6;
+            nextLvl = "Level2";
         }
         else if(gm.actualPrevScene == "Level2")
         {
-            nextLevel = 7;
+            //nextLevel = 7;
+            nextLvl = "Level3";
         }
         else if(gm.actualPrevScene == "Level3")
         {
-            nextLevel = 10; //Win Screen
+            //nextLevel = 10; //Win Screen
+            nextLvl = "WinScreen";
         }
-        SceneManager.LoadScene(nextLevel);
+        //SceneManager.LoadScene(nextLevel);
+        gm.ChangeScene(nextLvl);
         sm.PlaySFX(4);
     }
 
     public void MainMenu()
     {
         Cursor.visible = true;
-        SceneManager.LoadScene("MainMenu");
+        gm.ChangeScene("MainMenu");
         sm.PlaySFX(4);
     }
 
@@ -84,19 +91,19 @@ public class MenuScript : MonoBehaviour
     public void LevelSelect()
     {
         Cursor.visible = true;
-        SceneManager.LoadScene("LevelSelect");
+        gm.ChangeScene("LevelSelect");
         sm.PlaySFX(4);
     }
 
     public void Tutorial()
     {
-        SceneManager.LoadScene("Tutorial");
+        gm.ChangeScene("Tutorial");
         sm.PlaySFX(4);
     }
 
     public void Leaderboards()
     {
-        SceneManager.LoadScene("Leaderboards");
+        gm.ChangeScene("Leaderboards");
         sm.PlaySFX(4);
     }
 }

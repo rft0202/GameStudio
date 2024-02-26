@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     //PUBLIC VARS
     public GameObject scorePopup, newHighscoreTxt;
+    public GameObject screenCurtain;
+    RectTransform curtain;
+    bool justStarted = true;
 
     //Enemies to kill until boss appears
     public int enemiesToKill = 0;
@@ -80,6 +83,8 @@ public class GameManager : MonoBehaviour
             highscores[3] = PlayerPrefs.GetInt("h3");
             nameSet = true;
         }
+        curtain = screenCurtain.GetComponent<RectTransform>();
+        curtain.localPosition = new Vector2(0, 450);
     }
 
     // Update is called once per frame
@@ -100,6 +105,7 @@ public class GameManager : MonoBehaviour
     {
         //prevents errors with popups that were destroyed on prev screen
         clearPopUps();
+        changeSceneEnd();
 
         actualPrevScene = prevSceneN;
         prevSceneS = SceneManager.GetActiveScene();
@@ -120,6 +126,48 @@ public class GameManager : MonoBehaviour
             case ("GameOver"): LevelLost(); break;
             default: break;
         }
+    }
+
+    public void ChangeScene(string sceneName)
+    {
+        StartCoroutine(changeScene1(sceneName));
+    }
+
+    IEnumerator changeScene1(string _n)
+    {
+        float _t = 0.25f;
+        float cnt = 0;
+        while (cnt < _t)
+        {
+            curtain.localPosition = Vector3.Slerp(curtain.localPosition, Vector3.zero, (cnt / _t));
+            cnt += Time.deltaTime;
+            yield return null;
+        }
+        SceneManager.LoadScene(_n);
+    }
+
+    void changeSceneEnd()
+    {
+        if (!justStarted)
+        {
+            StartCoroutine(changeScene2());
+        }
+        else{
+            justStarted = false;
+        }
+    }
+
+    IEnumerator changeScene2()
+    {
+        float _t = 0.25f;
+        float cnt = 0;
+        while (cnt < _t)
+        {
+            curtain.localPosition = Vector3.Slerp(curtain.localPosition, Vector3.down*450, (cnt / _t));
+            cnt += Time.deltaTime;
+            yield return null;
+        }
+        curtain.localPosition = new Vector2(0,450);
     }
 
     public void AddToActiveScore(int scoreAmt, Vector2 popupLocation)

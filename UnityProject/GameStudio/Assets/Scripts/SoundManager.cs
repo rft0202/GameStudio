@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour
     0,0,0.2f,0.2f,0,0.19f,0.2f,0,0
     };
     float[] sfxsVolumes = {
-    1,1,1,0.8f,1,.6f,1,0.7f,0.4f
+    1,1,1,0.8f,1,.7f,1,0.7f,0.4f
     };
     int openSrcCnt = 0;
     void Awake()

@@ -5,7 +5,6 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -171,7 +170,7 @@ public class PlayerScript : MonoBehaviour
             sm.PlaySFX(7);
         }
         Cursor.visible = true;
-        SceneManager.LoadScene(sceneName);
+        gm.ChangeScene(sceneName);
     }
 
     IEnumerator timeStop()
