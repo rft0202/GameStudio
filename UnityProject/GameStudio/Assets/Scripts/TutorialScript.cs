@@ -19,6 +19,9 @@ public class TutorialScript : MonoBehaviour
     int tutorialStage = -1;
     bool[] keysPressed = { false, false, false, false, false, false };
 
+    public GameObject bossSpawnWarning;
+    Animator warningAnim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,7 @@ public class TutorialScript : MonoBehaviour
             btnUnpressedColors[i] = unpressedCol;
             btnPressedColors[i] = pressedCol;
         }
+        warningAnim = bossSpawnWarning.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -67,7 +71,8 @@ public class TutorialScript : MonoBehaviour
         }else if(defeatedEnemies==3 && tutorialStage == 2)
         {
             //Boss enemy
-            spawnEnemy(3);
+            //spawnEnemy(3);
+            StartCoroutine(bossWarning());
             tutorialStage++;
         }
     }
@@ -210,5 +215,14 @@ public class TutorialScript : MonoBehaviour
             img.color = btnUnpressedColors[_id];
             yield return null;
         }
+    }
+
+    IEnumerator bossWarning()
+    {
+        warningAnim.SetTrigger("enter");
+        yield return new WaitForSeconds(2);
+        warningAnim.SetTrigger("exit");
+        spawnEnemy(3);
+
     }
 }

@@ -9,6 +9,9 @@ public class LevelScript : MonoBehaviour
     [Tooltip("Number of enemies to defeat before enemy[index] spawns")]
     public int[] enemiesToDefeatBeforeSpawn;
 
+    public GameObject bossSpawnWarning;
+    Animator warningAnim;
+
     List<bool> enemySpawned = new();
 
 
@@ -19,7 +22,7 @@ public class LevelScript : MonoBehaviour
         {
             enemySpawned.Add(enemies[i].GetComponent<EnemyScript>().queueSpawnOnStart);
         }
-
+        warningAnim = bossSpawnWarning.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -39,8 +42,20 @@ public class LevelScript : MonoBehaviour
             if (enemiesToDefeatBeforeSpawn[i]==defeatedEnemies && !enemySpawned[i])
             {
                 enemySpawned[i] = true;
-                enemies[i].GetComponent<EnemyScript>().EnemySpawn();
+                if (i == enemies.Length - 1)
+                    StartCoroutine(bossWarning());
+                else
+                    enemies[i].GetComponent<EnemyScript>().EnemySpawn();
             }
         }
+    }
+
+    IEnumerator bossWarning()
+    {
+        warningAnim.SetTrigger("enter");
+        yield return new WaitForSeconds(2);
+        warningAnim.SetTrigger("exit");
+        enemies[^1].GetComponent<EnemyScript>().EnemySpawn();
+
     }
 }
