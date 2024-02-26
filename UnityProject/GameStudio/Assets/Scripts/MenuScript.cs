@@ -106,4 +106,11 @@ public class MenuScript : MonoBehaviour
         gm.ChangeScene("Leaderboards");
         sm.PlaySFX(4);
     }
+
+    public void Credits()
+    {
+        Cursor.visible = true;
+        gm.ChangeScene("Credits");
+        sm.PlaySFX(4);
+    }
 }
