@@ -77,8 +77,8 @@ public class MenuScript : MonoBehaviour
     public void QuitGame()
     {
         Cursor.visible = true;
-        Application.Quit();
         sm.PlaySFX(4);
+        Application.Quit();
     }
 
     public void LevelSelect()
@@ -96,7 +96,15 @@ public class MenuScript : MonoBehaviour
 
     public void Leaderboards()
     {
+        Cursor.visible = true;
         SceneManager.LoadScene("Leaderboards");
+        sm.PlaySFX(4);
+    }
+
+    public void Credits()
+    {
+        Cursor.visible = true;
+        SceneManager.LoadScene("Credits");
         sm.PlaySFX(4);
     }
 }
