@@ -46,7 +46,7 @@ public class PlayerScript : MonoBehaviour
     Animator anim;
     Animator camAnim;
 
-    //Player controller
+    //Player input
     PlayerInput playerInput;
 
     SoundManager sm;
