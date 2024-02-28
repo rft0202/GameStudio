@@ -46,6 +46,9 @@ public class PlayerScript : MonoBehaviour
     Animator anim;
     Animator camAnim;
 
+    //Player controller
+    PlayerInput playerInput;
+
     SoundManager sm;
     GameManager gm;
 
@@ -57,6 +60,7 @@ public class PlayerScript : MonoBehaviour
         anim = GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerInput = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
         if (mainCam == null) mainCam = GameObject.Find("Main Camera");
         camAnim = mainCam.GetComponent<Animator>();
         camAnim.updateMode = AnimatorUpdateMode.UnscaledTime; //cam not effected by time stop
@@ -71,7 +75,6 @@ public class PlayerScript : MonoBehaviour
         spd *= friction; //Applying friction to velocity
         spd = Vector2.ClampMagnitude(spd, (isDodging) ? (maxDodgeSpd) : (maxSpd)); //Clamping to maximum speed
         transform.Translate(spd*Time.deltaTime); //Moving and applying Time.deltaTime
-
     }
 
     public void PlayerMove(InputAction.CallbackContext ctx)
@@ -157,6 +160,7 @@ public class PlayerScript : MonoBehaviour
         anim.SetTrigger("dying");
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 2;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        playerInput.enabled = false;
         //temp way of killing player
         //gameObject.GetComponent<SpriteRenderer>().enabled = false;
         StartCoroutine(changeSceneDelay("GameOver", 1f));
