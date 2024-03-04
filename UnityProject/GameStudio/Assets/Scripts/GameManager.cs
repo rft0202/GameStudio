@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
         timeBonus = Mathf.Floor(timeBonus*(livesBonus+ogScore)); //round to nearest hundrenth
         lvlEndTime = Mathf.Round(lvlEndTime*100f)*0.01f; //round to nearest hundrenth
         hpLbl.text = "Health: " + livesLeft+" (+"+livesBonus+")";
-        timeLbl.text = "Time: " + lvlEndTime + "s (+" + timeBonus+")";
+        timeLbl.text = "Time: " + (lvlEndTime-lvlStartTime) + "s (+" + timeBonus+")";
         setScoreText();
     }
 
