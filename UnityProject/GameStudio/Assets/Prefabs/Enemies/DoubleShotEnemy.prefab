@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: -1181524227, guid: f38da1a0dea016f4c8fe6b8eb7310985, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9337702022508e846be9f14d7fab8f90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   spawnOutSpeed: 2
   timeUntilDespawn: 6
   attackParticle: {fileID: 0}
-  deathParticle: {fileID: 3841539461118486445, guid: d6cc2ce2e4a020e439ee0d74557ed6be, type: 3}
+  deathParticle: {fileID: 3841539461118486445, guid: 4ed696d029bd9bb45ba1dbb89f8e57d6, type: 3}
   hitParticle: {fileID: 7822799277080976718, guid: d92d84d1a4156884fbc9522bfa73e9fe, type: 3}
   attackSFX: 1
   damageSFX: -1
@@ -186,18 +186,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.006722331, y: 0}
+  m_Offset: {x: 0.006722331, y: 0.05317861}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.4, y: 2.325}
+    oldSize: {x: 2.4, y: 2.4200885}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.435784, y: 2.4}
+  m_Size: {x: 2.435784, y: 2.360116}
   m_EdgeRadius: 0
 --- !u!95 &5175938942446266183
 Animator:

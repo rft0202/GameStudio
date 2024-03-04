@@ -1658,6 +1658,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6539156920135243572, guid: 8942033d7bdeba944a44b34a86e334f3, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 99878b3861feddd479f3fe5ba6bd6463, type: 2}
     - target: {fileID: 6872513624383367564, guid: 8942033d7bdeba944a44b34a86e334f3, type: 3}
       propertyPath: player
       value: 
@@ -2586,7 +2590,9 @@ MonoBehaviour:
   - {fileID: 1939787057}
   - {fileID: 1067400211}
   enemiesToDefeatBeforeSpawn: 0000000001000000010000000300000004000000040000000400000004000000
+  cloudSpawnRate: 0.75
   bossSpawnWarning: {fileID: 281089583}
+  cloudPrefab: {fileID: 9134223344153156920, guid: b46eb541ef895bb47be8573166c73e77, type: 3}
 --- !u!4 &1404475132
 Transform:
   m_ObjectHideFlags: 0

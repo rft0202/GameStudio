@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LaserShotEnemyAttacking
+  m_Name: BeamOfDEATHEnemyAttacking
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1d18dd00c48badb48bc29200da589d04, type: 2}
+  m_Motion: {fileID: 7400000, guid: dfaea5afaea36b048b8a0cd2bda81dda, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -55,7 +55,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LaserShotEnemy
+  m_Name: BeamOfDEATHEnemy
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: damaged
@@ -129,7 +129,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d1db60ac6c3dbf643b235a67f47145a2, type: 2}
+  m_Motion: {fileID: 7400000, guid: ec40d27c5c69cb745ae2c78676bf234a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -155,7 +155,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 88e474f5f188a774d92043004db29b9a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 49ddb8f2452e4734eaa3aaef0b8b6f22, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

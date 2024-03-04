@@ -39,6 +39,12 @@ public class LeaderboardScript : MonoBehaviour
 
     public void RefreshLeaderboards()
     {
+        if (gm.playerID != -1)
+        {
+            gm.UpdateRecord(gm.playerID, 1, gm.convertScoreToString(gm.highscores[1]));
+            gm.UpdateRecord(gm.playerID, 2, gm.convertScoreToString(gm.highscores[2]));
+            gm.UpdateRecord(gm.playerID, 3, gm.convertScoreToString(gm.highscores[3]));
+        }
         gm.localLeaderboardStorage.Clear();
         LoadLeaderboards();
         if(!connectionError)SortLeaderboards();
@@ -116,6 +122,11 @@ public class LeaderboardScript : MonoBehaviour
             AddRecord(2);
             AddRecord(3);
             RefreshLeaderboards();
+        }else if (connectedToLeaderboard)
+        {
+            gm.UpdateRecord(gm.playerID, 1, gm.convertScoreToString(gm.highscores[1]));
+            gm.UpdateRecord(gm.playerID, 2, gm.convertScoreToString(gm.highscores[2]));
+            gm.UpdateRecord(gm.playerID, 3, gm.convertScoreToString(gm.highscores[3]));
         }
         PlayerPrefs.SetString("addToLeaderboard", (connectedToLeaderboard) ? ("TRUE") : ("FALSE"));
     }
