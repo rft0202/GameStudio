@@ -202,17 +202,25 @@ public class GameManager : MonoBehaviour
 
     void LevelCompleted()
     {
+        TMP_Text hpLbl=GameObject.Find("hpLbl").GetComponent<TMP_Text>(), timeLbl = GameObject.Find("timeLbl").GetComponent<TMP_Text>(),
+            ogScoreLbl = GameObject.Find("ogScoreLbl").GetComponent<TMP_Text>();
+
+        int ogScore = activeScore;
+        ogScoreLbl.text = "Score: " + activeScore;
+
         //Apply time bonus
         lvlEndTime = Time.time; //Get lvl end time
         float timeBonus = calculateScoreTimeBonus(currLevel); //Calc timeBonus
 
-        Debug.Log(timeBonus); //for testing
+        //Debug.Log(timeBonus); //for testing
+        //Add on lives bonus (more health left = higher score)
+        int livesBonus = calculateLivesBonus();
+        activeScore += livesBonus;
 
         if (timeBonus < 0) { timeBonus = 0; } //Lets not take away points from player
         activeScore += (int)(activeScore * timeBonus); //Add bonus
 
-        //Add on lives bonus (more health left = higher score)
-        activeScore += calculateLivesBonus();
+        
 
         if (activeScore > highscores[currLevel])
         {
@@ -228,6 +236,10 @@ public class GameManager : MonoBehaviour
             }
         }
         //Show score after finishing level
+        timeBonus = Mathf.Floor(timeBonus*(livesBonus+ogScore)); //round to nearest hundrenth
+        lvlEndTime = Mathf.Round(lvlEndTime*100f)*0.01f; //round to nearest hundrenth
+        hpLbl.text = "Health: " + livesLeft+" (+"+livesBonus+")";
+        timeLbl.text = "Time: " + lvlEndTime + "s (+" + timeBonus+")";
         setScoreText();
     }
 

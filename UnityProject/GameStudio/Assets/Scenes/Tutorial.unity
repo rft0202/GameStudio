@@ -5635,6 +5635,8 @@ MonoBehaviour:
   - {fileID: 824194701}
   - {fileID: 1445677743}
   - {fileID: 1805244016}
+  cloudPrefab: {fileID: 9134223344153156920, guid: b46eb541ef895bb47be8573166c73e77, type: 3}
+  cloudSpawnRate: 0.75
   bossSpawnWarning: {fileID: 1495630507}
 --- !u!1001 &4120227445096954801
 PrefabInstance:

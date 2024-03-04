@@ -8,11 +8,15 @@ public class LevelScript : MonoBehaviour
     public GameObject[] enemies;
     [Tooltip("Number of enemies to defeat before enemy[index] spawns")]
     public int[] enemiesToDefeatBeforeSpawn;
+    [Tooltip("Rate at which clouds spawn, in seconds")]
+    public float cloudSpawnRate;
 
     public GameObject bossSpawnWarning;
+    public GameObject cloudPrefab;
     Animator warningAnim;
 
     List<bool> enemySpawned = new();
+    List<GameObject> clouds = new();
 
     SoundManager sm;
 
@@ -26,6 +30,7 @@ public class LevelScript : MonoBehaviour
         }
         warningAnim = bossSpawnWarning.GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        StartCoroutine(spawnCloud());
     }
 
     // Update is called once per frame
@@ -61,5 +66,20 @@ public class LevelScript : MonoBehaviour
         warningAnim.SetTrigger("exit");
         enemies[^1].GetComponent<EnemyScript>().EnemySpawn();
 
+    }
+
+    IEnumerator spawnCloud()
+    {
+        yield return new WaitForSeconds(cloudSpawnRate);
+        clouds.Add(Instantiate(cloudPrefab, new Vector3(Random.Range(-8, 8), Random.Range(-4, 4), 0), Quaternion.identity));
+        StartCoroutine(destroyCloud(clouds[^1]));
+        StartCoroutine(spawnCloud());
+    }
+
+    IEnumerator destroyCloud(GameObject _c)
+    {
+        yield return new WaitForSeconds(1.5f);
+        clouds.Remove(_c);
+        Destroy(_c);
     }
 }
