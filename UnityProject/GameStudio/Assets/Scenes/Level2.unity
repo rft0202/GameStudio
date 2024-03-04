@@ -386,7 +386,9 @@ MonoBehaviour:
   - {fileID: 1222134466}
   - {fileID: 1067400211}
   enemiesToDefeatBeforeSpawn: 0000000001000000020000000200000002000000050000000500000005000000
+  cloudSpawnRate: 0.75
   bossSpawnWarning: {fileID: 224521031}
+  cloudPrefab: {fileID: 9134223344153156920, guid: b46eb541ef895bb47be8573166c73e77, type: 3}
 --- !u!4 &225504027
 Transform:
   m_ObjectHideFlags: 0
