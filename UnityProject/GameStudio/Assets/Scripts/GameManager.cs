@@ -41,10 +41,10 @@ public class GameManager : MonoBehaviour
     int activeScore=0; //Current score while playing level
     TMP_Text scoreLbl;
     float lvlStartTime, lvlEndTime;
-    float[] targetLvlCompleteTime = { 60, 60, 60, 60 }; //Target complete time for players (in seconds)
+    float[] targetLvlCompleteTime = { 60, 60, 70, 80 }; //Target complete time for players (in seconds)
     [NonSerialized]
     public int livesLeft = 0;
-    int healthBonusAmt = 50;
+    int healthBonusAmt = 150;
 
     //Prev scene vars
     [NonSerialized]

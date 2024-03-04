@@ -14,6 +14,8 @@ public class LevelScript : MonoBehaviour
 
     List<bool> enemySpawned = new();
 
+    SoundManager sm;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class LevelScript : MonoBehaviour
             enemySpawned.Add(enemies[i].GetComponent<EnemyScript>().queueSpawnOnStart);
         }
         warningAnim = bossSpawnWarning.GetComponent<Animator>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -53,6 +56,7 @@ public class LevelScript : MonoBehaviour
     IEnumerator bossWarning()
     {
         warningAnim.SetTrigger("enter");
+        sm.PlaySFX(9);
         yield return new WaitForSeconds(2);
         warningAnim.SetTrigger("exit");
         enemies[^1].GetComponent<EnemyScript>().EnemySpawn();
