@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LaserShotEnemyAttacking
+  m_Name: TunnelShotEnemyAttacking
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1d18dd00c48badb48bc29200da589d04, type: 2}
+  m_Motion: {fileID: 7400000, guid: 378af8d11a8ade649b109b69a0862266, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -55,7 +55,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LaserShotEnemy
+  m_Name: TunnelShotEnemy
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: damaged
@@ -129,7 +129,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d1db60ac6c3dbf643b235a67f47145a2, type: 2}
+  m_Motion: {fileID: 7400000, guid: 18e3d559d30023b409dacb315fc2d133, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -155,7 +155,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 88e474f5f188a774d92043004db29b9a, type: 2}
+  m_Motion: {fileID: 7400000, guid: b795f67ca2911ef4c9a5fd1a7bf0528e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

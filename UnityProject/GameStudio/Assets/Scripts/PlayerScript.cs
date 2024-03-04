@@ -82,7 +82,7 @@ public class PlayerScript : MonoBehaviour
         inp = ctx.ReadValue<Vector2>();
         anim.SetFloat("x", inp.x);
         anim.SetFloat("y", inp.y);
-        Debug.Log(inp);
+        //Debug.Log(inp);
     }
 
     public void PlayerTrick(InputAction.CallbackContext ctx)
