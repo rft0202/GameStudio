@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
             }
         }
         //Show score after finishing level
-        timeBonus = Mathf.Round(timeBonus*(livesBonus+ogScore)*100f)*0.01f; //round to nearest hundrenth
+        timeBonus = Mathf.Floor(timeBonus*(livesBonus+ogScore)); //round to nearest hundrenth
         lvlEndTime = Mathf.Round(lvlEndTime*100f)*0.01f; //round to nearest hundrenth
         hpLbl.text = "Health: " + livesLeft+" (+"+livesBonus+")";
         timeLbl.text = "Time: " + lvlEndTime + "s (+" + timeBonus+")";
