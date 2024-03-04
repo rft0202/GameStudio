@@ -19,6 +19,9 @@ public class TutorialScript : MonoBehaviour
     int tutorialStage = -1;
     bool[] keysPressed = { false, false, false, false, false, false };
 
+    public GameObject cloudPrefab;
+    public float cloudSpawnRate;
+    List<GameObject> clouds = new();
     public GameObject bossSpawnWarning;
     Animator warningAnim;
 
@@ -34,6 +37,7 @@ public class TutorialScript : MonoBehaviour
         }
         warningAnim = bossSpawnWarning.GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        StartCoroutine(spawnCloud());
     }
 
     // Update is called once per frame
@@ -228,5 +232,20 @@ public class TutorialScript : MonoBehaviour
         warningAnim.SetTrigger("exit");
         spawnEnemy(3);
 
+    }
+
+    IEnumerator spawnCloud()
+    {
+        yield return new WaitForSeconds(cloudSpawnRate);
+        clouds.Add(Instantiate(cloudPrefab, new Vector3(Random.Range(-8, 8), Random.Range(-4, 4), 0), Quaternion.identity));
+        StartCoroutine(destroyCloud(clouds[^1]));
+        StartCoroutine(spawnCloud());
+    }
+
+    IEnumerator destroyCloud(GameObject _c)
+    {
+        yield return new WaitForSeconds(1.5f);
+        clouds.Remove(_c);
+        Destroy(_c);
     }
 }
