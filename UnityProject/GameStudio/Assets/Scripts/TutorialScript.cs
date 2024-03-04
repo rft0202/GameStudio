@@ -22,6 +22,8 @@ public class TutorialScript : MonoBehaviour
     public GameObject bossSpawnWarning;
     Animator warningAnim;
 
+    SoundManager sm;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,7 @@ public class TutorialScript : MonoBehaviour
             btnPressedColors[i] = pressedCol;
         }
         warningAnim = bossSpawnWarning.GetComponent<Animator>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -220,6 +223,7 @@ public class TutorialScript : MonoBehaviour
     IEnumerator bossWarning()
     {
         warningAnim.SetTrigger("enter");
+        sm.PlaySFX(9);
         yield return new WaitForSeconds(2);
         warningAnim.SetTrigger("exit");
         spawnEnemy(3);
