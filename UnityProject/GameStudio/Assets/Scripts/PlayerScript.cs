@@ -193,11 +193,15 @@ public class PlayerScript : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("EnemyBullet"))
             {
-                if (canTakeDamage) { 
-                    TakeDamage(collision.gameObject.GetComponent<EnemyBulletScript>().damage);
-                    StartCoroutine(DmgCooldown());
+                if (collision.gameObject.GetComponent<EnemyBulletScript>().hurtActive) //dont do anything if bullet not at the player z layer
+                {
+                    if (canTakeDamage)
+                    {
+                        TakeDamage(collision.gameObject.GetComponent<EnemyBulletScript>().damage);
+                        StartCoroutine(DmgCooldown());
+                    }
+                    Destroy(collision.gameObject);
                 }
-                Destroy(collision.gameObject);
             }else if (collision.gameObject.CompareTag("HealthPickup"))
             {
                 //health += however idk, property on pickup maybe

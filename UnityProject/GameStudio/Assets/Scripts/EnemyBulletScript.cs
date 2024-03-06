@@ -15,7 +15,8 @@ public class EnemyBulletScript : MonoBehaviour
     public bool homingBullet=false;
     [NonSerialized]
     public float speed;
-
+    [NonSerialized]
+    public bool hurtActive = false;
 
 
     //PRIVATE VARS
@@ -23,6 +24,7 @@ public class EnemyBulletScript : MonoBehaviour
     ScaleBasedOnDepth scaleDepth;
     GameObject player;
     int playerSortOrder;
+    bool destroyed = false;
 
 
     // Start is called before the first frame update
@@ -36,6 +38,7 @@ public class EnemyBulletScript : MonoBehaviour
             if (player == null) player = GameObject.Find("playerPlacehold");
             playerSortOrder = player.GetComponent<SpriteRenderer>().sortingOrder;
         }
+        GetComponent<Collider2D>().enabled = true;
     }
 
     // Update is called once per frame
@@ -69,8 +72,40 @@ public class EnemyBulletScript : MonoBehaviour
         if (scaleDepth.zpos > 1) Destroy(gameObject);
 
         //Can hit player
-        if(spriteRend.sortingOrder==0) GetComponent<Collider2D>().enabled = true;
-        if(spriteRend.sortingOrder==1) GetComponent<Collider2D>().enabled = false;
+        if(spriteRend.sortingOrder==0) hurtActive=true;
+        if (spriteRend.sortingOrder == 1) hurtActive = false;
 
     }
+    private void OnTriggerEnter2D(Collider2D other) //I made this 2D because it would collide with the bullets otherwise
+    {
+        if (!destroyed)
+        {
+            //collision with player projectiles (account for 3d) -> take damage
+            if (other.CompareTag("PlayerBullet"))
+            {
+
+                StartCoroutine(destroySelf(other.gameObject)); //normal bullet gets destroyed when hit bullet
+            }
+            else if (other.CompareTag("PlayerBulletCharge"))
+            {
+                StartCoroutine(destroySelf()); //charge bullet persists and destroys the projectile
+            }
+        }
+    }
+
+    IEnumerator destroySelf(GameObject _bullet=null)
+    {
+        destroyed = true;
+        if (_bullet != null) _bullet.tag = "Untagged";
+        yield return new WaitForSeconds(getTimeTilCollision());
+        GameObject.Find("GameManager").GetComponent<GameManager>().AddToActiveScore(5, new Vector2(transform.position.x + 1, transform.position.y + 1));
+        if (_bullet != null) Destroy(_bullet);
+        Destroy(gameObject);
+    }
+
+    float getTimeTilCollision()
+    {
+        return (scaleDepth.zpos*-.025f);
+    }
+
 }
