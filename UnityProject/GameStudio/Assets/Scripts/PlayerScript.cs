@@ -116,6 +116,7 @@ public class PlayerScript : MonoBehaviour
             isDodging = true; //Player now dodging, and cannot dodge while already dodging
             canDodge = false;
             StartCoroutine(EndDodge());
+            StartCoroutine(DodgeAfterEffect());
         }
     }
 
@@ -130,6 +131,30 @@ public class PlayerScript : MonoBehaviour
     {
         yield return new WaitForSeconds(dodgeCooldownTime); //When cooldown is done, you may dodge again
         canDodge = true;
+    }
+
+    IEnumerator DodgeAfterEffect()
+    {
+        int n = 0;
+        while (n < 6)
+        {
+            GameObject afterEffect = new GameObject();
+            afterEffect.transform.position = gameObject.transform.position;
+            SpriteRenderer afterImg = afterEffect.AddComponent<SpriteRenderer>();
+            afterImg.sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
+            Color col = Color.white;
+            col.a = (6-n)*0.05f;
+            afterImg.color = col;
+            StartCoroutine(RemoveDodgeEffect(afterEffect));
+            n++;
+            yield return new WaitForSeconds(.05f);
+        }
+    }
+
+    IEnumerator RemoveDodgeEffect(GameObject _g)
+    {
+        yield return new WaitForSeconds(.15f);
+        Destroy(_g);
     }
 
     IEnumerator DmgCooldown()
