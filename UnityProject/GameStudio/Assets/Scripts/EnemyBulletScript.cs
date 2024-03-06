@@ -33,6 +33,7 @@ public class EnemyBulletScript : MonoBehaviour
         spriteRend = GetComponent<SpriteRenderer>();
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
         spriteRend.sortingOrder = (int)scaleDepth.zpos;
+        gameObject.tag = "Untagged";
         if (homingBullet) {
             player = GameObject.Find("Player");
             if (player == null) player = GameObject.Find("playerPlacehold");
@@ -68,12 +69,11 @@ public class EnemyBulletScript : MonoBehaviour
         //Move depth
         scaleDepth.zpos += velocity.z * Time.deltaTime;
 
+        //Can hit player
+        if (scaleDepth.zpos >= 0f && gameObject.CompareTag("Untagged")) StartCoroutine(updateCollision()); 
+
         //Despawn
         if (scaleDepth.zpos > 1) Destroy(gameObject);
-
-        //Can hit player
-        if(spriteRend.sortingOrder==0) hurtActive=true;
-        if (spriteRend.sortingOrder == 1) hurtActive = false;
 
     }
     private void OnTriggerEnter2D(Collider2D other) //I made this 2D because it would collide with the bullets otherwise
@@ -106,6 +106,14 @@ public class EnemyBulletScript : MonoBehaviour
     float getTimeTilCollision()
     {
         return (scaleDepth.zpos*-.025f);
+    }
+
+    IEnumerator updateCollision()
+    {
+        gameObject.tag = "EnemyBullet";
+        GetComponent<Collider2D>().enabled = false;
+        yield return null;
+        GetComponent<Collider2D>().enabled = true;
     }
 
 }
