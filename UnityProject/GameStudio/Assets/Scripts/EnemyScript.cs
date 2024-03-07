@@ -508,10 +508,12 @@ public class EnemyScript : MonoBehaviour
         if(other.CompareTag("PlayerBullet"))
         {
             TakeDamage(1);
+            other.gameObject.tag = "Untagged"; //bullets only hit one enemy
         }
         else if(other.CompareTag("PlayerBulletCharge"))
         {
             TakeDamage(5);
+            other.gameObject.tag = "Untagged"; //bullets only hit one enemy
         }
     }
 
