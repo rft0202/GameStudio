@@ -1577,6 +1577,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: deathParticle
+      value: 
+      objectReference: {fileID: 3841539461118486445, guid: c920ce3af3ab883429c1cb1c35531de6, type: 3}
+    - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: homingBullets
       value: 0
       objectReference: {fileID: 0}
@@ -1672,6 +1676,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4138340089036184352, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0a5fc5b41eab96b4bb71ca1f30a1fec6, type: 2}
+    - target: {fileID: 5783191898971605933, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1857711425, guid: cf55222bb9944df40b26dc5c62eba1e8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

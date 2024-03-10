@@ -2324,6 +2324,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 329183279683766981, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_Size.x
+      value: 2.2940931
+      objectReference: {fileID: 0}
+    - target: {fileID: 329183279683766981, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.011996269
+      objectReference: {fileID: 0}
+    - target: {fileID: 329183279683766981, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 2.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: health
       value: 25
@@ -2341,13 +2353,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7822799277080976718, guid: d92d84d1a4156884fbc9522bfa73e9fe, type: 3}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: deathParticle
+      value: 
+      objectReference: {fileID: 3841539461118486445, guid: 166bcbf24ac54684b88246453d14f36d, type: 3}
+    - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: homingBullets
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: projectilePrefab
       value: 
-      objectReference: {fileID: 4062692526262210438, guid: abb9725598dca9943b05afe364068286, type: 3}
+      objectReference: {fileID: 815129080146690886, guid: 772c66f2e319bc74c8412c41228617e1, type: 3}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: queueSpawnOnStart
       value: 0
@@ -2428,6 +2444,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4138340089036184352, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1a6d542a1365a484a82ec1837f239822, type: 2}
+    - target: {fileID: 5783191898971605933, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 481763778, guid: ede62d44ed24cc64a8105fd51fed294a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
