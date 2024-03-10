@@ -350,6 +350,7 @@ MonoBehaviour:
   - WinScreen
   - GameOver
   - LevelComplete
+  - Credits
   startOnScenes:
   - LevelComplete
   - GameOver
