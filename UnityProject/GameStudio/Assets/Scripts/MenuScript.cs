@@ -10,12 +10,26 @@ public class MenuScript : MonoBehaviour
     GameManager gm;
     MusicManager mm;
 
+    Toggle t1, t2;
+
     private void Start()
     {
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         mm = GameObject.Find("MusicManager").GetComponent<MusicManager>();
-        
+
+        GameObject _t1 = GameObject.Find("SoundsToggle");
+        if (_t1 != null)
+        {
+            t1 = _t1.GetComponent<Toggle>();
+            t1.isOn = sm.SoundsOn;
+        }
+        GameObject _t2 = GameObject.Find("MusicToggle");
+        if (_t2 != null)
+        {
+            t2 = _t2.GetComponent<Toggle>();
+            t2.isOn = mm.MusicOn;
+        }
     }
     public void PlayGame()
     {
@@ -119,10 +133,12 @@ public class MenuScript : MonoBehaviour
 
     public void ToggleSounds()
     {
-        sm.ToggleSounds(GameObject.Find("SoundsToggle").GetComponent<Toggle>().isOn);
+        if(t1!=null)
+            sm.ToggleSounds(t1.isOn);
     }
     public void ToggleMusic()
     {
-        mm.MusicOn = GameObject.Find("MusicToggle").GetComponent<Toggle>().isOn;
+        if (t2 != null)
+            mm.MusicOn = t2.isOn;
     }
 }

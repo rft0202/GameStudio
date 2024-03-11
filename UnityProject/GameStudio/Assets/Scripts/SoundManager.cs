@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
     1,1,1,0.8f,1,.7f,1,0.7f,0.4f,0.7f
     };
     int openSrcCnt = 0;
+    public bool SoundsOn { get; private set; } = true;
     void Awake()
     {
         if (instance != null)
@@ -64,6 +65,7 @@ public class SoundManager : MonoBehaviour
 
     public void ToggleSounds(bool on)
     {
+        SoundsOn = on;
         if (on)
         {
             sfxsVolumes = new[]{
