@@ -2650,6 +2650,10 @@ PrefabInstance:
       value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
+      propertyPath: bulletSpinSpeed
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: queueSpawnOnStart
       value: 0
       objectReference: {fileID: 0}
@@ -3520,6 +3524,10 @@ PrefabInstance:
       value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
+      propertyPath: bulletSpinSpeed
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: queueSpawnOnStart
       value: 0
       objectReference: {fileID: 0}
@@ -4293,6 +4301,10 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
+      propertyPath: bulletSpinSpeed
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: projectileSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -4806,6 +4818,10 @@ PrefabInstance:
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: scoreValue
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
+      propertyPath: bulletSpinSpeed
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: enemyMovementStyle
@@ -5635,6 +5651,10 @@ PrefabInstance:
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: homingBullets
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
+      propertyPath: bulletSpinSpeed
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 3435238556519486297, guid: f90fb62277e882a4a96c53a68e9bba4a, type: 3}
       propertyPath: projectileSpeed

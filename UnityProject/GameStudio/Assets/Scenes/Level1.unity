@@ -2890,6 +2890,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
+      propertyPath: bulletSpinSpeed
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 815129080146690886, guid: 772c66f2e319bc74c8412c41228617e1, type: 3}

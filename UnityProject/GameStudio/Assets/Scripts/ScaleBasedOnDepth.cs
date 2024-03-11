@@ -18,6 +18,7 @@ public class ScaleBasedOnDepth : MonoBehaviour
     void Start()
     {
         spriteRend = GetComponent<SpriteRenderer>();
+        if (spriteRend == null) spriteRend = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         if (useSpriteOrderInLayer)
             zpos = spriteRend.sortingOrder;
         else
