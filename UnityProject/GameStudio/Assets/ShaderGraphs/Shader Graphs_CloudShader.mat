@@ -60,23 +60,23 @@ Material:
     - _Blend: 2
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
-    - _CloudPower: 0.2
-    - _CloudScale: 120
-    - _CloudsAlpha: 0.61
+    - _CloudPower: 0.44
+    - _CloudScale: 28.71
+    - _CloudsAlpha: 2.34
     - _Cull: 0
     - _DstBlend: 1
     - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SrcBlend: 1
-    - _StartScale: 60
+    - _StartScale: 54.1
     - _Surface: 1
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _CloudColor: {r: 0.14324492, g: 0.17582992, b: 0.2735849, a: 1}
-    - _CloudSpeed: {r: 0, g: 0.16, b: 0, a: 0}
+    - _CloudColor: {r: 0.3448736, g: 0.40306324, b: 0.5849056, a: 1}
+    - _CloudSpeed: {r: 0, g: 0.07, b: 0, a: 0}
     - _DisortSpeed: {r: 0, g: 0.79, b: 0, a: 0}
   m_BuildTextureStacks: []
