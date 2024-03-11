@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3745619400169373190}
   - component: {fileID: 2262507944644972781}
   m_Layer: 0
-  m_Name: enemyEggBullet
+  m_Name: enemyEggBulletYellow
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e3c6d09cd5fe1fe48901e72bad454e92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f4dd897a0ae7698459976baa0ad71472, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,9 +118,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.037337065}
+  m_Offset: {x: 0, y: -0.0180825}
   serializedVersion: 2
-  m_Radius: 0.56214154
+  m_Radius: 0.57945406
 --- !u!114 &2262507944644972781
 MonoBehaviour:
   m_ObjectHideFlags: 0

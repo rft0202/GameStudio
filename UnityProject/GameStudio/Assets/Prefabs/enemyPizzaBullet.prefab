@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3414619671783190556}
   - component: {fileID: 3421350031774683647}
-  - component: {fileID: 3745619400169373190}
+  - component: {fileID: 7143355202382835519}
   - component: {fileID: 2262507944644972781}
   m_Layer: 0
-  m_Name: enemyEggBullet
+  m_Name: enemyPizzaBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e3c6d09cd5fe1fe48901e72bad454e92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81765cfae60fd4d40bb1e2bc3388249d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &3745619400169373190
-CircleCollider2D:
+--- !u!60 &7143355202382835519
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -118,9 +118,22 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.037337065}
-  serializedVersion: 2
-  m_Radius: 0.56214154
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.96, y: 0.96}
+    newSize: {x: 0.96, y: 0.96}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.47500858, y: -0.52392435}
+      - {x: -0.043725304, y: 0.53490716}
+      - {x: -0.65406084, y: -0.07452838}
+  m_UseDelaunayMesh: 0
 --- !u!114 &2262507944644972781
 MonoBehaviour:
   m_ObjectHideFlags: 0
