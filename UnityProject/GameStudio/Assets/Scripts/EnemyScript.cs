@@ -145,7 +145,9 @@ public class EnemyScript : MonoBehaviour
             //-----Enemy Movement-----
             switch (enemyMovementStyle)
             {
-                case MovementStyle.none: break;
+                case MovementStyle.none:
+                    transform.position = transform.position + (.002f * Mathf.Sin(Time.time*4f) * Vector3.up); //bob up and down
+                    break;
                 case MovementStyle.patrol:
                     //Move towards targetPos
                     transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
