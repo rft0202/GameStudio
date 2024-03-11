@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameObject screenCurtain;
     RectTransform curtain;
     bool justStarted = true;
+    public bool lvlStartControls = true;
 
     //Enemies to kill until boss appears
     public int enemiesToKill = 0;
