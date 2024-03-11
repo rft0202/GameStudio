@@ -2403,7 +2403,7 @@ PrefabInstance:
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: projectilePrefab
       value: 
-      objectReference: {fileID: 4062692526262210438, guid: abb9725598dca9943b05afe364068286, type: 3}
+      objectReference: {fileID: 4062692526262210438, guid: 986ade34c0c14ae47828d644da2fdbc7, type: 3}
     - target: {fileID: 1214415895675479757, guid: 34c34cac88da3ea4cba64e255aa5214d, type: 3}
       propertyPath: queueSpawnOnStart
       value: 0
