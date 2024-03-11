@@ -61,4 +61,20 @@ public class SoundManager : MonoBehaviour
             if (pause) srcs[i].Pause(); else srcs[i].UnPause();
         }
     }
+
+    public void ToggleSounds(bool on)
+    {
+        if (on)
+        {
+            sfxsVolumes = new[]{
+            1f,1,1,0.8f,1,.7f,1,0.7f,0.4f,0.7f
+            };
+        }
+        else
+        {
+            sfxsVolumes = new[]{
+                0f,0,0,0,0,0,0,0,0,0
+            };
+        }
+    }
 }

@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
     SoundManager sm;
     GameManager gm;
+    MusicManager mm;
 
     private void Start()
     {
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        mm = GameObject.Find("MusicManager").GetComponent<MusicManager>();
         
     }
     public void PlayGame()
@@ -112,5 +115,14 @@ public class MenuScript : MonoBehaviour
         Cursor.visible = true;
         gm.ChangeScene("Credits");
         sm.PlaySFX(4);
+    }
+
+    public void ToggleSounds()
+    {
+        sm.ToggleSounds(GameObject.Find("SoundsToggle").GetComponent<Toggle>().isOn);
+    }
+    public void ToggleMusic()
+    {
+        mm.MusicOn = GameObject.Find("MusicToggle").GetComponent<Toggle>().isOn;
     }
 }
