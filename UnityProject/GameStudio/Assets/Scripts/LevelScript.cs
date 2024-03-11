@@ -13,12 +13,14 @@ public class LevelScript : MonoBehaviour
 
     public GameObject bossSpawnWarning;
     public GameObject cloudPrefab;
+    public GameObject controlsObj;
     Animator warningAnim;
 
     List<bool> enemySpawned = new();
     List<GameObject> clouds = new();
 
     SoundManager sm;
+    GameManager gm;
 
 
     // Start is called before the first frame update
@@ -30,7 +32,12 @@ public class LevelScript : MonoBehaviour
         }
         warningAnim = bossSpawnWarning.GetComponent<Animator>();
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         StartCoroutine(spawnCloud());
+        if (gm.lvlStartControls)
+        {
+            StartCoroutine(showControls());
+        }
     }
 
     // Update is called once per frame
@@ -81,5 +88,16 @@ public class LevelScript : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         clouds.Remove(_c);
         Destroy(_c);
+    }
+
+    IEnumerator showControls()
+    {
+        controlsObj.SetActive(true); //Show controls
+        yield return new WaitForSeconds(4); //Wait for seconds
+        while (controlsObj.transform.position.y > -400) //Tween downwards offscreen
+        {
+            controlsObj.transform.position += Vector3.down*3f;
+            yield return null;
+        }
     }
 }

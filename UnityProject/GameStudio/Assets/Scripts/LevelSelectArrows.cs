@@ -7,9 +7,12 @@ using UnityEngine.SceneManagement;
 public class LevelSelectArrows : MonoBehaviour
 {
     SoundManager sm;
+    GameManager gm;
     public Animator level1Anim;
     public Animator level2Anim;
     public Animator level3Anim;
+
+    public Toggle showControls;
 
     //level vars
     public int currLevel = 1;
@@ -24,8 +27,16 @@ public class LevelSelectArrows : MonoBehaviour
     private void Start()
     {
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         button = gameObject.GetComponent<Button>();
         InvokeRepeating("SetCurrLevel", 1.0f, 1.0f);
+    }
+
+    //Show controls at level start Toggle Option
+    public void ToggleShowControls()
+    {
+        sm.PlaySFX(4);
+        gm.lvlStartControls = showControls.isOn;
     }
 
     //Set Curr Level
