@@ -44,6 +44,7 @@ public class EnemyScript : MonoBehaviour
     public int attacksUntilPatternSwitch;
     [Tooltip("If there are multiple attack patterns, this will determine whether they are selected in a linear order, or selected randomly")]
     public CycleMode attackPatternCycleMode;
+    public float bulletSpinSpeed = 0;
 
     [Space(8)]
     [Header("----------Attack Pattern Settings----------")]
@@ -144,7 +145,9 @@ public class EnemyScript : MonoBehaviour
             //-----Enemy Movement-----
             switch (enemyMovementStyle)
             {
-                case MovementStyle.none: break;
+                case MovementStyle.none:
+                    transform.position = transform.position + (.002f * Mathf.Sin(Time.time*4f) * Vector3.up); //bob up and down
+                    break;
                 case MovementStyle.patrol:
                     //Move towards targetPos
                     transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
@@ -378,6 +381,9 @@ public class EnemyScript : MonoBehaviour
         //Depth pos ~= to order in layer
         //Calculate velocity using projectileSpeed and trig and stuff
 
+        SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
+        if (sr == null) sr = bullet.transform.GetChild(0).GetComponent<SpriteRenderer>();
+
         //Preparing values for calculations
         Vector3 _sPos = transform.position;
         _sPos.z = GetComponent<SpriteRenderer>().sortingOrder;
@@ -394,11 +400,17 @@ public class EnemyScript : MonoBehaviour
 
         //Making sure projectile is in correct position
         bullet.transform.position = new Vector3(_sPos.x,_sPos.y,0);
-        bullet.GetComponent<SpriteRenderer>().sortingOrder = (int)_sPos.z;
+        sr.sortingOrder = (int)_sPos.z;
+        bulletScript.spriteRend = sr;
         bullet.GetComponent<ScaleBasedOnDepth>().zpos = _sPos.z;
 
         //Projectile inherits damage from enemy
         bulletScript.damage = damageDealt;
+        if (bulletSpinSpeed != 0)
+        {
+            bulletScript.spins = true;
+            bulletScript.spinSpd = bulletSpinSpeed;
+        }
 
         //If homing bullet
         if (homingBullets)

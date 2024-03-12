@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyBulletScript : MonoBehaviour
 {
+    public bool spins = false;
+    public float spinSpd = 1;
 
     //INHERITED VARS
     [NonSerialized]
@@ -20,7 +22,7 @@ public class EnemyBulletScript : MonoBehaviour
 
 
     //PRIVATE VARS
-    SpriteRenderer spriteRend;
+    public SpriteRenderer spriteRend;
     ScaleBasedOnDepth scaleDepth;
     GameObject player;
     int playerSortOrder;
@@ -30,7 +32,10 @@ public class EnemyBulletScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spriteRend = GetComponent<SpriteRenderer>();
+        if (spriteRend == null)
+            spriteRend = GetComponent<SpriteRenderer>();
+        if (spriteRend==null)
+            spriteRend = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         scaleDepth = GetComponent<ScaleBasedOnDepth>();
         spriteRend.sortingOrder = (int)scaleDepth.zpos;
         gameObject.tag = "Untagged";
@@ -63,6 +68,12 @@ public class EnemyBulletScript : MonoBehaviour
             Vector3 trigVals = dists / totalDist;
             //Velocity = proportional trig values * absolute speed
             velocity = speed * trigVals;
+        }
+        //spin
+        if (spins)
+        {
+            spriteRend.transform.rotation = 
+            Quaternion.Euler(spriteRend.transform.rotation.eulerAngles+(spinSpd * Time.deltaTime * Vector3.forward));
         }
         //Move x-y
         transform.Translate(velocity.x*Time.deltaTime, velocity.y * Time.deltaTime, 0);

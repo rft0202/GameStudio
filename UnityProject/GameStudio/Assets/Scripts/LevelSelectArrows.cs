@@ -30,6 +30,8 @@ public class LevelSelectArrows : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         button = gameObject.GetComponent<Button>();
         InvokeRepeating("SetCurrLevel", 1.0f, 1.0f);
+
+        showControls.isOn = gm.lvlStartControls;
     }
 
     //Show controls at level start Toggle Option
