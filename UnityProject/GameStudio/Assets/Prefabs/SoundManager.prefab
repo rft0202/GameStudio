@@ -40,7 +40,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &698843823263695738
 MonoBehaviour:
@@ -68,7 +68,7 @@ MonoBehaviour:
   sfxs:
   - {fileID: 8300000, guid: 4f50b54df0ef7364f8dcaa4c58350670, type: 3}
   - {fileID: 8300000, guid: bcc1eb65ec8c9ef4483d787be0950222, type: 3}
-  - {fileID: 8300000, guid: 5bb4177fbfaf04b4ca1853131fce0904, type: 3}
+  - {fileID: 8300000, guid: 1fbceaa632aee794eb64c2c90ad23632, type: 3}
   - {fileID: 8300000, guid: ab3e7112b3de34344922821033abd893, type: 3}
   - {fileID: 8300000, guid: 75ce854477e67a84c814516c3759e839, type: 3}
   - {fileID: 8300000, guid: 159e01da7ed8b6c4d8cae5715c63c40e, type: 3}
@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 46af862125420a342872111829d357bf, type: 3}
   - {fileID: 8300000, guid: 46af862125420a342872111829d357bf, type: 3}
   - {fileID: 8300000, guid: aebf2d93881ce4041a8b6f7e4ea09933, type: 3}
+  - {fileID: 8300000, guid: 4f32da8d857573549a21c44e5f184e0a, type: 3}
 --- !u!82 &5360859633035185673
 AudioSource:
   m_ObjectHideFlags: 0

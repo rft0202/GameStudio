@@ -32,7 +32,7 @@ Transform:
   - {fileID: 8284825668902009534}
   - {fileID: 5057099903101516971}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5771556590273873766
 MonoBehaviour:
@@ -351,6 +351,7 @@ MonoBehaviour:
   - GameOver
   - LevelComplete
   - Credits
+  - IntroCutscene
   startOnScenes:
   - LevelComplete
   - GameOver
