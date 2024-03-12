@@ -1594,7 +1594,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1272455796}
         m_TargetAssemblyTypeName: MenuScript, Assembly-CSharp
-        m_MethodName: LevelSelect
+        m_MethodName: IntroCutscene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2196,6 +2196,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831862253}
   m_CullTransparentMesh: 1
+--- !u!82 &1951493562 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6949371870719290763, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
+  m_PrefabInstance: {fileID: 1119833218151963928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1965165127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2559,9 +2564,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
+      propertyPath: srcs.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
       propertyPath: sfxs.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: 1fbceaa632aee794eb64c2c90ad23632, type: 3}
+    - target: {fileID: 698843823263695738, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
+      propertyPath: srcs.Array.data[10]
+      value: 
+      objectReference: {fileID: 1951493562}
     - target: {fileID: 1739531848085032407, guid: ad1e2975f59ad764595c93fb4bfd28f4, type: 3}
       propertyPath: m_Name
       value: SoundManager

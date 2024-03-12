@@ -131,6 +131,13 @@ public class MenuScript : MonoBehaviour
         sm.PlaySFX(4);
     }
 
+    public void IntroCutscene()
+    {
+        Cursor.visible = true;
+        gm.ChangeScene("IntroCutscene");
+        sm.PlaySFX(4);
+    }
+
     public void ToggleSounds()
     {
         if(t1!=null)

@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
         {
             case ("TestScene"): BeganLevel(0); break;
             case ("Tutorial"): BeganLevel(0); break;
+            case ("IntroCutscene"): BeganLevel(0); break;
             case ("Level1"): BeganLevel(1); break;
             case ("Level2"): BeganLevel(2); break;
             case ("Level3"): BeganLevel(3); break;
