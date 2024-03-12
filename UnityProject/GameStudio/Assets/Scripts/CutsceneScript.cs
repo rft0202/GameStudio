@@ -9,6 +9,7 @@ public class CutsceneScript : MonoBehaviour
 {
     SoundManager sm;
     GameManager gm;
+    MusicManager mm;
 
     //Screen width
     float w;
@@ -30,6 +31,9 @@ public class CutsceneScript : MonoBehaviour
     {
         sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        mm = GameObject.Find("MusicManager").GetComponent<MusicManager>();
+
+        mm.MusicOn = false; //Music turns off during cutscene, feel free to comment this out
 
         w = Screen.width;
         Debug.Log(w);
@@ -61,8 +65,9 @@ public class CutsceneScript : MonoBehaviour
 
     IEnumerator ChangeToLevelSelect()
     {
-        //sm.PlaySFX(10); //I want to play the dog bark sound effect :(
+        sm.PlaySFX(10); //I want to play the dog bark sound effect :(
         yield return new WaitForSeconds(1.0f);
+        mm.MusicOn = true;
         gm.ChangeScene("LevelSelect");
     }
 }
