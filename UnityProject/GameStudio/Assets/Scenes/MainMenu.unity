@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.685}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -267.11, y: 123.37195}
+  m_AnchoredPosition: {x: -267.11, y: 135}
   m_SizeDelta: {x: 357.4336, y: 131.2561}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &53874087
@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 202626419}
   - component: {fileID: 202626421}
   - component: {fileID: 202626420}
+  - component: {fileID: 202626422}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -506,7 +507,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.685}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -259.2832, y: 123.37195}
+  m_AnchoredPosition: {x: -259.2832, y: 135}
   m_SizeDelta: {x: 357.4336, y: 131.2561}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &202626420
@@ -606,6 +607,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202626418}
   m_CullTransparentMesh: 1
+--- !u!95 &202626422
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202626418}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 16cd2f23f88621144a4a09e2e84bd5db, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &224398535
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +787,7 @@ GameObject:
   - component: {fileID: 261160308}
   - component: {fileID: 261160307}
   m_Layer: 5
-  m_Name: PlayTestFormShadow
+  m_Name: ayTestFormShadowow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,7 +810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -209.7, y: -12.46}
+  m_AnchoredPosition: {x: 13.6, y: 0.8}
   m_SizeDelta: {x: 357.4336, y: 131.2561}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &261160307
@@ -811,7 +833,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play Test Form
+  m_text: The 90's called, they want their dog back.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d5d06af04da95a4c935976a043bce7a, type: 2}
   m_sharedMaterial: {fileID: 7959150092340114480, guid: 8d5d06af04da95a4c935976a043bce7a, type: 2}
@@ -874,7 +896,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -436.56723, w: 0}
+  m_margin: {x: 0, y: 0, z: 11.495651, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -905,7 +927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &383065235
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2232,7 +2254,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -100
-  m_Sprite: {fileID: 21300000, guid: 097d2bff0b3a5c44098e4d83f36ce1a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 13288ee689aa1c8479cbc17050d0c7ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2293,7 +2315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -207, y: -10}
+  m_AnchoredPosition: {x: 16.299982, y: 3.2600021}
   m_SizeDelta: {x: 357.4336, y: 131.2561}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1968707953
@@ -2316,7 +2338,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play Test Form
+  m_text: The 90's called, they want their dog back.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d5d06af04da95a4c935976a043bce7a, type: 2}
   m_sharedMaterial: {fileID: 7959150092340114480, guid: 8d5d06af04da95a4c935976a043bce7a, type: 2}
@@ -2379,7 +2401,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -436.56723, w: 0}
+  m_margin: {x: 0, y: 0, z: 15.080215, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
