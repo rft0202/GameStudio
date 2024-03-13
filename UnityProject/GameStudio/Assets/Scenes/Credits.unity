@@ -1854,9 +1854,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Sprites & Artwork - Kodiak Shepard\nAnimations - Rebecca Tester\nCustom
-    Music and SFX - Matthew Satterfield\nDog SFX - u_5wgfa0ekjt on Pixabay\nHigh
-    Pixel-7 Font - Style-7 on DaFont\n\t\t   Font - Brixdee on DaFont\n\tFont - jeti
-    on DaFont"
+    Music and SFX - Matthew Satterfield\nDog & Thunderstorm SFX - u_5wgfa0ekjt &
+    Pixabay\nHigh Pixel-7 Font - Style-7 on DaFont\n\t\t   Font - Brixdee on DaFont\n\tFont
+    - jeti on DaFont"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d5d06af04da95a4c935976a043bce7a, type: 2}
   m_sharedMaterial: {fileID: 7959150092340114480, guid: 8d5d06af04da95a4c935976a043bce7a, type: 2}
